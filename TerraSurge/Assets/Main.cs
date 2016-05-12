@@ -124,7 +124,10 @@ public class Main : MonoBehaviour {
         }
         else {
             lives--;
-            print("lives:" + lives);
+            print("lives:" + lives); // insert check here
+			if (lives <= 0) {
+				//do something
+			}
 			Destroy (collision.gameObject);
         }
     }
