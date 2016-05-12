@@ -15,6 +15,6 @@ public class endwallscript : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(collision.gameObject);
+		collision.gameObject.SetActive(false);
     }
 }

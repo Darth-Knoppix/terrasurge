@@ -29,6 +29,12 @@ public class Main : MonoBehaviour {
     public int lives; //could easily be a hp bar as well...
     public int score; //score
 
+	//pools of shit
+	private GameObject[,] pool;
+	private int [] pooltracker;
+	public int numberOfEachObject;
+
+
     private int jumpCD; //cooldown on jump
 	// Use this for initialization
 	void Start ()
@@ -42,8 +48,9 @@ public class Main : MonoBehaviour {
 		loadAudio1 ();
         this.gameObject.transform.position = shiporigin.transform.position;
 		audio1.Play ();
+		initPool ();
     }
-	
+
 	// Update is called once per frame
 	void Update () {
 		//pure random object spawn
@@ -58,9 +65,14 @@ public class Main : MonoBehaviour {
 		print(timeMS);
 		KeyValuePair<int,int> next = audio1Map.ElementAt(nextEntry);
 		if (timeMS > next.Key) {
-			GameObject spawned = objMap [0];// [next.Value];
-			GameObject obj = Instantiate(spawned, origin.transform.position + Vector3.up*nextObjXOff+Vector3.right*nextObjYOff,Quaternion.identity) as GameObject;
-			obj.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-10);
+			GameObject spawned = pool [next.Value,pooltracker[next.Value]];// [next.Value];
+			pooltracker[next.Value]++;
+			if (pooltracker [next.Value] >= numberOfEachObject) {
+				pooltracker [next.Value] = 0;
+			}
+			spawned.SetActive(true);
+			spawned.transform.position = origin.transform.position + Vector3.up*nextObjXOff+Vector3.right*nextObjYOff;
+			spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-10);
 			nextEntry++;
 		}
 		print (prevTerrain);
@@ -116,6 +128,18 @@ public class Main : MonoBehaviour {
 			Destroy (collision.gameObject);
         }
     }
+
+	void initPool(){
+		pool = new GameObject[objMap.Length,numberOfEachObject];
+		pooltracker = new int[objMap.Length];
+		for(int i=0;i<objMap.Length;i++){
+			pooltracker [i] = 0;
+			for(int j=0;j<numberOfEachObject;j++){
+				pool[i,j]= Instantiate(objMap[i], objMap[i].transform.position,Quaternion.identity) as GameObject;
+			}
+		}
+
+	}
 
 	void loadAudio1(){
 		audio1Map = new SortedDictionary<int,int> ();
