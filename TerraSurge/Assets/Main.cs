@@ -34,6 +34,9 @@ public class Main : MonoBehaviour {
 	private int [] pooltracker;
 	public int numberOfEachObject;
 
+    //for music calculations
+    int ppqn = 480;
+    int tempo = 260;
 
     private int jumpCD; //cooldown on jump
 	// Use this for initialization
@@ -61,17 +64,21 @@ public class Main : MonoBehaviour {
 		double playtime = audio1.time;
 		//offset time here if needed
 		int timeMS = (int)(playtime * 1000);//-3000;
-        //for music calculations
-        int ppqn = 480;
-        int tempo = 260;
-        int ticks = timeMS * ppqn * tempo / 60000;
+        //avoid integer overflow
+        float ratio = ppqn * tempo / 60000;
+        int ticks = (int)(timeMS * ratio);
 		//print(audio1Map[playtime]);
 		//print(timeMS);
 		KeyValuePair<int,int> next = audio1Map.ElementAt(nextEntry);
         //print(nextEntry);
-		if (ticks > next.Key) {
+        print("timems" + timeMS);
+        print("ppqn" + ppqn);
+        print("tempo" + tempo);
+        print("ticks" + ticks);
+        print("nexttick" + next.Key);
+        if (ticks > next.Key) {
             //print(next);
-            print(nextEntry);
+            //print("nextentry"+nextEntry);
             GameObject spawned = pool [next.Value,pooltracker[next.Value]];// [next.Value];
 			pooltracker[next.Value]++;
 			if (pooltracker [next.Value] >= numberOfEachObject) {
