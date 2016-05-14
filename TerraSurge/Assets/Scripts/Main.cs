@@ -68,8 +68,8 @@ public class Main : MonoBehaviour {
 	void Update () {
 		//pure random object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
-		float nextObjXOff = UnityEngine.Random.Range(-3F, 3F);
-		float nextObjYOff = UnityEngine.Random.Range(-3F, 3F);
+		float nextObjXOff = UnityEngine.Random.Range(-2F, 2F);
+		float nextObjYOff = UnityEngine.Random.Range(-5F, 5F);
 		//nextObjXOff = -3F;
 		double playtime = audio1.time;
 		//offset time here if needed
@@ -95,8 +95,11 @@ public class Main : MonoBehaviour {
 				pooltracker [next.Value] = 0;
 			}
 			spawned.SetActive(true);
-			spawned.transform.position = origin.transform.position + Vector3.up*nextObjXOff+Vector3.right*nextObjYOff;
-			spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-10);
+			spawned.transform.position = origin.transform.position + Vector3.right * nextObjYOff;
+            //random for powerup
+            if (next.Value == 3 || next.Value == 7) spawned.transform.position = spawned.transform.position + Vector3.up * nextObjXOff;
+
+            spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-10);
 			nextEntry++;
 		}
 		print (prevTerrain);
