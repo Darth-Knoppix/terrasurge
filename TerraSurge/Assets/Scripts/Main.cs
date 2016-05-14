@@ -39,8 +39,14 @@ public class Main : MonoBehaviour {
     int tempo = 260;
 
     private int jumpCD; //cooldown on jump
-	// Use this for initialization
-	void Start ()
+
+    // GameOver canvas
+    private GameObject canvas;
+
+    private float timescale;
+
+    // Use this for initialization
+    void Start ()
     {
 		prevTerrain = 0;
 		nextEntry = 0;
@@ -52,6 +58,10 @@ public class Main : MonoBehaviour {
         this.gameObject.transform.position = shiporigin.transform.position;
 		audio1.Play ();
 		initPool ();
+
+        //Setup GameOver Canvas
+        canvas = GameObject.Find("GameOver_Canvas");
+        canvas.SetActive(false);
     }
 
 	// Update is called once per frame
@@ -140,7 +150,7 @@ public class Main : MonoBehaviour {
             lives--;
             print("lives:" + lives); // insert check here
 			if (lives <= 0) {
-				//do something
+                GameOver();
 			}
 			Destroy (collision.gameObject);
         }
@@ -157,6 +167,14 @@ public class Main : MonoBehaviour {
 		}
 
 	}
+
+    public void GameOver()
+    {
+        Debug.Log("Game Over!");
+        timescale = Time.timeScale;
+        Time.timeScale = 0;
+        canvas.SetActive(true);
+    }
 
 	void loadAudio1(){
 		audio1Map = new SortedDictionary<int,int> ();
