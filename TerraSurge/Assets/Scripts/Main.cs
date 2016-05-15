@@ -28,6 +28,8 @@ public class Main : MonoBehaviour {
 
     public int lives; //could easily be a hp bar as well...
     public int score; //score
+	public float XLimit = 5;			//Max movement X of player
+	public float shipSpeed = 10;		//Speed of 'ship', object and terrain speed
 
 	//pools of shit
 	private GameObject[,] pool;
@@ -69,7 +71,7 @@ public class Main : MonoBehaviour {
 		//pure random object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
 		float nextObjXOff = UnityEngine.Random.Range(-2F, 2F);
-		float nextObjYOff = UnityEngine.Random.Range(-5F, 5F);
+		float nextObjYOff = UnityEngine.Random.Range(-XLimit, XLimit);
 		//nextObjXOff = -3F;
 		double playtime = audio1.time;
 		//offset time here if needed
@@ -99,22 +101,28 @@ public class Main : MonoBehaviour {
             //random for powerup
             if (next.Value == 3 || next.Value == 7) spawned.transform.position = spawned.transform.position + Vector3.up * nextObjXOff;
 
-            spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-10);
+            spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-shipSpeed);
 			nextEntry++;
 		}
 		print (prevTerrain);
 		if (timeMS > terrainDuration * prevTerrain) {
 			GameObject spawned = terrainMap [0];// [next.Value];
-			GameObject obj = Instantiate (spawned, terrainOrigin.transform.position, Quaternion.identity) as GameObject;
-			obj.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -10);
+			GameObject obj = Instantiate (spawned, new Vector3(terrainOrigin.transform.position.x,terrainOrigin.transform.position.y,terrainOrigin.transform.position.z+ 128f), Quaternion.identity) as GameObject;
+
+			//Create another terrain piece to ease pop in - Garbage implementation, replace ASAP and improve
+			if(prevTerrain == 0){
+				GameObject obj2 = Instantiate (spawned, new Vector3(terrainOrigin.transform.position.x,terrainOrigin.transform.position.y,terrainOrigin.transform.position.z), Quaternion.identity) as GameObject;
+				obj2.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
+			}
+			obj.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
 			prevTerrain++;
 		}
 
-		if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x-shiporigin.transform.position.x< 5))
+		if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x-shiporigin.transform.position.x< XLimit))
         {
             ship.Translate(Vector3.right*0.5F);
         }
-		if ((Input.GetKey(KeyCode.A) || Input.GetButtonDown("X")) && (shiporigin.transform.position.x - this.gameObject.transform.position.x < 5))
+		if ((Input.GetKey(KeyCode.A) || Input.GetButtonDown("X")) && (shiporigin.transform.position.x - this.gameObject.transform.position.x < XLimit))
         {
             ship.Translate(Vector3.left * 0.5F);
         }
