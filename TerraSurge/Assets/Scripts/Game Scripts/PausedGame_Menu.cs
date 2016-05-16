@@ -3,8 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-/* Wobble the camera slowly and pause the game 
- * and show the pause menu when escape is hit */
 public class PausedGame_Menu : MonoBehaviour {
 
 	public Transform target;
@@ -44,33 +42,21 @@ public class PausedGame_Menu : MonoBehaviour {
 
     void Update() {
 
-        // Pause Game on Esc Key Down, Resume Once pressed again
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (GameObject.Find("GameOver_Canvas") == null)
         {
-            if (!paused)
+            // Pause Game on Esc Key Down, Resume Once pressed again
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                PauseGame();
-            }
-            else
-            {
-                ResumeGame();
+                if (!paused)
+                {
+                    PauseGame();
+                }
+                else
+                {
+                    ResumeGame();
+                }
             }
         }
-		
-        // Wobble the Camera
-		/*if (!paused) {
-			if (counter < 20) {
-			transform.position -= transform.right / Speed * Time.deltaTime;
-			counter++;
-			}
-			else if (counter >= 20 && counter < 40) {
-				transform.position += transform.right / Speed * Time.deltaTime;
-				counter++;
-			}
-			else {
-				counter = 0; 
-			}
-		}*/
 	}
 
     // 

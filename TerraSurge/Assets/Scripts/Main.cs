@@ -118,31 +118,37 @@ public class Main : MonoBehaviour {
 			prevTerrain++;
 		}
 
-		if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x-shiporigin.transform.position.x< XLimit))
+        // Movement check gameover
+        if (GameObject.Find("GameOver_Canvas") == null)
         {
-            ship.Translate(Vector3.right*0.5F);
+            if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x - shiporigin.transform.position.x < XLimit))
+            {
+                ship.Translate(Vector3.right * 0.5F);
+            }
+            if ((Input.GetKey(KeyCode.A) || Input.GetButtonDown("X")) && (shiporigin.transform.position.x - this.gameObject.transform.position.x < XLimit))
+            {
+                ship.Translate(Vector3.left * 0.5F);
+            }
+            if (Input.GetKey(KeyCode.W) && (this.gameObject.transform.position.z - shiporigin.transform.position.z < 5))
+            {
+                ship.Translate(Vector3.forward * 0.5F);
+            }
+            if (Input.GetKey(KeyCode.S) && (shiporigin.transform.position.z - this.gameObject.transform.position.z < 5))
+            {
+                ship.Translate(Vector3.back * 0.5F);
+            }
+            if (Input.GetKey(KeyCode.Space) && jumpCD == 0)
+            {
+                ship.GetComponent<Rigidbody>().AddForce(Vector3.up * 50000000);
+                jumpCD = 300;
+            }
+            if (jumpCD > 0)
+            {
+                jumpCD = jumpCD - 1;
+            }
         }
-		if ((Input.GetKey(KeyCode.A) || Input.GetButtonDown("X")) && (shiporigin.transform.position.x - this.gameObject.transform.position.x < XLimit))
-        {
-            ship.Translate(Vector3.left * 0.5F);
-        }
-        if (Input.GetKey(KeyCode.W) && (this.gameObject.transform.position.z - shiporigin.transform.position.z < 5))
-        {
-            ship.Translate(Vector3.forward * 0.5F);
-        }
-        if (Input.GetKey(KeyCode.S) && (shiporigin.transform.position.z - this.gameObject.transform.position.z < 5))
-        {
-            ship.Translate(Vector3.back * 0.5F);
-        }
-        if (Input.GetKey(KeyCode.Space) && jumpCD == 0)
-        {
-            ship.GetComponent<Rigidbody>().AddForce(Vector3.up * 50000000);
-            jumpCD = 300;
-        }
-        if(jumpCD>0)
-        {
-            jumpCD = jumpCD - 1;
-        }
+
+
     }
 
     void OnCollisionEnter(Collision collision)
