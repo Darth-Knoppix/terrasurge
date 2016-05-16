@@ -22,6 +22,8 @@ public class PausedGame_Menu : MonoBehaviour {
     private GameObject center_thruster;
     private GameObject right_thruster;
 
+    public AudioSource audio1;
+
     private float timescale;
 
     // Set up variables
@@ -30,10 +32,12 @@ public class PausedGame_Menu : MonoBehaviour {
         //anim = target.GetComponent<Animator>();
         timescale = Time.timeScale;
 
+        audio1 = target.GetComponent<Main>().getAudio();
+
         //right_thruster = GameObject.Find("Right Thuster");
         //center_thruster = GameObject.Find("Center Thruster");
         //left_thruster = GameObject.Find("Left Thruster");
-        
+
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
         pausedCanvas.SetActive(false);
     }
@@ -78,6 +82,8 @@ public class PausedGame_Menu : MonoBehaviour {
         pausedCanvas.SetActive(true);
         //animationspeed = anim.speed;
         //anim.speed = 0;
+        audio1.Pause();
+        
     }
 
     //
@@ -88,6 +94,7 @@ public class PausedGame_Menu : MonoBehaviour {
         Time.timeScale = timescale;
         pausedCanvas.SetActive(false);
         //anim.speed = animationspeed;
+        audio1.Play();
     }
 
     public void MainMenuResume()

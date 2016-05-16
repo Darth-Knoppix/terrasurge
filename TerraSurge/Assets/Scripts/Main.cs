@@ -44,7 +44,7 @@ public class Main : MonoBehaviour {
 
     // GameOver canvas
     private GameObject canvas;
-
+    // Timescale
     private float timescale;
 
     // Use this for initialization
@@ -182,9 +182,15 @@ public class Main : MonoBehaviour {
     public void GameOver()
     {
         Debug.Log("Game Over!");
+        audio1.Pause();
         timescale = Time.timeScale;
         Time.timeScale = 0;
         canvas.SetActive(true);
+    }
+
+    public AudioSource getAudio()
+    {
+        return audio1;
     }
 
 	void loadAudio1(){
@@ -578,3 +584,5 @@ public class Main : MonoBehaviour {
 
     }
 }
+
+

@@ -10,7 +10,7 @@ public class QuickPlay_Button : MonoBehaviour {
 	    Debug.Log("Changing Game Scene");
         
         //Application.LoadLevel("MainScene.unity");
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("PrototypeWAssets");
     }
 }
 
