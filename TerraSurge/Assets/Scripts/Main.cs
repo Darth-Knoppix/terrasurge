@@ -29,12 +29,20 @@ public class Main : MonoBehaviour {
     public int lives; //could easily be a hp bar as well...
     public int score; //score
 	public float XLimit = 5;			//Max movement X of player
-	public float shipSpeed = 10;		//Speed of 'ship', object and terrain speed
+	public float shipSpeed = 20;		//Speed of 'ship', object and terrain speed
+    public float firstoffset = 0.2F;
+    public int secondoffset = 3;
 
 	//pools of shit
 	private GameObject[,] pool;
 	private int [] pooltracker;
 	public int numberOfEachObject;
+    public GameObject tracer;
+    private GameObject[] tracers;
+
+    private int currentTracer = 0;
+    private int processedTracer = 0;
+    private int nextTracer = 0;
 
     //for music calculations
     int ppqn = 480;
@@ -46,6 +54,7 @@ public class Main : MonoBehaviour {
     private GameObject canvas;
     // Timescale
     private float timescale;
+
 
     // Use this for initialization
     void Start ()
@@ -76,18 +85,30 @@ public class Main : MonoBehaviour {
 		double playtime = audio1.time;
 		//offset time here if needed
 		int timeMS = (int)(playtime * 1000);//-3000;
+        timeMS = (int)(timeMS - firstoffset * 1000);
         //avoid integer overflow
         float ratio = ppqn * tempo / 60000;
-        int ticks = (int)(timeMS * ratio);
+        int realticks = (int)(timeMS * ratio);
+        int ticks = realticks - (int)(secondoffset *1000 * ratio) ;
 		//print(audio1Map[playtime]);
 		//print(timeMS);
 		KeyValuePair<int,int> next = audio1Map.ElementAt(nextEntry);
         //print(nextEntry);
-        print("timems" + timeMS);
-        print("ppqn" + ppqn);
-        print("tempo" + tempo);
-        print("ticks" + ticks);
-        print("nexttick" + next.Key);
+        //print("timems" + timeMS);
+        //print("ppqn" + ppqn);
+        //print("tempo" + tempo);
+        //print("ticks" + ticks);
+        //print("nexttick" + next.Key);
+        if (realticks > audio1Map.ElementAt(nextTracer).Key)
+        {
+            GameObject spawnedTracer = tracers[currentTracer];
+            spawnedTracer.SetActive(true);
+            spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset;
+            spawnedTracer.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
+            currentTracer++;
+            if (currentTracer >= 100) currentTracer = 0;
+            nextTracer++;
+        }
         if (ticks > next.Key) {
             //print(next);
             //print("nextentry"+nextEntry);
@@ -97,7 +118,9 @@ public class Main : MonoBehaviour {
 				pooltracker [next.Value] = 0;
 			}
 			spawned.SetActive(true);
-			spawned.transform.position = origin.transform.position + Vector3.right * nextObjYOff;
+            tracers[processedTracer].SetActive(false);
+            //spawned.transform.position = origin.transform.position + Vector3.right * nextObjYOff;
+            spawned.transform.position = tracers[processedTracer].transform.position;
             //random for powerup
             if (next.Value == 3 || next.Value == 7) spawned.transform.position = spawned.transform.position + Vector3.up * nextObjXOff;
             if (next.Value == 2)
@@ -107,8 +130,13 @@ public class Main : MonoBehaviour {
             }
             spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-shipSpeed);
 			nextEntry++;
-		}
-		print (prevTerrain);
+            //incrementing tracer id
+            processedTracer++;
+            if (processedTracer >= 100) processedTracer = 0;
+        }
+        print(currentTracer);
+        print(processedTracer);
+		//print (prevTerrain);
 		if (timeMS > terrainDuration * prevTerrain) {
 			GameObject spawned = terrainMap [0];// [next.Value];
 			GameObject obj = Instantiate (spawned, new Vector3(terrainOrigin.transform.position.x,terrainOrigin.transform.position.y,terrainOrigin.transform.position.z+ 128f), Quaternion.identity) as GameObject;
@@ -167,6 +195,10 @@ public class Main : MonoBehaviour {
             print("score"+score);
 			Destroy(collision.gameObject);
         }
+        if( collision.gameObject.tag == "Tracer")
+        {
+            collision.gameObject.SetActive(false);
+        }
         else {
             lives--;
             print("lives:" + lives); // insert check here
@@ -178,6 +210,13 @@ public class Main : MonoBehaviour {
     }
 
 	void initPool(){
+        //intialise tracers
+        tracers = new GameObject[100];
+        for(int t = 0; t < 100; t++)
+        {
+            tracers[t] = Instantiate(tracer, tracer.transform.position, Quaternion.identity) as GameObject;
+        }
+        //initialise obstacles
 		pool = new GameObject[objMap.Length,numberOfEachObject];
 		pooltracker = new int[objMap.Length];
 		for(int i=0;i<objMap.Length;i++){
