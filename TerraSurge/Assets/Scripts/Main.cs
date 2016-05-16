@@ -100,7 +100,11 @@ public class Main : MonoBehaviour {
 			spawned.transform.position = origin.transform.position + Vector3.right * nextObjYOff;
             //random for powerup
             if (next.Value == 3 || next.Value == 7) spawned.transform.position = spawned.transform.position + Vector3.up * nextObjXOff;
-
+            if (next.Value == 2)
+            {
+                Vector3 rotate = new Vector3(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360));
+                spawned.transform.Rotate(rotate);
+            }
             spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-shipSpeed);
 			nextEntry++;
 		}
