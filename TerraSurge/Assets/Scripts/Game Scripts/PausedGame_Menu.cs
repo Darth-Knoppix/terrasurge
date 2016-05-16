@@ -119,7 +119,7 @@ public class PausedGame_Menu : MonoBehaviour {
         Application.Quit();
     }
 
-    public void RestartLevel()
+    public void GameOverRestartLevel()
     {
         // Restart Level
         Debug.Log("Restarting Game");
@@ -127,6 +127,18 @@ public class PausedGame_Menu : MonoBehaviour {
 
         gameoverCanvas = GameObject.Find("GameOver_Canvas");
         gameoverCanvas.SetActive(false);
+
+        string scenename = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(scenename);
+    }
+
+    public void PausedRestartLevel()
+    {
+        // Restart Level
+        Debug.Log("Restarting Game");
+        Time.timeScale = timescale;
+
+        pausedCanvas.SetActive(false);
 
         string scenename = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(scenename);
