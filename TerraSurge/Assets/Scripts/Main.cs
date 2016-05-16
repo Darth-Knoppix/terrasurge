@@ -26,7 +26,7 @@ public class Main : MonoBehaviour {
 	private int prevTerrain;
 	public GameObject terrainOrigin;
 
-    public int lives; //could easily be a hp bar as well...
+    public int lives = 10000; //could easily be a hp bar as well...
     public int score; //score
 	public float XLimit = 5;			//Max movement X of player
 	public float shipSpeed = 20;		//Speed of 'ship', object and terrain speed
@@ -55,6 +55,9 @@ public class Main : MonoBehaviour {
     // Timescale
     private float timescale;
 
+    //score multiplier
+    public float scoremx = 1;
+
 
     // Use this for initialization
     void Start ()
@@ -77,6 +80,8 @@ public class Main : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        score =(int)( score + scoremx);
+        scoremx = scoremx+ 0.05F;
 		//pure random object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
 		float nextObjXOff = UnityEngine.Random.Range(-2F, 2F);
@@ -189,18 +194,24 @@ public class Main : MonoBehaviour {
         {
             return;
         }
-        if (collision.gameObject.tag == "Good")
+        if (collision.gameObject.tag == "Score")
         {
-            score++;
+            score+=500;
             print("score"+score);
 			Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "Shield")
+        {
+            lives = lives + 500;
+            if (lives > 10000) lives = 10000;
         }
         if( collision.gameObject.tag == "Tracer")
         {
             collision.gameObject.SetActive(false);
         }
         else {
-            lives--;
+            scoremx = 1;
+            lives = lives - (int)collision.rigidbody.mass * 500;
             print("lives:" + lives); // insert check here
 			if (lives <= 0) {
                 GameOver();
