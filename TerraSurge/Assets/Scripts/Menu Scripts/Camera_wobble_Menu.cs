@@ -7,7 +7,11 @@ public class Camera_wobble_Menu : MonoBehaviour {
 	public float Speed = 1;
 	private int counter = 0;
 
-	void Update() { 
+    void Start()
+    {
+    }
+
+    void Update() { 
 		
 		if (counter < 20) {
 		
