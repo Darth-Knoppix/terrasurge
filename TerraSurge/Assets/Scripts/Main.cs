@@ -119,7 +119,7 @@ public class Main : MonoBehaviour {
 		}
 
         // Movement check gameover
-        if (GameObject.Find("GameOver_Canvas") == null)
+        if (GameObject.Find("GameOver_Canvas") == null && GameObject.Find("PausedGame_Canvas") == null)
         {
             if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x - shiporigin.transform.position.x < XLimit))
             {
