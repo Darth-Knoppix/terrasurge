@@ -80,8 +80,11 @@ public class Main : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        score =(int)( score + scoremx);
-        scoremx = scoremx+ 0.05F;
+        if (GameObject.Find("GameOver_Canvas") == null && GameObject.Find("PausedGame_Canvas") == null)
+        {
+            score = (int)(score + scoremx);
+            scoremx = scoremx + 0.05F;
+        }
 		//pure random object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
 		float nextObjXOff = UnityEngine.Random.Range(-2F, 2F);
