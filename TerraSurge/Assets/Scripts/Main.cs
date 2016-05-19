@@ -192,7 +192,7 @@ public class Main : MonoBehaviour {
             {
                 ship.Translate(Vector3.back * 0.5F);
             }
-            if (Input.GetKey(KeyCode.Space) && jumpCD == 0)
+            /*if (Input.GetKey(KeyCode.Space) && jumpCD == 0)
             {
                 ship.GetComponent<Rigidbody>().AddForce(Vector3.up * 50000000);
                 jumpCD = 300;
@@ -200,7 +200,7 @@ public class Main : MonoBehaviour {
             if (jumpCD > 0)
             {
                 jumpCD = jumpCD - 1;
-            }
+            }*/
         }
 
 
