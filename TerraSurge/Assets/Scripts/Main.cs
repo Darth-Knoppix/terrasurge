@@ -7,49 +7,65 @@ using System.Text.RegularExpressions;
 using System.IO;
 
 public class Main : MonoBehaviour {
+	// origin point for objects
     public GameObject origin;
+	// original ship location
     public GameObject shiporigin;
-
+	// the ship
     public Transform ship;
-	public int timeOffsetMS;
 	//array of objects used for loading/spawning obstacles
 	public GameObject[] objMap;
 
-	//audio source
+	// audio source containing the track
 	public AudioSource audio1;
-	public TextAsset audio1Meta;
-	//to be loaded from text file time(ms):obj
+	// map of <Object spawn time:spawned object id> based on music
 	private SortedDictionary<int,int> audio1Map;
+	// index of the next object to be loaded
 	private int nextEntry;
+	// tracer data
+	// current tracer index
+	private int currentTracer = 0;
+	// previous tracer
+	private int processedTracer = 0;
+	// next tracer
+	private int nextTracer = 0;
 
-	public GameObject[] terrainMap;
-	public int terrainDuration;
-	private int prevTerrain;
-	public GameObject terrainOrigin;
-
-    public int lives = 10000; //could easily be a hp bar as well...
+	// actualy the ships shields/hp
+    public int lives = 10000; 
+	// score
     public int score; //score
-	public float XLimit = 5;			//Max movement X of player
-	public float shipSpeed = 20;		//Speed of 'ship', object and terrain speed
+	// max left/right movement
+	public float XLimit = 5;		
+	// relative velocity of the objects to the ship
+	public float shipSpeed;		
+	// first offset(time between music beats and object spawn)
     public float firstoffset = 0F;
+	// time difference from generation to impact
     public int secondoffset = 3;
 
-	//pools of shit
+	// pools of objects
+	// obstacles
 	private GameObject[,] pool;
+	// used to track index of latest used object from the pool
 	private int [] pooltracker;
+	// maximum number of each object in the pool
 	public int numberOfEachObject;
+	// the main tracer prefab(ie dust cloud or something)
     public GameObject tracer;
-    private GameObject[] tracers;
+	// pool of tracers
+	private GameObject[] tracers;
+	// pool of terrain objects
+	public GameObject[] terrainMap;
+	// time for each terrain object to fly past player(256/shipspeed)
+	public float terrainDuration;
+	// id of previous
+	private int prevTerrain;
+	// spawn of the terrain objects
+	public GameObject terrainOrigin;
 
-    private int currentTracer = 0;
-    private int processedTracer = 0;
-    private int nextTracer = 0;
-
-    //for music calculations
+    //for music calculations DONT CHANGE
     int ppqn = 480;
     int tempo = 260;
-
-    private int jumpCD; //cooldown on jump
 
     // GameOver canvas
     private GameObject canvas;
@@ -60,68 +76,62 @@ public class Main : MonoBehaviour {
     public float scoremx = 1;
 
     int previousFrameTimer;
-    float songTime;
 
     // Use this for initialization
     void Start ()
     {
+		terrainDuration = 256/shipSpeed;
 		prevTerrain = 0;
 		nextEntry = 0;
-		timeOffsetMS = 3000;
-		jumpCD = 0;
 		audio1 = GetComponent<AudioSource> ();
-		//loads first sound track
+		//loads first sound track data
 		loadAudio1 ();
-        float[] data = new float[audio1.clip.samples*audio1.clip.channels];
-        audio1.clip.GetData(data, 0);
-        print(data.Length);
-        
+
+		// sets the ship to the origin
         this.gameObject.transform.position = shiporigin.transform.position;
 
-        
+		//inits the pools
 		initPool ();
 
         //Setup GameOver Canvas
         canvas = GameObject.Find("GameOver_Canvas");
         canvas.SetActive(false);
-        //music related
+
+		//begin music
         audio1.Play();
-        songTime = 0F;
     }
 
 	// Update is called once per frame
 	void Update () {
-        songTime = songTime + Time.deltaTime;
+		//shipSpeed = shipSpeed + scoremx * 10;
         if (GameObject.Find("GameOver_Canvas") == null && GameObject.Find("PausedGame_Canvas") == null)
         {
             score = (int)(score + scoremx);
+			// score multiplier
             scoremx = scoremx + 0.05F;
         }
-		//pure random object spawn
+		// random numbers for object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
 		float nextObjXOff = UnityEngine.Random.Range(-2F, 2F);
 		float nextObjYOff = UnityEngine.Random.Range(-XLimit, XLimit);
-		//nextObjXOff = -3F;
+
+		// audio playtime
 		double playtime = audio1.time;
-        playtime = playtime * 1.05;// 0540233806;
-        //playtime = (double)songTime;
-        //offset time here if needed
-        int timeMS = (int)(playtime * 1000);//-3000;
+		// increases 'speed' of object spawn
+        //playtime = playtime * 1.05;
+
+        // convert time in seconds to time in ms
+        int timeMS = (int)(playtime * 1000);
+		// offset by first offset
         timeMS = (int)(timeMS - firstoffset * 1000);
-        //timeMS = (int)songTime*1000-200;
-        //avoid integer overflow
+        // pre calculated ratio to avoid integer overflow
         float ratio = ppqn * tempo  / 60000;
+		// calculate midi ticks based on ratio
         int realticks = (int)(timeMS *ratio);
+		// offset for second offset(tracers)
         int ticks = realticks + (int)(secondoffset *1000 * ratio) ;
-		//print(audio1Map[playtime]);
-		//print(timeMS);
-		KeyValuePair<int,int> next = audio1Map.ElementAt(nextEntry);
-        //print(nextEntry);
-        //print("timems" + timeMS);
-        //print("ppqn" + ppqn);
-        //print("tempo" + tempo);
-        //print("ticks" + ticks);
-        //print("nexttick" + next.Key);
+       
+		// generate tracer
         if (ticks > audio1Map.ElementAt(nextTracer).Key)
         {
             GameObject spawnedTracer = tracers[currentTracer];
@@ -131,36 +141,35 @@ public class Main : MonoBehaviour {
             currentTracer++;
             if (currentTracer >= 100) currentTracer = 0;
             nextTracer++;
-        }
+		}
+		// generate object
+		KeyValuePair<int,int> next = audio1Map.ElementAt(nextEntry);
         if (realticks > next.Key) {
-            //print(next);
-            //print("nextentry"+nextEntry);
-            GameObject spawned = pool [next.Value,pooltracker[next.Value]];// [next.Value];
+            GameObject spawned = pool [next.Value,pooltracker[next.Value]];
 			pooltracker[next.Value]++;
 			if (pooltracker [next.Value] >= numberOfEachObject) {
 				pooltracker [next.Value] = 0;
 			}
+			//replace tracer with object
 			spawned.SetActive(true);
             tracers[processedTracer].SetActive(false);
-            //spawned.transform.position = origin.transform.position + Vector3.right * nextObjYOff;
             spawned.transform.position = tracers[processedTracer].transform.position;
             //random for powerup
             if (next.Value == 3 || next.Value == 7) spawned.transform.position = spawned.transform.position + Vector3.up * nextObjXOff;
-            if (next.Value == 2)
+            // randomly rotate the rocks
+			if (next.Value == 2)
             {
                 Vector3 rotate = new Vector3(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360));
                 spawned.transform.Rotate(rotate);
             }
             spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-shipSpeed);
 			nextEntry++;
-            //incrementing tracer id
+            //incrementing processed tracer id
             processedTracer++;
             if (processedTracer >= 100) processedTracer = 0;
         }
-        //print(currentTracer);
-        //print(processedTracer);
-		//print (prevTerrain);
-		if (timeMS > terrainDuration * prevTerrain) {
+		// generate terrain
+		if (timeMS > terrainDuration * prevTerrain*1000) {
 			GameObject spawned = terrainMap [0];// [next.Value];
 			GameObject obj = Instantiate (spawned, new Vector3(terrainOrigin.transform.position.x,terrainOrigin.transform.position.y,terrainOrigin.transform.position.z+ 128f), Quaternion.identity) as GameObject;
 
@@ -184,53 +193,42 @@ public class Main : MonoBehaviour {
             {
                 ship.Translate(Vector3.left * 0.5F);
             }
-            if (Input.GetKey(KeyCode.W) && (this.gameObject.transform.position.z - shiporigin.transform.position.z < 5))
-            {
-                ship.Translate(Vector3.forward * 0.5F);
-            }
-            if (Input.GetKey(KeyCode.S) && (shiporigin.transform.position.z - this.gameObject.transform.position.z < 5))
-            {
-                ship.Translate(Vector3.back * 0.5F);
-            }
-            /*if (Input.GetKey(KeyCode.Space) && jumpCD == 0)
-            {
-                ship.GetComponent<Rigidbody>().AddForce(Vector3.up * 50000000);
-                jumpCD = 300;
-            }
-            if (jumpCD > 0)
-            {
-                jumpCD = jumpCD - 1;
-            }*/
         }
-
-
     }
 
+	//test for collision
     void OnCollisionEnter(Collision collision)
     {
+		// do nothing if hit terrain
         if(collision.gameObject.tag == "Terrain")
         {
+			print ("Hit terrain");
             return;
         }
+		// add score on pickup
         if (collision.gameObject.tag == "Score")
         {
             score+=500;
             print("score"+score);
 			Destroy(collision.gameObject);
         }
+		// add shields, do nothing if at max shields
         if (collision.gameObject.tag == "Shield")
         {
             lives = lives + 500;
             if (lives > 10000) lives = 10000;
         }
+		// disable tracer visual on hit(should not happeN)
         if( collision.gameObject.tag == "Tracer")
         {
             collision.gameObject.SetActive(false);
         }
+		// hit a bad object
         else {
+			//reset score multiplier
             scoremx = 1;
+			//lose lives
             lives = lives - (int)collision.rigidbody.mass * 500;
-            print("lives:" + lives); // insert check here
 			if (lives <= 0) {
                 GameOver();
 			}
@@ -238,6 +236,7 @@ public class Main : MonoBehaviour {
         }
     }
 
+	//initiliases the pool
 	void initPool(){
         //intialise tracers
         tracers = new GameObject[100];
@@ -271,6 +270,8 @@ public class Main : MonoBehaviour {
         return audio1;
     }
 
+
+	// load audio data
 	void loadAudio1(){
 		audio1Map = new SortedDictionary<int,int> ();
         audio1Map[0] = 2;
