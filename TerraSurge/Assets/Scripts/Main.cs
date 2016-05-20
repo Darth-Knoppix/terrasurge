@@ -112,7 +112,7 @@ public class Main : MonoBehaviour {
         }
 		// random numbers for object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
-		float nextObjXOff = UnityEngine.Random.Range(-2F, 2F);
+		float nextObjXOff = UnityEngine.Random.Range(-5F, 5F);
 		float nextObjYOff = UnityEngine.Random.Range(-XLimit, XLimit);
 
 		// audio playtime
@@ -137,6 +137,11 @@ public class Main : MonoBehaviour {
             GameObject spawnedTracer = tracers[currentTracer];
             spawnedTracer.SetActive(true);
             spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset;
+			//randomising spawn of good objects
+			if (audio1Map.ElementAt (currentTracer).Value == 3 || audio1Map.ElementAt (currentTracer).Value == 7) {
+				Vector3 origPos = spawnedTracer.transform.position;
+				spawnedTracer.transform.position = new Vector3 ( shiporigin.transform.position.x+nextObjXOff, origPos.y,origPos.z);
+			}
             spawnedTracer.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
             currentTracer++;
             if (currentTracer >= 100) currentTracer = 0;
@@ -154,8 +159,6 @@ public class Main : MonoBehaviour {
 			spawned.SetActive(true);
             tracers[processedTracer].SetActive(false);
             spawned.transform.position = tracers[processedTracer].transform.position;
-            //random for powerup
-            if (next.Value == 3 || next.Value == 7) spawned.transform.position = spawned.transform.position + Vector3.up * nextObjXOff;
             // randomly rotate the rocks
 			if (next.Value == 2)
             {
