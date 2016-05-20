@@ -22,6 +22,8 @@ public class Main : MonoBehaviour {
 	private SortedDictionary<int,int> audio1Map;
 	// index of the next object to be loaded
 	private int nextEntry;
+	// index of next terrain chunk
+	private int nextTerrain;
 	// tracer data
 	// current tracer index
 	private int currentTracer = 0;
@@ -82,6 +84,7 @@ public class Main : MonoBehaviour {
     {
 		terrainDuration = 256/shipSpeed;
 		prevTerrain = 0;
+		nextTerrain = 0;
 		nextEntry = 0;
 		audio1 = GetComponent<AudioSource> ();
 		//loads first sound track data
@@ -172,17 +175,15 @@ public class Main : MonoBehaviour {
             if (processedTracer >= 100) processedTracer = 0;
         }
 		// generate terrain
-		if (timeMS > terrainDuration * prevTerrain*1000) {
-			GameObject spawned = terrainMap [0];// [next.Value];
-			GameObject obj = Instantiate (spawned, new Vector3(terrainOrigin.transform.position.x,terrainOrigin.transform.position.y,terrainOrigin.transform.position.z+ 128f), Quaternion.identity) as GameObject;
-
-			//Create another terrain piece to ease pop in - Garbage implementation, replace ASAP and improve
-			if(prevTerrain == 0){
-				GameObject obj2 = Instantiate (spawned, new Vector3(terrainOrigin.transform.position.x,terrainOrigin.transform.position.y,terrainOrigin.transform.position.z), Quaternion.identity) as GameObject;
-				obj2.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
-			}
-			obj.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
-			prevTerrain++;
+		if (timeMS > terrainDuration * nextTerrain*1000) {
+			int maxTerrain = terrainMap.Length;
+			//print(maxTerrain
+			int nextTerrainIndex = nextTerrain%maxTerrain;
+			print (nextTerrainIndex);
+			GameObject spawned = terrainMap [nextTerrainIndex];// [next.Value];
+			spawned.transform.position = terrainOrigin.transform.position;
+			spawned.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
+				nextTerrain++;
 		}
 
         // Movement check gameover
