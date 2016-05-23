@@ -65,6 +65,11 @@ public class Main : MonoBehaviour {
 	// spawn of the terrain objects
 	public GameObject terrainOrigin;
 
+	// Acceleration for ship side movement
+	public float currentVelocity 	= 0.0f;
+	public float accelerationRate 	= 1.0f;
+	private float direction 		= 0.0f;
+
     //for music calculations DONT CHANGE
     int ppqn = 480;
     int tempo = 260;
@@ -177,28 +182,34 @@ public class Main : MonoBehaviour {
             if (processedTracer >= 100) processedTracer = 0;
         }
 		// generate terrain
-		if (timeMS > terrainDuration * nextTerrain*1000) {
-			int maxTerrain = terrainMap.Length;
-			//print(maxTerrain
-			int nextTerrainIndex = nextTerrain%maxTerrain;
-			print (nextTerrainIndex);
-			GameObject spawned = terrainMap [nextTerrainIndex];// [next.Value];
-			spawned.transform.position = terrainOrigin.transform.position;
-			spawned.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
-				nextTerrain++;
-		}
-
+//		if (timeMS > terrainDuration * nextTerrain*1000) {
+//			int maxTerrain = terrainMap.Length;
+//			//print(maxTerrain
+//			int nextTerrainIndex = nextTerrain%maxTerrain;
+//			print (nextTerrainIndex);
+//			GameObject spawned = terrainMap [nextTerrainIndex];// [next.Value];
+//			spawned.transform.position = terrainOrigin.transform.position;
+//			spawned.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
+//				nextTerrain++;
+//		}
+//
         // Movement check gameover
         if (!menuSystem.isActive())
-        {
-            if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x - shiporigin.transform.position.x < XLimit))
-            {
-                ship.Translate(Vector3.right * 0.5F);
-            }
-            if ((Input.GetKey(KeyCode.A) || Input.GetButtonDown("X")) && (shiporigin.transform.position.x - this.gameObject.transform.position.x < XLimit))
-            {
-                ship.Translate(Vector3.left * 0.5F);
-            }
+		{
+			if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetButtonDown("B")) && this.gameObject.transform.position.x <= XLimit){
+				CalcAcceleration (1f);
+				performMove ();
+			}
+			if ((Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetButtonDown ("X")) && this.gameObject.transform.position.x >= -XLimit) {
+				CalcAcceleration (-1f);
+				performMove ();
+			}
+
+
+			//Friction
+
+			currentVelocity *= 0.90f;
+
         }
 
         // Level Complete
@@ -207,6 +218,32 @@ public class Main : MonoBehaviour {
             menuSystem.LevelComplete();
         }
     }
+
+	void performMove(){
+		if (this.gameObject.transform.position.x > XLimit) {
+			this.gameObject.transform.position = new Vector3 (
+				XLimit,
+				this.gameObject.transform.position.y,
+				this.gameObject.transform.position.z
+			);
+		} else if (this.gameObject.transform.position.x < -XLimit){
+			this.gameObject.transform.position = new Vector3 (
+				-XLimit,
+				this.gameObject.transform.position.y,
+				this.gameObject.transform.position.z
+			);
+		}else {
+			this.gameObject.transform.position = new Vector3 (
+				this.gameObject.transform.position.x + (currentVelocity),
+				this.gameObject.transform.position.y,
+				this.gameObject.transform.position.z
+			);
+		}
+	}
+
+	void CalcAcceleration(float dir){
+		currentVelocity += ((dir * accelerationRate) * Time.deltaTime);
+	}
 
 	//test for collision
     void OnCollisionEnter(Collision collision)
