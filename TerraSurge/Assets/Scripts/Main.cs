@@ -65,10 +65,15 @@ public class Main : MonoBehaviour {
 	// spawn of the terrain objects
 	public GameObject terrainOrigin;
 
+	private Animator shipAnimator;
+
 	// Acceleration for ship side movement
 	public float currentVelocity 	= 0.0f;
 	public float accelerationRate 	= 1.0f;
 	private float direction 		= 0.0f;
+
+	private float turnLeft 	= 0f;
+	private float turnRight = 0f;
 
     //for music calculations DONT CHANGE
     int ppqn = 480;
@@ -89,6 +94,7 @@ public class Main : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+		shipAnimator = GetComponentsInChildren<Animator> ()[0];
 		terrainDuration = 256/shipSpeed;
 		prevTerrain = 0;
 		nextTerrain = 0;
@@ -196,18 +202,31 @@ public class Main : MonoBehaviour {
         // Movement check gameover
         if (!menuSystem.isActive())
 		{
-			if ((Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetButtonDown("B")) && this.gameObject.transform.position.x <= XLimit){
+			if ((Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow) || Input.GetButtonDown ("B")) && this.gameObject.transform.position.x <= XLimit) {
 				CalcAcceleration (1f);
+
+				if (turnRight < 1f){
+					turnRight += 0.2f;
+				}
 				performMove ();
+			} else {
+				turnRight = 0;
 			}
+
 			if ((Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetButtonDown ("X")) && this.gameObject.transform.position.x >= -XLimit) {
 				CalcAcceleration (-1f);
+				if (turnLeft < 1f){
+					turnLeft += 0.2f;
+				}
 				performMove ();
+			} else {
+				turnLeft = 0;
 			}
 
+			shipAnimator.SetFloat ("LeftAmount", turnLeft);
+			shipAnimator.SetFloat ("RightAmount", turnRight);
 
 			//Friction
-
 			currentVelocity *= 0.9f;
 
         }
