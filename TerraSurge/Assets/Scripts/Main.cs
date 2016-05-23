@@ -69,10 +69,8 @@ public class Main : MonoBehaviour {
     int ppqn = 480;
     int tempo = 260;
 
-    // GameOver canvas
-    private GameObject canvas;
-    // Timescale
-    private float timescale;
+    // MenuSystem script for Game navigation
+    private MenuSystem menuSystem;
 
     //score multiplier
     public float scoremx = 1;
@@ -96,18 +94,18 @@ public class Main : MonoBehaviour {
 		//inits the pools
 		initPool ();
 
-        //Setup GameOver Canvas
-        canvas = GameObject.Find("GameOver_Canvas");
-        canvas.SetActive(false);
+        // Get MenuSystem
+        menuSystem = GameObject.Find("ShipCamera").GetComponent<MenuSystem>();
 
-		//begin music
+        //begin music
         audio1.Play();
     }
 
 	// Update is called once per frame
 	void Update () {
 		//shipSpeed = shipSpeed + scoremx * 10;
-        if (GameObject.Find("GameOver_Canvas") == null && GameObject.Find("PausedGame_Canvas") == null)
+        // Check if the menu system is active or not
+        if (!menuSystem.isActive())
         {
             score = (int)(score + scoremx);
 			// score multiplier
@@ -187,7 +185,7 @@ public class Main : MonoBehaviour {
 		}
 
         // Movement check gameover
-        if (GameObject.Find("GameOver_Canvas") == null && GameObject.Find("PausedGame_Canvas") == null)
+        if (!menuSystem.isActive())
         {
             if ((Input.GetKey(KeyCode.D) || Input.GetButtonDown("B")) && (this.gameObject.transform.position.x - shiporigin.transform.position.x < XLimit))
             {
@@ -262,11 +260,8 @@ public class Main : MonoBehaviour {
 
     public void GameOver()
     {
-        Debug.Log("Game Over!");
-        audio1.Pause();
-        timescale = Time.timeScale;
-        Time.timeScale = 0;
-        canvas.SetActive(true);
+        // Call menuSystem GameOver
+        menuSystem.GameOver();
     }
 
     public AudioSource getAudio()
