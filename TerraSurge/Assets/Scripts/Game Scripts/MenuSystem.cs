@@ -11,12 +11,16 @@ public class MenuSystem : MonoBehaviour {
     // If this is true then there is a menu active
     // gameover or paused
     private bool menuSystemActive;
-    private bool levelComplete;
+
+    private bool paused;
+    private bool levelcomplete;
+    private bool gameover;
 
     // Canvas's for the menus
     private GameObject pausedCanvas;
     private GameObject gameoverCanvas;
     private GameObject levelComplete_Canvas;
+    private GameObject gameHUD_Canvas;
 
     private AudioSource audio1;
     private float timescale;
@@ -25,9 +29,11 @@ public class MenuSystem : MonoBehaviour {
     void Start()
     {
         menuSystemActive = false;
-        levelComplete = false;
-        timescale = 1;
+        levelcomplete = false;
+        paused = false;
+        gameover = false;
 
+        timescale = 1;
         audio1 = target.GetComponent<Main>().getAudio();
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
@@ -38,20 +44,23 @@ public class MenuSystem : MonoBehaviour {
 
         levelComplete_Canvas = GameObject.Find("LevelComplete_Canvas");
         levelComplete_Canvas.SetActive(false);
+
+        gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
     }
 
     void Update() {
         // Pause Game on Esc Key Down, Resume Once pressed again
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!menuSystemActive && !levelComplete)
-            {
-                PauseGame();
-            }
-            else
-            {
-                ResumeGame();
-            }
+            if (!gameover && !levelcomplete)
+                if (!menuSystemActive)
+                {
+                    PauseGame();
+                }
+                else
+                {
+                    ResumeGame();
+                }
         }
 	}
 
@@ -60,7 +69,9 @@ public class MenuSystem : MonoBehaviour {
     {
         Debug.Log("Paused the Game");
         menuSystemActive = true;
+        paused = true;
         Time.timeScale = 0;
+        gameHUD_Canvas.SetActive(false);
         pausedCanvas.SetActive(true);
         audio1.Pause();
     }
@@ -70,7 +81,9 @@ public class MenuSystem : MonoBehaviour {
     {
         Debug.Log("Resumed the Game");
         menuSystemActive = false;
+        paused = false;
         Time.timeScale = timescale;
+        gameHUD_Canvas.SetActive(true);
         pausedCanvas.SetActive(false);
         audio1.Play();
     }
@@ -99,6 +112,8 @@ public class MenuSystem : MonoBehaviour {
         // Resume first
         ResumeGame();
 
+        gameover = false;
+
         // Restart Level
         Debug.Log("Restarting Game by reloading scene");
 
@@ -124,8 +139,10 @@ public class MenuSystem : MonoBehaviour {
     {
         Debug.Log("Game Over!");
         menuSystemActive = true;
+        gameover = true;
         audio1.Pause();
         Time.timeScale = 0;
+        gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
     }
 
@@ -133,8 +150,9 @@ public class MenuSystem : MonoBehaviour {
     {
         Debug.Log("Level Complete!");
         menuSystemActive = true;
-        levelComplete = true;
+        levelcomplete = true;
         Time.timeScale = 0;
+        gameHUD_Canvas.SetActive(false);
         levelComplete_Canvas.SetActive(true);
         audio1.Pause();
     }
@@ -144,7 +162,8 @@ public class MenuSystem : MonoBehaviour {
         // Resume first
         ResumeGame();
 
-        levelComplete = false;
+        levelcomplete = false;
+        gameHUD_Canvas.SetActive(true);
         levelComplete_Canvas.SetActive(false);
 
         // required to fix timescale bug?
