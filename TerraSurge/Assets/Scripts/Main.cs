@@ -75,6 +75,10 @@ public class Main : MonoBehaviour {
     //score multiplier
     public float scoremx = 1;
 
+    // First Song Length
+    // For level complete state testing
+    private int songLengthMilliseconds = 5000;
+
     int previousFrameTimer;
 
     // Use this for initialization
@@ -195,6 +199,12 @@ public class Main : MonoBehaviour {
             {
                 ship.Translate(Vector3.left * 0.5F);
             }
+        }
+
+        // Level Complete
+        if (!menuSystem.isActive() && audio1.time >= audio1.clip.length)
+        {
+            menuSystem.LevelComplete();
         }
     }
 
