@@ -182,17 +182,17 @@ public class Main : MonoBehaviour {
             if (processedTracer >= 100) processedTracer = 0;
         }
 		// generate terrain
-//		if (timeMS > terrainDuration * nextTerrain*1000) {
-//			int maxTerrain = terrainMap.Length;
-//			//print(maxTerrain
-//			int nextTerrainIndex = nextTerrain%maxTerrain;
-//			print (nextTerrainIndex);
-//			GameObject spawned = terrainMap [nextTerrainIndex];// [next.Value];
-//			spawned.transform.position = terrainOrigin.transform.position;
-//			spawned.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
-//				nextTerrain++;
-//		}
-//
+		if (timeMS > terrainDuration * nextTerrain*1000) {
+			int maxTerrain = terrainMap.Length;
+			//print(maxTerrain
+			int nextTerrainIndex = nextTerrain%maxTerrain;
+			print (nextTerrainIndex);
+			GameObject spawned = terrainMap [nextTerrainIndex];// [next.Value];
+			spawned.transform.position = terrainOrigin.transform.position;
+			spawned.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
+				nextTerrain++;
+		}
+
         // Movement check gameover
         if (!menuSystem.isActive())
 		{
@@ -208,7 +208,7 @@ public class Main : MonoBehaviour {
 
 			//Friction
 
-			currentVelocity *= 0.90f;
+			currentVelocity *= 0.9f;
 
         }
 
