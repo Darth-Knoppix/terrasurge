@@ -7,6 +7,7 @@ public class UI_HUD : MonoBehaviour
 {
     public GameObject player;
     public Main pscript;
+	public PlayerControllerPredefined pcp;
 
     public Text score;
     public Text lives;
@@ -27,6 +28,9 @@ public class UI_HUD : MonoBehaviour
         multiplier = GameObject.Find("ScoreMultiplier_Text").GetComponent<Text>();
 
         pscript = GameObject.Find("Ship").GetComponent<Main>();
+		if (pscript == null) {
+			pcp = GameObject.Find("Ship").GetComponent<PlayerControllerPredefined>();
+		}
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
     }
@@ -34,9 +38,16 @@ public class UI_HUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        score.text = "Score: \n" + pscript.score;
-        lives.text = "Health: \n" + pscript.lives;
-        String multi = pscript.scoremx.ToString("n2"); // 2dp Number
-        multiplier.text = "Multiplier: \n" + multi;
+		if (pscript == null) {
+			score.text = "Score: \n" + pcp.score;
+			lives.text = "Health: \n" + pcp.lives;
+			String multi = pcp.scoremx.ToString("n2"); // 2dp Number
+			multiplier.text = "Multiplier: \n" + multi;
+		} else {
+			score.text = "Score: \n" + pscript.score;
+			lives.text = "Health: \n" + pscript.lives;
+			String multi = pscript.scoremx.ToString ("n2"); // 2dp Number
+			multiplier.text = "Multiplier: \n" + multi;
+		}
     }
 }

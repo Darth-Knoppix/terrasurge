@@ -35,6 +35,9 @@ public class MenuSystem : MonoBehaviour {
 
         timescale = 1;
         audio1 = target.GetComponent<Main>().getAudio();
+		if (audio1 == null) {
+			audio1 = target.GetComponent<PlayerControllerPredefined>().getAudio();
+		}
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
         pausedCanvas.SetActive(false);
