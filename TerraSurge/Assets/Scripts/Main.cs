@@ -45,7 +45,9 @@ public class Main : MonoBehaviour {
 	// time difference from generation to impact
     public int secondoffset = 3;
 
-	// pools of objects
+	// pools of objects. These are initialised on startup
+    // then future objects are not instantiated, but instead loaded
+    // from the pool to prevent lag
 	// obstacles
 	private GameObject[,] pool;
 	// used to track index of latest used object from the pool
@@ -91,10 +93,11 @@ public class Main : MonoBehaviour {
 
     int previousFrameTimer;
 
-    // Use this for initialization
+    // Starts the game by initialising all variables
     void Start ()
     {
 		shipAnimator = GetComponentsInChildren<Animator> ()[0];
+        // initialising vriables
 		terrainDuration = 256/shipSpeed;
 		prevTerrain = 0;
 		nextTerrain = 0;
@@ -106,7 +109,7 @@ public class Main : MonoBehaviour {
 		// sets the ship to the origin
         this.gameObject.transform.position = shiporigin.transform.position;
 
-		//inits the pools
+		//initialising pools
 		initPool ();
 
         // Get MenuSystem
@@ -118,23 +121,12 @@ public class Main : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//shipSpeed = shipSpeed + scoremx * 10;
-        // Check if the menu system is active or not
-        if (!menuSystem.isActive())
-        {
-           // score = (int)(score + scoremx);
-			// score multiplier
-           // scoremx = scoremx + 0.05F;
-        }
-		// random numbers for object spawn
-        float spawnObjRN = UnityEngine.Random.Range(0, 200);
+		// a random X offset value for 'good' pickups to force the player to move
+        // in order to hit them
 		float nextObjXOff = UnityEngine.Random.Range(-5F, 5F);
-		float nextObjYOff = UnityEngine.Random.Range(-XLimit, XLimit);
 
-		// audio playtime
+		// current audio playtime
 		double playtime = audio1.time;
-		// increases 'speed' of object spawn
-        //playtime = playtime * 1.05;
 
         // convert time in seconds to time in ms
         int timeMS = (int)(playtime * 1000);
