@@ -122,9 +122,9 @@ public class Main : MonoBehaviour {
         // Check if the menu system is active or not
         if (!menuSystem.isActive())
         {
-            score = (int)(score + scoremx);
+           // score = (int)(score + scoremx);
 			// score multiplier
-            scoremx = scoremx + 0.05F;
+           // scoremx = scoremx + 0.05F;
         }
 		// random numbers for object spawn
         float spawnObjRN = UnityEngine.Random.Range(0, 200);
@@ -277,6 +277,7 @@ public class Main : MonoBehaviour {
         if (collision.gameObject.tag == "Score")
         {
             score+=500;
+            scoremx = scoremx + 0.5F;
             print("score"+score);
 			Destroy(collision.gameObject);
         }
