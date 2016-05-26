@@ -39,19 +39,20 @@ public class Main : MonoBehaviour {
 	// max left/right movement
 	public float XLimit = 5;		
 	// relative velocity of the objects to the ship
-	public float shipSpeed;		
-	// first offset(time between music beats and object spawn)
-    public float firstoffset = 0F;
+	public float shipSpeed;
 	// time difference from generation to impact
-    public int secondoffset = 3;
+    public int secondoffset;
+    // distance in front of player objects pop at
+    public int setDistanceInFrontOfPlayer;
 
-	// pools of objects. These are initialised on startup
+    // pools of objects. These are initialised on startup
     // then future objects are not instantiated, but instead loaded
     // from the pool to prevent lag
-	// obstacles
-	private GameObject[,] pool;
+    // obstacles
+    private GameObject[,] pool;
 	// used to track index of latest used object from the pool
 	private int [] pooltracker;
+    public GameObject initialterrain;
 	// maximum number of each object in the pool
 	public int numberOfEachObject;
 	// the main tracer prefab(ie dust cloud or something)
@@ -117,6 +118,8 @@ public class Main : MonoBehaviour {
 
         //begin music
         audio1.Play();
+        initialterrain.transform.position = terrainOrigin.transform.position - Vector3.forward*256;
+        initialterrain.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
     }
 
 	// Update is called once per frame
@@ -130,21 +133,19 @@ public class Main : MonoBehaviour {
 
         // convert time in seconds to time in ms
         int timeMS = (int)(playtime * 1000);
-		// offset by first offset
-        timeMS = (int)(timeMS - firstoffset * 1000);
         // pre calculated ratio to avoid integer overflow
         float ratio = ppqn * tempo  / 60000;
 		// calculate midi ticks based on ratio
         int realticks = (int)(timeMS *ratio);
 		// offset for second offset(tracers)
-        int ticks = realticks + (int)(secondoffset *1000 * ratio) ;
+        int ticks = realticks + (int)(secondoffset *1000 * ratio);
        
 		// generate tracer
         if (ticks > audio1Map.ElementAt(nextTracer).Key)
         {
             GameObject spawnedTracer = tracers[currentTracer];
             spawnedTracer.SetActive(true);
-            spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset;
+            spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset+Vector3.forward*setDistanceInFrontOfPlayer;
 			//randomising spawn of good objects
 			if (audio1Map.ElementAt (currentTracer).Value == 3 || audio1Map.ElementAt (currentTracer).Value == 7) {
 				Vector3 origPos = spawnedTracer.transform.position;
