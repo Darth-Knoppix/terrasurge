@@ -124,12 +124,14 @@ public class Main : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		// a random X offset value for 'good' pickups to force the player to move
+        // a random X offset value for 'good' pickups to force the player to move
         // in order to hit them
-		float nextObjXOff = UnityEngine.Random.Range(-5F, 5F);
+        float nextObjXOff = UnityEngine.Random.Range(-5F, 5F);
+        float minorNextObjXOff = UnityEngine.Random.Range(-3F, 3F);
+        //float spawnNextObj = UnityEngine.Random.Range(-100F, 1F);
 
-		// current audio playtime
-		double playtime = audio1.time;
+        // current audio playtime
+        double playtime = audio1.time;
 
         // convert time in seconds to time in ms
         int timeMS = (int)(playtime * 1000);
@@ -139,15 +141,20 @@ public class Main : MonoBehaviour {
         int realticks = (int)(timeMS *ratio);
 		// offset for second offset(tracers)
         int ticks = realticks + (int)(secondoffset *1000 * ratio);
-       
-		// generate tracer
+        // next object to be picked up
+        KeyValuePair<int, int> next = audio1Map.ElementAt(nextEntry);
+        // generate tracer
         if (ticks > audio1Map.ElementAt(nextTracer).Key)
         {
             GameObject spawnedTracer = tracers[currentTracer];
             spawnedTracer.SetActive(true);
-            spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset+Vector3.forward*setDistanceInFrontOfPlayer;
+            spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset+Vector3.forward*setDistanceInFrontOfPlayer + Vector3.left * minorNextObjXOff;
+            if(next.Value == 3|| next.Value == 7)
+            {
+                spawnedTracer.transform.position = spawnedTracer.transform.position + Vector3.left * nextObjXOff;
+            }
 			//randomising spawn of good objects
-			if (audio1Map.ElementAt (currentTracer).Value == 3 || audio1Map.ElementAt (currentTracer).Value == 7) {
+			if (audio1Map.ElementAt (currentTracer).Value == 3 || audio1Map.ElementAt (currentTracer).Value == 7|| audio1Map.ElementAt(currentTracer).Value == 4) {
 				Vector3 origPos = spawnedTracer.transform.position;
 				spawnedTracer.transform.position = new Vector3 ( shiporigin.transform.position.x+nextObjXOff, origPos.y,origPos.z);
 			}
@@ -157,7 +164,6 @@ public class Main : MonoBehaviour {
             nextTracer++;
 		}
 		// generate object
-		KeyValuePair<int,int> next = audio1Map.ElementAt(nextEntry);
         if (realticks > next.Key) {
             GameObject spawned = pool [next.Value,pooltracker[next.Value]];
 			pooltracker[next.Value]++;
@@ -267,7 +273,7 @@ public class Main : MonoBehaviour {
             return;
         }
 		// add score on pickup
-        if (collision.gameObject.tag == "Score")
+        else if (collision.gameObject.tag == "Score")
         {
             score+=500;
             scoremx = scoremx + 0.5F;
@@ -275,13 +281,15 @@ public class Main : MonoBehaviour {
 			Destroy(collision.gameObject);
         }
 		// add shields, do nothing if at max shields
-        if (collision.gameObject.tag == "Shield")
+        else if (collision.gameObject.tag == "Shield")
         {
             lives = lives + 500;
+            print("shield" + score);
             if (lives > 10000) lives = 10000;
+            Destroy(collision.gameObject);
         }
 		// disable tracer visual on hit(should not happeN)
-        if( collision.gameObject.tag == "Tracer")
+        else if( collision.gameObject.tag == "Tracer")
         {
             collision.gameObject.SetActive(false);
         }
@@ -293,8 +301,9 @@ public class Main : MonoBehaviour {
             lives = lives - (int)collision.rigidbody.mass * 500;
 			if (lives <= 0) {
                 GameOver();
-			}
-			Destroy (collision.gameObject);
+            }
+            print("shit" + score);
+            Destroy (collision.gameObject);
         }
     }
 
@@ -333,7 +342,7 @@ public class Main : MonoBehaviour {
 	// load audio data
 	void loadAudio1(){
 		audio1Map = new SortedDictionary<int,int> ();
-        audio1Map[0] = 2;
+        /*audio1Map[0] = 2;
         audio1Map[3840] = 2;
         audio1Map[7680] = 2;
         audio1Map[11520] = 2;
@@ -526,7 +535,199 @@ public class Main : MonoBehaviour {
         audio1Map[229920] = 3;
         audio1Map[230400] = 3;
         audio1Map[230880] = 3;
-        audio1Map[231520] = 3;
+        audio1Map[231520] = 3;*/
+
+        audio1Map[45] = 5;
+        audio1Map[147] = 6;
+        audio1Map[164] = 0;
+        audio1Map[320] = 7;
+        audio1Map[981] = 6;
+        audio1Map[1649] = 4;
+        audio1Map[1761] = 5;
+        audio1Map[2864] = 3;
+        audio1Map[2961] = 6;
+        audio1Map[3120] = 6;
+        audio1Map[3217] = 5;
+        audio1Map[4026] = 2;
+        audio1Map[5220] = 6;
+        audio1Map[6050] = 6;
+        audio1Map[6554] = 4;
+        audio1Map[6662] = 4;
+        audio1Map[6930] = 6;
+        audio1Map[7723] = 2;
+        audio1Map[7783] = 6;
+        audio1Map[8446] = 2;
+        audio1Map[8461] = 4;
+        audio1Map[8833] = 3;
+        audio1Map[9628] = 6;
+        audio1Map[10547] = 2;
+        audio1Map[13484] = 2;
+        audio1Map[13877] = 2;
+        audio1Map[14919] = 1;
+        audio1Map[15265] = 5;
+        audio1Map[16061] = 4;
+        audio1Map[16201] = 3;
+        audio1Map[16569] = 4;
+        audio1Map[16721] = 0;
+        audio1Map[17330] = 0;
+        audio1Map[17752] = 6;
+        audio1Map[18501] = 3;
+        audio1Map[18732] = 6;
+        audio1Map[18776] = 3;
+        audio1Map[19144] = 2;
+        audio1Map[19348] = 2;
+        audio1Map[19824] = 6;
+        audio1Map[20725] = 6;
+        audio1Map[22921] = 6;
+        audio1Map[23400] = 5;
+        audio1Map[23974] = 6;
+        audio1Map[24204] = 4;
+        audio1Map[24758] = 4;
+        audio1Map[25280] = 0;
+        audio1Map[25305] = 0;
+        audio1Map[26738] = 0;
+        audio1Map[29515] = 2;
+        audio1Map[29579] = 6;
+        audio1Map[30365] = 5;
+        audio1Map[30975] = 7;
+        audio1Map[31025] = 1;
+        audio1Map[31410] = 0;
+        audio1Map[33182] = 4;
+        audio1Map[33810] = 6;
+        audio1Map[33816] = 6;
+        audio1Map[35468] = 7;
+        audio1Map[37182] = 7;
+        audio1Map[37234] = 4;
+        audio1Map[38906] = 5;
+        audio1Map[39619] = 1;
+        audio1Map[39730] = 5;
+        audio1Map[40106] = 6;
+        audio1Map[40499] = 1;
+        audio1Map[41148] = 0;
+        audio1Map[41805] = 0;
+        audio1Map[42563] = 4;
+        audio1Map[42756] = 3;
+        audio1Map[42816] = 3;
+        audio1Map[42891] = 2;
+        audio1Map[43355] = 4;
+        audio1Map[44408] = 0;
+        audio1Map[45067] = 1;
+        audio1Map[45597] = 6;
+        audio1Map[45936] = 2;
+        audio1Map[47879] = 6;
+        audio1Map[48823] = 6;
+        audio1Map[49354] = 4;
+        audio1Map[49880] = 7;
+        audio1Map[49994] = 2;
+        audio1Map[50479] = 6;
+        audio1Map[50496] = 3;
+        audio1Map[51138] = 1;
+        audio1Map[52091] = 4;
+        audio1Map[52807] = 0;
+        audio1Map[54003] = 4;
+        audio1Map[54791] = 3;
+        audio1Map[54922] = 4;
+        audio1Map[55142] = 1;
+        audio1Map[56122] = 5;
+        audio1Map[56823] = 5;
+        audio1Map[56896] = 3;
+        audio1Map[57262] = 6;
+        audio1Map[57470] = 6;
+        audio1Map[57640] = 1;
+        audio1Map[57676] = 6;
+        audio1Map[57911] = 5;
+        audio1Map[59334] = 0;
+        audio1Map[60496] = 3;
+        audio1Map[61095] = 7;
+        audio1Map[61116] = 6;
+        audio1Map[61156] = 7;
+        audio1Map[61201] = 7;
+        audio1Map[61447] = 1;
+        audio1Map[62360] = 5;
+        audio1Map[62497] = 0;
+        audio1Map[63658] = 7;
+        audio1Map[63866] = 1;
+        audio1Map[64224] = 2;
+        audio1Map[65235] = 4;
+        audio1Map[65586] = 5;
+        audio1Map[66649] = 7;
+        audio1Map[66822] = 1;
+        audio1Map[66903] = 0;
+        audio1Map[67468] = 1;
+        audio1Map[67562] = 5;
+        audio1Map[67787] = 2;
+        audio1Map[69619] = 0;
+        audio1Map[69960] = 4;
+        audio1Map[70272] = 4;
+        audio1Map[70557] = 7;
+        audio1Map[70564] = 4;
+        audio1Map[70892] = 1;
+        audio1Map[72080] = 3;
+        audio1Map[74378] = 7;
+        audio1Map[75780] = 5;
+        audio1Map[76806] = 7;
+        audio1Map[77016] = 6;
+        audio1Map[78197] = 1;
+        audio1Map[78378] = 1;
+        audio1Map[78592] = 6;
+        audio1Map[79595] = 2;
+        audio1Map[81325] = 3;
+        audio1Map[81777] = 6;
+        audio1Map[82282] = 3;
+        audio1Map[82328] = 7;
+        audio1Map[82752] = 5;
+        audio1Map[83326] = 7;
+        audio1Map[83328] = 0;
+        audio1Map[83900] = 4;
+        audio1Map[86124] = 3;
+        audio1Map[86596] = 6;
+        audio1Map[87549] = 7;
+        audio1Map[88840] = 5;
+        audio1Map[89242] = 2;
+        audio1Map[89267] = 7;
+        audio1Map[91784] = 4;
+        audio1Map[94459] = 5;
+        audio1Map[94798] = 1;
+        audio1Map[97229] = 3;
+        audio1Map[97668] = 2;
+        audio1Map[98926] = 4;
+        audio1Map[100172] = 2;
+        audio1Map[102321] = 5;
+        audio1Map[103109] = 2;
+        audio1Map[103569] = 5;
+        audio1Map[103756] = 1;
+        audio1Map[104461] = 3;
+        audio1Map[105160] = 3;
+        audio1Map[105379] = 4;
+        audio1Map[107513] = 5;
+        audio1Map[107800] = 3;
+        audio1Map[107816] = 3;
+        audio1Map[110202] = 5;
+        audio1Map[110223] = 0;
+        audio1Map[111656] = 1;
+        audio1Map[112143] = 3;
+        audio1Map[112627] = 5;
+        audio1Map[112652] = 2;
+        audio1Map[112654] = 1;
+        audio1Map[113740] = 3;
+        audio1Map[115779] = 1;
+        audio1Map[116209] = 4;
+        audio1Map[116348] = 0;
+        audio1Map[117954] = 1;
+        audio1Map[118670] = 2;
+        audio1Map[119610] = 4;
+        audio1Map[119857] = 2;
+        audio1Map[120045] = 2;
+        audio1Map[120224] = 4;
+        audio1Map[121043] = 1;
+        audio1Map[121291] = 0;
+        audio1Map[121413] = 4;
+        audio1Map[122324] = 3;
+        audio1Map[122393] = 1;
+        audio1Map[122738] = 0;
+        audio1Map[123541] = 6;
+        audio1Map[123770] = 1;
+        audio1Map[124417] = 5;
 
     }
     
