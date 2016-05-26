@@ -82,7 +82,7 @@ public class PlayerControllerPredefined : MonoBehaviour {
     int tempo = 260;
 
     // MenuSystem script for Game navigation
-    private MenuSystem menuSystem;
+    private MenuSystemPredefined menuSystem;
 
     //score multiplier
     public float scoremx = 1;
@@ -110,11 +110,11 @@ public class PlayerControllerPredefined : MonoBehaviour {
 		// sets the ship to the origin
         this.gameObject.transform.position = shiporigin.transform.position;
 
-		//inits the pools
-//		initPool ();
+        //inits the pools
+        //		initPool ();
 
         // Get MenuSystem
-        menuSystem = GameObject.Find("ShipCamera").GetComponent<MenuSystem>();
+        menuSystem = GameObject.Find("ShipCamera").GetComponent<MenuSystemPredefined>();
 
         //begin music
         audio1.Play();
@@ -124,7 +124,7 @@ public class PlayerControllerPredefined : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//shipSpeed = shipSpeed + scoremx * 10;
+        //shipSpeed = shipSpeed + scoremx * 10;
         // Check if the menu system is active or not
         if (!menuSystem.isActive())
         {

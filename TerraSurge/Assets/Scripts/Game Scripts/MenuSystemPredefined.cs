@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 // Menu System Class for the game
-public class MenuSystem : MonoBehaviour {
+public class MenuSystemPredefined : MonoBehaviour {
 
     // If this is true then there is a menu active
     // gameover or paused
@@ -32,7 +32,7 @@ public class MenuSystem : MonoBehaviour {
         gameover = false;
 
         timescale = Time.timeScale;
-        audio1 = GameObject.Find("Ship").GetComponent<Main>().getAudio();
+        audio1 = GameObject.Find("Ship").GetComponent<PlayerControllerPredefined>().getAudio();
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
         pausedCanvas.SetActive(false);
@@ -71,7 +71,7 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = 0;
         gameHUD_Canvas.SetActive(false);
         pausedCanvas.SetActive(true);
-        audio1.Pause();
+        PauseAudio();
     }
 
     // Resume Game
@@ -83,7 +83,7 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = timescale;
         gameHUD_Canvas.SetActive(true);
         pausedCanvas.SetActive(false);
-        audio1.Play();
+        PlayAudio();
     }
 
     public void MainMenuResume()
@@ -138,7 +138,7 @@ public class MenuSystem : MonoBehaviour {
         Debug.Log("Game Over!");
         menuSystemActive = true;
         gameover = true;
-        audio1.Pause();
+        PauseAudio();
         Time.timeScale = 0;
         gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
@@ -152,7 +152,25 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = 0;
         gameHUD_Canvas.SetActive(false);
         levelComplete_Canvas.SetActive(true);
+        PauseAudio();
+    }
+
+    public void PauseAudio()
+    {
+        if (audio1 == null)
+        {
+            audio1 = GameObject.Find("Ship").GetComponent<PlayerControllerPredefined>().getAudio();
+        }
         audio1.Pause();
+    }
+
+    public void PlayAudio()
+    {
+        if (audio1 == null)
+        {
+            audio1 = GameObject.Find("Ship").GetComponent<PlayerControllerPredefined>().getAudio();
+        }
+        audio1.Play();
     }
 
     public void NextLevel()
@@ -165,7 +183,7 @@ public class MenuSystem : MonoBehaviour {
         levelComplete_Canvas.SetActive(false);
 
         // required to fix timescale bug?
-        audio1.Play();
+        PlayAudio();
         // Timescale bug fix
         Time.timeScale = timescale;
 
