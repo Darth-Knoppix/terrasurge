@@ -118,8 +118,6 @@ public class PlayerControllerPredefined : MonoBehaviour {
 
         //begin music
         audio1.Play();
-
-		obstacles = GameObject.FindGameObjectsWithTag ("Obstacle");
     }
 
 	// Update is called once per frame
@@ -206,6 +204,8 @@ public class PlayerControllerPredefined : MonoBehaviour {
 //		}
 
 		level.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
+
+		obstacles = GameObject.FindGameObjectsWithTag ("Obstacle");
 
 		for (int i = 0; i < obstacles.Length; i++) {
 			obstacles[i].GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
