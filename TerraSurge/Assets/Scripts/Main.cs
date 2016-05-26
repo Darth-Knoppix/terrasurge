@@ -341,6 +341,10 @@ public class Main : MonoBehaviour {
         return audio1;
     }
 
+	public void incrementScore(int amount){
+		this.score += Mathf.Abs(amount);
+	}
+
 
 	// load audio data
 	void loadAudio1(){

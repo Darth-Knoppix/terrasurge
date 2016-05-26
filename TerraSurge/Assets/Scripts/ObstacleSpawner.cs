@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ObstacleSpawner : MonoBehaviour {
 	public GameObject obstacleToSpawn; 	// What are we spawning
+	public GameObject powerUpToSpawn;
 	public float gameSpeed;				// How fast are we moving it toward the player
 	public float spawnTimer;			// How long until the next one spawns
 	public float spawnHeight;			// The Ship start point
@@ -19,12 +20,16 @@ public class ObstacleSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Time.frameCount % spawnTimer == 0) {
-			GameObject obj = obstacleToSpawn;
-			Vector3 spawnPoint = new Vector3 (UnityEngine.Random.Range (-xRange, xRange), spawnHeight, spawnTimer * Time.deltaTime * gameSpeed);
-
-			GameObject newObj = Instantiate (obstacleToSpawn, spawnPoint, Quaternion.identity) as GameObject;
-
-			newObj.GetComponent<Rigidbody> ().velocity = new Vector3 (0f, 0f, -gameSpeed);
+			spawnAndMove (obstacleToSpawn);
+			spawnAndMove (powerUpToSpawn);
 		}
+	}
+
+	void spawnAndMove(GameObject obj){
+		Vector3 spawnPoint = new Vector3 (UnityEngine.Random.Range (-xRange, xRange), spawnHeight, spawnTimer * Time.deltaTime * gameSpeed);
+
+		GameObject newObj = Instantiate (obj, spawnPoint, Quaternion.identity) as GameObject;
+
+		newObj.GetComponent<Rigidbody> ().velocity = new Vector3 (0f, 0f, -gameSpeed);
 	}
 }
