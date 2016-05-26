@@ -19,7 +19,7 @@ public class ObstacleSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.frameCount % spawnTimer == 0) {
+		if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
 			spawnAndMove (obstacleToSpawn);
 			spawnAndMove (powerUpToSpawn);
 		}
