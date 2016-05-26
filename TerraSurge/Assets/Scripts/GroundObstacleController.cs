@@ -12,7 +12,6 @@ public class GroundObstacleController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Q)){
-			print ("FF");
 			animator.SetBool("trig", !animator.GetBool("trig"));
 		}
 	}
