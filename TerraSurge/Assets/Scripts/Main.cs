@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 using System.IO;
 
 public class Main : MonoBehaviour {
+
+	//Switches to disable functionality
+	public bool bCanSpawn;
 	// origin point for objects
     public GameObject origin;
 	// original ship location
@@ -164,7 +167,7 @@ public class Main : MonoBehaviour {
             nextTracer++;
 		}
 		// generate object
-        if (realticks > next.Key) {
+        if (realticks > next.Key && bCanSpawn) {
             GameObject spawned = pool [next.Value,pooltracker[next.Value]];
 			pooltracker[next.Value]++;
 			if (pooltracker [next.Value] >= numberOfEachObject) {
