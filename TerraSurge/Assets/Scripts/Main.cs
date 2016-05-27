@@ -147,7 +147,7 @@ public class Main : MonoBehaviour {
         // next object to be picked up
         KeyValuePair<int, int> next = audio1Map.ElementAt(nextEntry);
         // generate tracer
-        if (ticks > audio1Map.ElementAt(nextTracer).Key)
+        if (nextTracer< audio1Map.Count &&  ticks > audio1Map.ElementAt(nextTracer).Key)
         {
             GameObject spawnedTracer = tracers[currentTracer];
             spawnedTracer.SetActive(true);
