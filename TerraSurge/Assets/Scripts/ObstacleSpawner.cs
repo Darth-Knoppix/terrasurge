@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class ObstacleSpawner : MonoBehaviour {
-	public GameObject obstacleToSpawn; 	// What are we spawning
-	public GameObject powerUpToSpawn;
+	public GameObject[] obstaclesToSpawn; 	// What are we spawning
+	public GameObject[] powerUpsToSpawn;
 	public float gameSpeed;				// How fast are we moving it toward the player
 	public float spawnTimer;			// How long until the next one spawns
 	public float spawnHeight;			// The Ship start point
@@ -19,17 +20,28 @@ public class ObstacleSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
-			spawnAndMove (obstacleToSpawn);
-			spawnAndMove (powerUpToSpawn);
+        int whichObstacle2spawn = UnityEngine.Random.Range(0, obstaclesToSpawn.Length);
+        int doISpawnObstacle = UnityEngine.Random.Range(0, 1000);
+        int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Length);
+        int doISpawnPowerup = UnityEngine.Random.Range(0, 1000);
+        //if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
+        if (doISpawnObstacle < 5)
+        {
+            spawnAndMove(obstaclesToSpawn[whichObstacle2spawn]);
+        }
+        if (doISpawnPowerup < 5)
+        {
+            spawnAndMove(powerUpsToSpawn[whichPowerup2spawn]);
+        }
 		}
-	}
 
-	void spawnAndMove(GameObject obj){
-		Vector3 spawnPoint = new Vector3 (UnityEngine.Random.Range (-xRange, xRange), spawnHeight, spawnTimer * Time.deltaTime * gameSpeed);
+    private void spawnAndMove(GameObject obj)
+    {
+        Vector3 spawnPoint = new Vector3(UnityEngine.Random.Range(-xRange, xRange), spawnHeight, spawnTimer * Time.deltaTime * gameSpeed);
 
-		GameObject newObj = Instantiate (obj, spawnPoint, Quaternion.identity) as GameObject;
+        GameObject newObj = Instantiate(obj, spawnPoint, Quaternion.identity) as GameObject;
 
-		newObj.GetComponent<Rigidbody> ().velocity = new Vector3 (0f, 0f, -gameSpeed);
-	}
+        newObj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -gameSpeed);
+    }
 }
+
