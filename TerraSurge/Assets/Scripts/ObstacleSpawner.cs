@@ -25,13 +25,31 @@ public class ObstacleSpawner : MonoBehaviour {
         int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Length);
         int doISpawnPowerup = UnityEngine.Random.Range(0, 1000);
         //if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
+
         if (doISpawnObstacle < 5)
         {
-            spawnAndMove(obstaclesToSpawn[whichObstacle2spawn]);
+            
+            try
+            {
+                spawnAndMove(obstaclesToSpawn[whichObstacle2spawn]);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("E: " + e);
+                Debug.Log("obstaclesToSpawn.Length: " + obstaclesToSpawn.Length);
+            }
         }
         if (doISpawnPowerup < 5)
         {
-            spawnAndMove(powerUpsToSpawn[whichPowerup2spawn]);
+            try
+            {
+                spawnAndMove(powerUpsToSpawn[whichPowerup2spawn]);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("E: " + e);
+                Debug.Log("whichPowerup2spawn.Length: " + powerUpsToSpawn.Length);
+            }
         }
 		}
 
