@@ -3,9 +3,13 @@ using System.Collections;
 using System;
 
 public class ObstacleSpawner : MonoBehaviour {
-	public GameObject[] obstaclesToSpawn; 	// What are we spawning
-	public GameObject[] powerUpsToSpawn;
-	public float gameSpeed;				// How fast are we moving it toward the player
+
+    public System.Collections.Generic.List<GameObject> obstaclesToSpawn = 
+        new System.Collections.Generic.List<GameObject>(); 	// What are we spawning
+    public System.Collections.Generic.List<GameObject> powerUpsToSpawn = 
+        new System.Collections.Generic.List<GameObject>();    // What are we spawning
+
+    public float gameSpeed;				// How fast are we moving it toward the player
 	public float spawnTimer;			// How long until the next one spawns
 	public float spawnHeight;			// The Ship start point
 	public float xRange;				// Range in which obstacles will spawn
@@ -16,39 +20,45 @@ public class ObstacleSpawner : MonoBehaviour {
 		xRange 		= Mathf.Abs (xRange);
 		gameSpeed 	= Mathf.Abs (gameSpeed);
 		spawnTimer 	= Mathf.Abs (spawnTimer);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        int whichObstacle2spawn = UnityEngine.Random.Range(0, obstaclesToSpawn.Length);
+
+        // Add to obstaclesToSpawn here!
+        // Add to powerUpsToSpawn here!
+    }
+
+    // Update is called once per frame
+    void Update () {
+        int whichObstacle2spawn = UnityEngine.Random.Range(0, obstaclesToSpawn.Count);
         int doISpawnObstacle = UnityEngine.Random.Range(0, 1000);
-        int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Length);
+        int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Count);
         int doISpawnPowerup = UnityEngine.Random.Range(0, 1000);
         //if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
 
         if (doISpawnObstacle < 5)
         {
-            
+            // Try and spawn an obstacle
             try
             {
                 spawnAndMove(obstaclesToSpawn[whichObstacle2spawn]);
             }
+            // Error occurred
             catch (Exception e)
             {
                 Debug.Log("E: " + e);
-                Debug.Log("obstaclesToSpawn.Length: " + obstaclesToSpawn.Length);
+                Debug.Log("obstaclesToSpawn.Count: " + obstaclesToSpawn.Count);
             }
         }
         if (doISpawnPowerup < 5)
         {
+            // Try and spawn a powerup
             try
             {
                 spawnAndMove(powerUpsToSpawn[whichPowerup2spawn]);
             }
+            // Error occurred
             catch (Exception e)
             {
                 Debug.Log("E: " + e);
-                Debug.Log("whichPowerup2spawn.Length: " + powerUpsToSpawn.Length);
+                Debug.Log("whichPowerup2spawn.Count: " + powerUpsToSpawn.Count);
             }
         }
 		}
