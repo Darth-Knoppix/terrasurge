@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Main_alt.cs" />
+     <Compile Include="Assets\PlayWallScript.cs" />
      <Compile Include="Assets\Scripts\Game Scripts\MenuSystem.cs" />
      <Compile Include="Assets\Scripts\Game Scripts\MenuSystemPredefined.cs" />
      <Compile Include="Assets\Scripts\Game Scripts\UI_HUD.cs" />

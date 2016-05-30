@@ -52,8 +52,8 @@ public class UI_HUD_alt : MonoBehaviour
             highlightScore();
         }
 
-        lastScore = scoreboard.getScore();
-        score.text = "" + scoreboard.getScore();
+        lastScore = player.score;
+        score.text = "" + player.score;
         health.text = "" + player.health + "%";
         String multi = player.scoreMultiplier.ToString("n2"); // 2dp Number
         multiplier.text = "Multiplier: \n" + multi;

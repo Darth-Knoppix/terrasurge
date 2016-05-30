@@ -31,11 +31,9 @@ public class Main_alt : MonoBehaviour
     // score
     public int score; //score
                       // max left/right movement
-    public float XLimit = 5;
+    public float XLimit;
     // relative velocity of the objects to the ship
     public float shipSpeed;
-    // time difference from generation to impact
-    public int secondoffset;
     // distance in front of player objects pop at
     public int setTimeInFrontOfPlayer;
 
@@ -59,6 +57,9 @@ public class Main_alt : MonoBehaviour
     private int nextTerrain = 0;
     // spawn of the terrain objects
     public GameObject terrainOrigin;
+    public int objectSpawnYOffset;
+
+    float songtime;
 
     private Animator shipAnimator;
 
@@ -83,7 +84,7 @@ public class Main_alt : MonoBehaviour
     // First Song Length
     // For level complete state testing
     private int songLengthMilliseconds = 5000;
-
+    public int ticks;
     int previousFrameTimer;
 
     // Starts the game by initialising all variables
@@ -105,25 +106,28 @@ public class Main_alt : MonoBehaviour
         // Get MenuSystem
         menuSystem = GameObject.Find("ShipCamera").GetComponent<MenuSystem>();
 
-        //begin music
-        audio1.Play();
         initialterrain.transform.position = terrainOrigin.transform.position - Vector3.forward * 256;
         initialterrain.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
+        //begin music
+        audio1.Play();
+        songtime = 0F;
     }
 
     // Update is called once per frame
     void Update()
     {
+        songtime += Time.deltaTime;
         // current audio playtime
-        double playtime = audio1.time;
+        double playtime = songtime;// audio1.time;
         // convert time in seconds to time in ms
         int timeMS = (int)(playtime * 1000);
+        timeMS = timeMS + setTimeInFrontOfPlayer * 1000;
         // pre calculated ratio to avoid integer overflow(ppqn*tempo/1minute = ticks/min)
         float ratio = ppqn * tempo / 60000;
         // calculate midi ticks based on ratio
-        int realticks = (int)(timeMS * ratio);
+        ticks = (int)(timeMS * ratio*1.035);
         // offset for second offset(tracers)
-        int ticks = realticks + (int)(secondoffset * 1000 * ratio);
+       // int ticks = realticks + (int)(secondoffset * 1000 * ratio);
         // next object to be picked up
         KeyValuePair<int, int> nextObstacle = audio1Map.ElementAt(nextObstacleID);
 		// generate object
@@ -200,7 +204,7 @@ public class Main_alt : MonoBehaviour
 
     private void spawnAndMove(GameObject obj)
     {
-        Vector3 spawnPoint = new Vector3(this.transform.position.x, this.transform.position.y,
+        Vector3 spawnPoint = new Vector3(this.transform.position.x, this.transform.position.y-objectSpawnYOffset,
             animationTrigger.transform.position.z + setTimeInFrontOfPlayer * shipSpeed) + Vector3.left *UnityEngine.Random.Range(-10, 10);
         obj.transform.position = spawnPoint;
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
