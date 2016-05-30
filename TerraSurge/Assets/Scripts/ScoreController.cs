@@ -17,13 +17,25 @@ public class ScoreController : MonoBehaviour {
 	}
 
 	public void incrementScore(int amount){
-//		Debug.Log ("Increment");
+		//Debug.Log ("Increment");
 		this.score += Mathf.Abs(amount);
 
 	}
 
 	public int getScore(){
-//		Debug.Log ("Score is " + this.score);
+		//Debug.Log ("Score is " + this.score);
 		return this.score;
+	}
+
+	public void saveScore(string name, string score){
+		PlayerPrefs.SetInt (name, this.score);
+	}
+
+	public string getScore(string name){
+		string score = "---";
+		if (PlayerPrefs.HasKey (name)) {
+			score = PlayerPrefs.GetInt (name);
+		}
+		return score;
 	}
 }
