@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\Menu Scripts\Camera_wobble_Menu.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\Exit_Button.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\QuickPlay_Button.cs" />
+     <Compile Include="Assets\Scripts\Menu Scripts\ScoreBoard_Display.cs" />
      <Compile Include="Assets\Scripts\ObstacleController.cs" />
      <Compile Include="Assets\Scripts\ObstacleSpawner.cs" />
      <Compile Include="Assets\Scripts\PlayerControllerPredefined.cs" />

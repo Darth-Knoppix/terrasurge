@@ -27,6 +27,10 @@ public class ScoreController : MonoBehaviour {
 		return this.score;
 	}
 
+	public string getScoref(){
+		return "" + this.getScore ();
+	}
+
 	public void saveScore(string name, string score){
 		PlayerPrefs.SetInt (name, this.score);
 	}
@@ -34,7 +38,7 @@ public class ScoreController : MonoBehaviour {
 	public string getScore(string name){
 		string score = "---";
 		if (PlayerPrefs.HasKey (name)) {
-			score = PlayerPrefs.GetInt (name);
+			score =  "" + PlayerPrefs.GetInt (name);
 		}
 		return score;
 	}
