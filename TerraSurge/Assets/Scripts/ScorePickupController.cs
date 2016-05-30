@@ -18,8 +18,8 @@ public class ScorePickupController : MonoBehaviour {
 		if (c.gameObject.CompareTag ("Player")) {
 			ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
 			score.incrementScore (scoreAmount);
-			Debug.Log ("Score += " + scoreAmount);
-			Debug.Log ("Total: " + score.getScore());
+//			Debug.Log ("Score += " + scoreAmount);
+//			Debug.Log ("Total: " + score.getScore());
 			GameObject.Destroy (this.gameObject);
 		}
 	}

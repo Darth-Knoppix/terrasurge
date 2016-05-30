@@ -17,13 +17,13 @@ public class ScoreController : MonoBehaviour {
 	}
 
 	public void incrementScore(int amount){
-		Debug.Log ("Increment");
+//		Debug.Log ("Increment");
 		this.score += Mathf.Abs(amount);
 
 	}
 
 	public int getScore(){
-		Debug.Log ("Score is " + this.score);
+//		Debug.Log ("Score is " + this.score);
 		return this.score;
 	}
 }
