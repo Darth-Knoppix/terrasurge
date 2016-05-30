@@ -14,6 +14,8 @@ public class ObstacleSpawner : MonoBehaviour {
 	public float spawnHeight;			// The Ship start point
 	public float xRange;				// Range in which obstacles will spawn
 
+    private readonly int fixedSpawnRate = 1000;
+
 	// Use this for initialization
 	void Start () {
 		// Make positive
@@ -31,12 +33,12 @@ public class ObstacleSpawner : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         int whichObstacle2spawn = UnityEngine.Random.Range(0, obstaclesToSpawn.Count);
-        int doISpawnObstacle = UnityEngine.Random.Range(0, 1000);
+        int doISpawnObstacle = UnityEngine.Random.Range(0, fixedSpawnRate);
         int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Count);
-        int doISpawnPowerup = UnityEngine.Random.Range(0, 1000);
+        int doISpawnPowerup = UnityEngine.Random.Range(0, fixedSpawnRate);
         //if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
 
-        if (doISpawnObstacle < 5)
+        if (doISpawnObstacle < 15)
         {
             // Try and spawn an obstacle
             try
