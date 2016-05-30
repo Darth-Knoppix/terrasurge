@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PointController : MonoBehaviour {
+public class ScorePickupController : MonoBehaviour {
 	public int scoreAmount = 500;
 
 	// Use this for initialization
@@ -11,13 +11,15 @@ public class PointController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	void OnTriggerEnter(Collider c){
 		if (c.gameObject.CompareTag ("Player")) {
-			Main player = c.gameObject.GetComponent<Main>() as Main;
-			player.incrementScore (scoreAmount);
+			ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
+			score.incrementScore (scoreAmount);
+			Debug.Log ("Score += " + scoreAmount);
+			Debug.Log ("Total: " + score.getScore());
 			GameObject.Destroy (this.gameObject);
 		}
 	}

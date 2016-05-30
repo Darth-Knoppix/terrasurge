@@ -89,7 +89,7 @@ public class Main : MonoBehaviour {
     private MenuSystem menuSystem;
 
     //score multiplier
-    public float scoremx = 1;
+    public float scoreMultiplier = 1;
 
     // First Song Length
     // For level complete state testing
@@ -270,14 +270,6 @@ public class Main : MonoBehaviour {
 //			print ("Hit terrain");
             return;
         }
-		// add score on pickup
-        else if (collision.gameObject.tag == "Score")
-        {
-            score+=500;
-            scoremx = scoremx + 0.5F;
-//            print("score"+score);
-			Destroy(collision.gameObject);
-        }
 		// add shields, do nothing if at max shields
         else if (collision.gameObject.tag == "Shield")
         {
@@ -294,7 +286,7 @@ public class Main : MonoBehaviour {
 		// hit a bad object
         else {
 			//reset score multiplier
-            scoremx = 1;
+            scoreMultiplier = 1;
 			//lose lives
             health = health - 20;
 			if (health <= 0) {
@@ -335,11 +327,6 @@ public class Main : MonoBehaviour {
     {
         return audio1;
     }
-
-	public void incrementScore(int amount){
-		this.score += Mathf.Abs(amount);
-	}
-
 
 	// load audio data
 	void loadAudio1(){
