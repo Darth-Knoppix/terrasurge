@@ -32,7 +32,7 @@ public class MenuSystem : MonoBehaviour {
         gameover = false;
 
         timescale = Time.timeScale;
-        audio1 = GameObject.Find("Ship").GetComponent<Main>().getAudio();
+        audio1 = GameObject.Find("Ship").GetComponent<Main_alt>().getAudio();
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
         pausedCanvas.SetActive(false);

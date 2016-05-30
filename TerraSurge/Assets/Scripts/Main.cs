@@ -5,7 +5,7 @@ using System.Linq;
 using System;
 using System.Text.RegularExpressions;
 using System.IO;
-
+ 
 public class Main : MonoBehaviour {
 
 	//Switches to disable functionality
@@ -18,6 +18,7 @@ public class Main : MonoBehaviour {
     public Transform ship;
 	//array of objects used for loading/spawning obstacles
 	public GameObject[] objMap;
+    public GameObject[] powerups;
 
 	// audio source containing the track
 	public AudioSource audio1;
@@ -27,13 +28,6 @@ public class Main : MonoBehaviour {
 	private int nextEntry;
 	// index of next terrain chunk
 	private int nextTerrain;
-	// tracer data
-	// current tracer index
-	private int currentTracer = 0;
-	// previous tracer
-	private int processedTracer = 0;
-	// next tracer
-	private int nextTracer = 0;
 
 	// actualy the ships shields/hp
     public int health = 100; 
@@ -58,10 +52,6 @@ public class Main : MonoBehaviour {
     public GameObject initialterrain;
 	// maximum number of each object in the pool
 	public int numberOfEachObject;
-	// the main tracer prefab(ie dust cloud or something)
-    public GameObject tracer;
-	// pool of tracers
-	private GameObject[] tracers;
 	// pool of terrain objects
 	public GameObject[] terrainMap;
 	// time for each terrain object to fly past player(256/shipspeed)
@@ -299,12 +289,6 @@ public class Main : MonoBehaviour {
 
 	//initiliases the pool
 	void initPool(){
-        //intialise tracers
-        tracers = new GameObject[100];
-        for(int t = 0; t < 100; t++)
-        {
-            tracers[t] = Instantiate(tracer, tracer.transform.position, Quaternion.identity) as GameObject;
-        }
         //initialise obstacles
 		pool = new GameObject[objMap.Length,numberOfEachObject];
 		pooltracker = new int[objMap.Length];

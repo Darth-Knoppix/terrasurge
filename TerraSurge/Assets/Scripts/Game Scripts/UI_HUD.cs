@@ -14,7 +14,7 @@ public class UI_HUD : MonoBehaviour
 	private int scoreCooldownTimer;
 
     private string values;
-	private Main player;
+	private Main_alt player;
 	private ScoreController scoreboard;
 
     private GameObject gameHUD_Canvas;
@@ -28,9 +28,8 @@ public class UI_HUD : MonoBehaviour
         score = GameObject.Find("Score_Value").GetComponent<Text>();
         health = GameObject.Find("Health_Value").GetComponent<Text>();
         multiplier = GameObject.Find("ScoreMultiplier_Text").GetComponent<Text>();
-
-		scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
-		player = GameObject.Find ("Ship").GetComponent<Main> ();
+        
+		player = GameObject.Find ("Ship").GetComponent<Main_alt> ();
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
     }
@@ -46,7 +45,7 @@ public class UI_HUD : MonoBehaviour
 		if (scoreCooldownTimer <= 0) {
 			score.color = Color.white;
 		}
-		if (lastScore != scoreboard.getScore()) {
+		if (lastScore != player.score) {
 			highlightScore ();
 		}
 
