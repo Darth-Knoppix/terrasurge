@@ -53,14 +53,15 @@
      <Compile Include="Assets\Scripts\Menu Scripts\Camera_wobble_Menu.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\Exit_Button.cs" />
      <Compile Include="Assets\Scripts\Menu Scripts\QuickPlay_Button.cs" />
+     <Compile Include="Assets\Scripts\Menu Scripts\ScoreBoard_Display.cs" />
      <Compile Include="Assets\Scripts\ObstacleController.cs" />
      <Compile Include="Assets\Scripts\ObstacleSpawner.cs" />
      <Compile Include="Assets\Scripts\PlayerControllerPredefined.cs" />
-     <Compile Include="Assets\Scripts\PointController.cs" />
+     <Compile Include="Assets\Scripts\ScoreController.cs" />
+     <Compile Include="Assets\Scripts\ScorePickupController.cs" />
      <Compile Include="Assets\Scripts\Ship_IdleBehaviour.cs" />
      <Compile Include="Assets\Scripts\Ship_PausedBehaviour.cs" />
      <Compile Include="Assets\Scripts\UIOut.cs" />
-     <Compile Include="Assets\Scripts\UIScript.cs" />
      <Compile Include="Assets\Scripts\endwallscript.cs" />
      <Compile Include="Assets\Scripts\rotator.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
