@@ -10,7 +10,7 @@ public class UI_HUD : MonoBehaviour
 	public PlayerControllerPredefined pcp;
 
     public Text score;
-    public Text lives;
+    public Text health;
     public Text multiplier;
 	public int defaultTiemout = 40;
 
@@ -28,7 +28,7 @@ public class UI_HUD : MonoBehaviour
         //pscript = player.GetComponent<playerscript>();
 
         score = GameObject.Find("Score_Value").GetComponent<Text>();
-        lives = GameObject.Find("Lives_Text").GetComponent<Text>();
+        health = GameObject.Find("Health_Value").GetComponent<Text>();
         multiplier = GameObject.Find("ScoreMultiplier_Text").GetComponent<Text>();
 
         pscript = GameObject.Find("Ship").GetComponent<Main>();
@@ -49,7 +49,7 @@ public class UI_HUD : MonoBehaviour
     {
 		if (pscript == null) {
 			score.text = "" + pcp.score;
-			lives.text = "Health: \n" + pcp.lives;
+			health.text = "Health: \n" + pcp.lives;
 			String multi = pcp.scoremx.ToString("n2"); // 2dp Number
 			multiplier.text = "Multiplier: \n" + multi;
 		} else {
@@ -62,7 +62,7 @@ public class UI_HUD : MonoBehaviour
 
 			lastScore = pscript.score;
 			score.text = "" + pscript.score;
-			lives.text = "Health: \n" + pscript.lives;
+            health.text = "" + pscript.health + "%";
 			String multi = pscript.scoremx.ToString ("n2"); // 2dp Number
 			multiplier.text = "Multiplier: \n" + multi;
 

@@ -20,7 +20,7 @@ public class UIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        values = "Score: " + pscript.score + "\r\nLives: " + pscript.lives;
+        values = "Score: " + pscript.score + "\r\nLives: " + pscript.health;
         GetComponent<Text>().text = values;
     }
 }

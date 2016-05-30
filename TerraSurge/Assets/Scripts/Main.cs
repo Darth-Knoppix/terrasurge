@@ -36,7 +36,7 @@ public class Main : MonoBehaviour {
 	private int nextTracer = 0;
 
 	// actualy the ships shields/hp
-    public int lives = 10000; 
+    public int health = 100; 
 	// score
     public int score; //score
 	// max left/right movement
@@ -286,9 +286,9 @@ public class Main : MonoBehaviour {
 		// add shields, do nothing if at max shields
         else if (collision.gameObject.tag == "Shield")
         {
-            lives = lives + 500;
+            health = health + 500;
             print("shield" + score);
-            if (lives > 10000) lives = 10000;
+            if (health > 10000) health = 10000;
             Destroy(collision.gameObject);
         }
 		// disable tracer visual on hit(should not happeN)
@@ -301,8 +301,8 @@ public class Main : MonoBehaviour {
 			//reset score multiplier
             scoremx = 1;
 			//lose lives
-            lives = lives - (int)collision.rigidbody.mass * 500;
-			if (lives <= 0) {
+            health = health - 20;
+			if (health <= 0) {
                 GameOver();
             }
             print("shit" + score);

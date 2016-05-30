@@ -21,8 +21,11 @@ public class ObstacleSpawner : MonoBehaviour {
 		gameSpeed 	= Mathf.Abs (gameSpeed);
 		spawnTimer 	= Mathf.Abs (spawnTimer);
 
-        // Add to obstaclesToSpawn here!
+        // Add to obstaclesToSpawn
+        obstaclesToSpawn.Add(GameObject.Find("Shiv-tron-block"));
+
         // Add to powerUpsToSpawn here!
+        powerUpsToSpawn.Add(GameObject.Find("PointBundle"));
     }
 
     // Update is called once per frame
