@@ -102,7 +102,7 @@ public class Main : MonoBehaviour {
     {
 		shipAnimator = GetComponentsInChildren<Animator> ()[0];
         // initialising vriables
-		terrainDuration = 256/shipSpeed;
+		terrainDuration = 200/shipSpeed;
 		prevTerrain = 0;
 		nextTerrain = 0;
 		nextEntry = 0;
@@ -286,9 +286,9 @@ public class Main : MonoBehaviour {
 		// add shields, do nothing if at max shields
         else if (collision.gameObject.tag == "Shield")
         {
-            health = health + 500;
+            health = health + 20;
             print("shield" + score);
-            if (health > 10000) health = 10000;
+            if (health > 100) health = 100;
             Destroy(collision.gameObject);
         }
 		// disable tracer visual on hit(should not happeN)
