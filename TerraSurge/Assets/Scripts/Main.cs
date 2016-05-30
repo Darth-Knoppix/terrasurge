@@ -189,7 +189,7 @@ public class Main : MonoBehaviour {
 			int maxTerrain = terrainMap.Length;
 			//print(maxTerrain
 			int nextTerrainIndex = nextTerrain%maxTerrain;
-//			print (nextTerrainIndex);
+			print (nextTerrainIndex);
 			GameObject spawned = terrainMap [nextTerrainIndex];// [next.Value];
 			spawned.transform.position = terrainOrigin.transform.position;
 			spawned.GetComponent<Rigidbody> ().velocity = new Vector3 (0, 0, -shipSpeed);
@@ -267,7 +267,7 @@ public class Main : MonoBehaviour {
 		// do nothing if hit terrain
         if(collision.gameObject.tag == "Terrain")
         {
-//			print ("Hit terrain");
+			print ("Hit terrain");
             return;
         }
 		// add score on pickup
@@ -275,14 +275,14 @@ public class Main : MonoBehaviour {
         {
             score+=500;
             scoremx = scoremx + 0.5F;
-//            print("score"+score);
+            print("score"+score);
 			Destroy(collision.gameObject);
         }
 		// add shields, do nothing if at max shields
         else if (collision.gameObject.tag == "Shield")
         {
             health = health + 20;
-//            print("shield" + score);
+            print("shield" + score);
             if (health > 100) health = 100;
             Destroy(collision.gameObject);
         }
@@ -300,7 +300,7 @@ public class Main : MonoBehaviour {
 			if (health <= 0) {
                 GameOver();
             }
-//            print("shit" + score);
+            print("shit" + score);
             Destroy (collision.gameObject);
         }
     }
