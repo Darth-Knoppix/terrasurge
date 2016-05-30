@@ -147,6 +147,7 @@ public class Main : MonoBehaviour {
         // next object to be picked up
         KeyValuePair<int, int> next = audio1Map.ElementAt(nextEntry);
         // generate tracer
+        /*
         if (nextTracer< audio1Map.Count &&  ticks > audio1Map.ElementAt(nextTracer).Key)
         {
             GameObject spawnedTracer = tracers[currentTracer];
@@ -177,18 +178,12 @@ public class Main : MonoBehaviour {
 			spawned.SetActive(true);
             tracers[processedTracer].SetActive(false);
             spawned.transform.position = tracers[processedTracer].transform.position;
-            // randomly rotate the rocks
-			if (next.Value == 2)
-            {
-                Vector3 rotate = new Vector3(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360));
-                spawned.transform.Rotate(rotate);
-            }
             spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-shipSpeed);
 			nextEntry++;
             //incrementing processed tracer id
             processedTracer++;
             if (processedTracer >= 100) processedTracer = 0;
-        }
+        }*/
 		// generate terrain
 		if (timeMS > terrainDuration * nextTerrain*1000) {
 			int maxTerrain = terrainMap.Length;
