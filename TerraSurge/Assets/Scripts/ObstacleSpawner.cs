@@ -11,12 +11,17 @@ public class ObstacleSpawner : MonoBehaviour {
 	public float spawnTimer;			// How long until the next one spawns
 	public float spawnHeight;			// The Ship start point
 	public float xRange;				// Range in which obstacles will spawn
-
+    public GameObject animationTrigger;
     public int obstacleSpawnRate;
     public int powerupSpawnRate;
 
-	// Use this for initialization
-	void Start () {
+
+    //for music calculations DONT CHANGE
+    int ppqn = 480;
+    int tempo = 260;
+
+    // Use this for initialization
+    void Start () {
 		// Make positive
 		xRange 		= Mathf.Abs (xRange);
 		gameSpeed 	= Mathf.Abs (gameSpeed);
@@ -63,7 +68,7 @@ public class ObstacleSpawner : MonoBehaviour {
 
     private void spawnAndMove(GameObject obj)
     {
-        Vector3 spawnPoint = new Vector3(ship.transform.position.x,this.transform.position.y, this.transform.position.z) + Vector3.left * UnityEngine.Random.Range(-5, 5);
+        Vector3 spawnPoint = new Vector3(ship.transform.position.x,this.transform.position.y, animationTrigger.transform.position.z + 3 * gameSpeed) + Vector3.left * UnityEngine.Random.Range(-5, 5);
 
         GameObject newObj = Instantiate(obj, spawnPoint, Quaternion.identity) as GameObject;
 
