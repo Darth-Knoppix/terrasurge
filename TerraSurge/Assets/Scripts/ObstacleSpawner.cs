@@ -4,17 +4,16 @@ using System;
 
 public class ObstacleSpawner : MonoBehaviour {
 
-    public System.Collections.Generic.List<GameObject> obstaclesToSpawn = 
-        new System.Collections.Generic.List<GameObject>(); 	// What are we spawning
-    public System.Collections.Generic.List<GameObject> powerUpsToSpawn = 
-        new System.Collections.Generic.List<GameObject>();    // What are we spawning
+    public GameObject[] obstaclesToSpawn; 	// What are we spawning
+    public GameObject[] powerUpsToSpawn;    // What are we spawning
 
     public float gameSpeed;				// How fast are we moving it toward the player
 	public float spawnTimer;			// How long until the next one spawns
 	public float spawnHeight;			// The Ship start point
 	public float xRange;				// Range in which obstacles will spawn
 
-    private readonly int fixedSpawnRate = 1000;
+    public int obstacleSpawnRate;
+    public int powerupSpawnRate;
 
 	// Use this for initialization
 	void Start () {
@@ -22,23 +21,17 @@ public class ObstacleSpawner : MonoBehaviour {
 		xRange 		= Mathf.Abs (xRange);
 		gameSpeed 	= Mathf.Abs (gameSpeed);
 		spawnTimer 	= Mathf.Abs (spawnTimer);
-
-        // Add to obstaclesToSpawn
-        obstaclesToSpawn.Add(GameObject.Find("Shiv-tron-block"));
-
-        // Add to powerUpsToSpawn here!
-        powerUpsToSpawn.Add(GameObject.Find("PointBundle"));
     }
 
     // Update is called once per frame
     void Update () {
-        int whichObstacle2spawn = UnityEngine.Random.Range(0, obstaclesToSpawn.Count);
-        int doISpawnObstacle = UnityEngine.Random.Range(0, fixedSpawnRate);
-        int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Count);
-        int doISpawnPowerup = UnityEngine.Random.Range(0, fixedSpawnRate);
+        int whichObstacle2spawn = UnityEngine.Random.Range(0, obstaclesToSpawn.Length);
+        int doISpawnObstacle = UnityEngine.Random.Range(0, 1000);
+        int whichPowerup2spawn = UnityEngine.Random.Range(0, powerUpsToSpawn.Length);
+        int doISpawnPowerup = UnityEngine.Random.Range(0, 1000);
         //if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
 
-        if (doISpawnObstacle < 15)
+        if (doISpawnObstacle < obstacleSpawnRate)
         {
             // Try and spawn an obstacle
             try
@@ -49,10 +42,10 @@ public class ObstacleSpawner : MonoBehaviour {
             catch (Exception e)
             {
                 Debug.Log("E: " + e);
-                Debug.Log("obstaclesToSpawn.Count: " + obstaclesToSpawn.Count);
+                Debug.Log("obstaclesToSpawn.Count: " + obstaclesToSpawn.Length);
             }
         }
-        if (doISpawnPowerup < 5)
+        if (doISpawnPowerup < powerupSpawnRate)
         {
             // Try and spawn a powerup
             try
@@ -63,7 +56,7 @@ public class ObstacleSpawner : MonoBehaviour {
             catch (Exception e)
             {
                 Debug.Log("E: " + e);
-                Debug.Log("whichPowerup2spawn.Count: " + powerUpsToSpawn.Count);
+                Debug.Log("whichPowerup2spawn.Count: " + powerUpsToSpawn.Length);
             }
         }
 		}
