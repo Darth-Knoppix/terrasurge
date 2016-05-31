@@ -307,6 +307,7 @@ public class Main : MonoBehaviour {
             }
             else if (health > 0)
             {
+                collisionHealth();
                 health = health - 25;
                 if (health < 0) health = 0;
             }
@@ -342,10 +343,22 @@ public class Main : MonoBehaviour {
     private void collisionShields()
     {
         // Camera Shake!
-        GameObject.Find("ShieldCollision").GetComponent<CameraShake>().shakeDuration = 1.0f;
-        GameObject.Find("ShieldCollision").GetComponent<CameraShake>().shakeAmount = 0.7f;
+        GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 1.0f;
+        GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeAmount = 0.7f;
 
+        // Audio for shields hit
         AudioSource shieldsCollisionAudio = GameObject.Find("ShieldCollision").GetComponent<AudioSource>();
+        shieldsCollisionAudio.Play();
+    }
+
+    private void collisionHealth()
+    {
+        // Camera Shake!
+        GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 1.0f;
+        GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeAmount = 0.7f;
+
+        // Audio for Health hit
+        AudioSource shieldsCollisionAudio = GameObject.Find("HealthCollision").GetComponent<AudioSource>();
         shieldsCollisionAudio.Play();
     }
 
