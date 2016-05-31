@@ -75,6 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Game Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\MenuSystem.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\MenuSystemPredefined.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\UI_HUD.cs" />

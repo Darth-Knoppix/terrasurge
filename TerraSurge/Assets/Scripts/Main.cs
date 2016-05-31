@@ -35,8 +35,10 @@ public class Main : MonoBehaviour {
 	// next tracer
 	private int nextTracer = 0;
 
-	// actualy the ships shields/hp
-    public int health = 100; 
+	// actualy the ships health/hp
+    public int health = 100;
+    // ship shields
+    public int shields = 100;
 	// score
     public int score; //score
 	// max left/right movement
@@ -273,13 +275,21 @@ public class Main : MonoBehaviour {
 		// add shields, do nothing if at max shields
         else if (collision.gameObject.tag == "Shield")
         {
-            health = health + 20;
-//            print("shield" + score);
+            shields = shields + 15;
+            //          print("shield" + score);
+            if (shields > 100) shields = 100;
+            Destroy(collision.gameObject);
+        }
+        // add health, do nothing if at max health
+        else if (collision.gameObject.tag == "health")
+        {
+            health = health + 15;
+            //            print("shield" + score);
             if (health > 100) health = 100;
             Destroy(collision.gameObject);
         }
-		// disable tracer visual on hit(should not happeN)
-        else if( collision.gameObject.tag == "Tracer")
+        // disable tracer visual on hit(should not happeN)
+        else if ( collision.gameObject.tag == "Tracer")
         {
             collision.gameObject.SetActive(false);
         }
@@ -288,7 +298,18 @@ public class Main : MonoBehaviour {
 			//reset score multiplier
             scoreMultiplier = 1;
 			//lose lives
-            health = health - 20;
+            // hit something with ship shields remaining
+            if (shields > 0)
+            {
+                collisionShields();
+                shields = shields - 25;
+                if (shields < 0) shields = 0;
+            }
+            else if (health > 0)
+            {
+                health = health - 25;
+                if (health < 0) health = 0;
+            }
 			if (health <= 0) {
                 GameOver();
             }
@@ -316,6 +337,17 @@ public class Main : MonoBehaviour {
 		}
 
 	}
+
+    // Sounds for Shield Collisions
+    private void collisionShields()
+    {
+        // Camera Shake!
+        GameObject.Find("ShieldCollision").GetComponent<CameraShake>().shakeDuration = 1.0f;
+        GameObject.Find("ShieldCollision").GetComponent<CameraShake>().shakeAmount = 0.7f;
+
+        AudioSource shieldsCollisionAudio = GameObject.Find("ShieldCollision").GetComponent<AudioSource>();
+        shieldsCollisionAudio.Play();
+    }
 
     public void GameOver()
     {
