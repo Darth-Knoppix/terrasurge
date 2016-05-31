@@ -275,29 +275,32 @@ public class Main : MonoBehaviour {
 		// add shields, do nothing if at max shields
         else if (collision.gameObject.tag == "Shield")
         {
-            shields = shields + 15;
-            //          print("shield" + score);
-            if (shields > 100) shields = 100;
+            pickupShields();
             Destroy(collision.gameObject);
         }
         // add health, do nothing if at max health
-        else if (collision.gameObject.tag == "health")
+        else if (collision.gameObject.tag == "Health")
         {
-            health = health + 15;
-            //            print("shield" + score);
-            if (health > 100) health = 100;
+            pickupHealth();
             Destroy(collision.gameObject);
+        }
+        // hit a score tag object
+        else if (collision.gameObject.tag == "Score")
+        {
+            //print("HIT SCORE!!!!!");
+            //pickupScore();
+            //Destroy(collision.gameObject);
         }
         // disable tracer visual on hit(should not happeN)
         else if ( collision.gameObject.tag == "Tracer")
         {
             collision.gameObject.SetActive(false);
         }
-		// hit a bad object
+
+        // hit a bad object
         else {
 			//reset score multiplier
             scoreMultiplier = 1;
-			//lose lives
             // hit something with ship shields remaining
             if (shields > 0)
             {
@@ -305,16 +308,17 @@ public class Main : MonoBehaviour {
                 shields = shields - 25;
                 if (shields < 0) shields = 0;
             }
+            // hit something reduce health
             else if (health > 0)
             {
                 collisionHealth();
                 health = health - 25;
                 if (health < 0) health = 0;
             }
+            // no more player health gameover
 			if (health <= 0) {
                 GameOver();
             }
-//            print("shit" + score);
             Destroy (collision.gameObject);
         }
     }
@@ -360,6 +364,33 @@ public class Main : MonoBehaviour {
         // Audio for Health hit
         AudioSource shieldsCollisionAudio = GameObject.Find("HealthCollision").GetComponent<AudioSource>();
         shieldsCollisionAudio.Play();
+    }
+
+    private void pickupScore()
+    {
+        // Audio for score pickups
+        AudioSource audio = GameObject.Find("Pickup1").GetComponent<AudioSource>();
+        audio.Play();
+    }
+
+    private void pickupHealth()
+    {
+        health = health + 15;
+        if (health > 100) health = 100;
+
+        // Audio for Health pickups
+        AudioSource audio = GameObject.Find("Pickup2").GetComponent<AudioSource>();
+        audio.Play();
+    }
+
+    private void pickupShields()
+    {
+        shields = shields + 15;
+        if (shields > 100) shields = 100;
+
+        // Audio for shield pickups
+        AudioSource audio = GameObject.Find("Pickup3").GetComponent<AudioSource>();
+        audio.Play();
     }
 
     public void GameOver()
