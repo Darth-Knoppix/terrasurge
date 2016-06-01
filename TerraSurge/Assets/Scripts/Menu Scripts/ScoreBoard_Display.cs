@@ -8,12 +8,12 @@ public class ScoreBoard_Display : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		currentScore = GameObject.Find ("HighScore_Value").GetComponent<Text> ();
-		scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
+		//currentScore = GameObject.Find ("HighScore_Value").GetComponent<Text> ();
+		//scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		currentScore.text = scoreboard.getScoref ();
+		//currentScore.text = scoreboard.getScoref ();
 	}
 }

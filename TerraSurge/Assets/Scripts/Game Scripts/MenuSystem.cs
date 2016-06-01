@@ -20,6 +20,10 @@ public class MenuSystem : MonoBehaviour {
     private GameObject levelComplete_Canvas;
     private GameObject gameHUD_Canvas;
 
+    private Text gameOverScoreText;
+    private Text levelCompleteScoreText;
+    private ScoreController scoreController;
+
     private AudioSource audio1;
     private float timescale;
 
@@ -33,14 +37,17 @@ public class MenuSystem : MonoBehaviour {
 
         timescale = Time.timeScale;
         audio1 = GameObject.Find("Ship").GetComponent<Main>().getAudio();
+        scoreController = GameObject.Find("GameManager").GetComponent<ScoreController>();
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
         pausedCanvas.SetActive(false);
 
         gameoverCanvas = GameObject.Find("GameOver_Canvas");
+        gameOverScoreText = GameObject.Find("GameOverHighScore_Score").GetComponent<Text>();
         gameoverCanvas.SetActive(false);
 
         levelComplete_Canvas = GameObject.Find("LevelComplete_Canvas");
+        levelCompleteScoreText = GameObject.Find("LevelHighScore_Score").GetComponent<Text>();
         levelComplete_Canvas.SetActive(false);
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
@@ -142,6 +149,9 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = 0;
         gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
+
+        gameOverScoreText.text = ""+scoreController.getScore();
+        gameOverScoreText.color = Color.green;
     }
 
     public void LevelComplete()
@@ -153,6 +163,9 @@ public class MenuSystem : MonoBehaviour {
         gameHUD_Canvas.SetActive(false);
         levelComplete_Canvas.SetActive(true);
         audio1.Pause();
+
+        levelCompleteScoreText.text = "" + scoreController.getScore();
+        levelCompleteScoreText.color = Color.green;
     }
 
     public void NextLevel()
