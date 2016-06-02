@@ -387,7 +387,7 @@ public class Main : MonoBehaviour {
         }
         else
         {
-            health = health + 15;
+            health = health + 25;
             if (health > 100) health = 100;
 
             // Audio for Health pickups
@@ -409,7 +409,7 @@ public class Main : MonoBehaviour {
         }
         else
         {
-            shields = shields + 15;
+            shields = shields + 25;
             if (shields > 100) shields = 100;
 
             // Audio for shield pickups
