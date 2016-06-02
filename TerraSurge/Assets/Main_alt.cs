@@ -58,6 +58,7 @@ public class Main_alt : MonoBehaviour
     // spawn of the terrain objects
     public GameObject terrainOrigin;
     public int objectSpawnYOffset;
+    private bool hasStarted = false;
 
     float songtime;
 
@@ -109,7 +110,7 @@ public class Main_alt : MonoBehaviour
         initialterrain.transform.position = terrainOrigin.transform.position - Vector3.forward * 256;
         initialterrain.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
         //begin music
-        audio1.Play();
+        //audio1.Play();
         songtime = 0F;
     }
 

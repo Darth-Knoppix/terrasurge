@@ -9,28 +9,18 @@ public class PlayWallScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         shipScript = ship.GetComponent<Main_alt>();
-        moving = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-       foreach(GameObject obj in moving)
-        {
-            if (obj != null)
-            {
-                obj.transform.position += new Vector3(0f, 0f, -shipScript.shipSpeed) * Time.deltaTime;
-            }
-           // else obj.
-        }
 	}
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Obstacle")
         {
             print(shipScript.ticks);
             collision.gameObject.transform.position += Vector3.up * shipScript.objectSpawnYOffset;
-            moving.Add(collision.gameObject);
         }
     }
 }
