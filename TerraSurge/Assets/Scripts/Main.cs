@@ -41,8 +41,8 @@ public class Main : MonoBehaviour {
     public int shields = 100;
 	// score
     public int score; //score
-	// max left/right movement
-	public float XLimit = 5;		
+                      // max left/right movement
+    public float XLimit;	
 	// relative velocity of the objects to the ship
 	public float shipSpeed;
 	// time difference from generation to impact
@@ -355,6 +355,7 @@ public class Main : MonoBehaviour {
         shieldsCollisionAudio.Play();
     }
 
+    // Sounds for Health Collisions
     private void collisionHealth()
     {
         // Camera Shake!
@@ -375,22 +376,46 @@ public class Main : MonoBehaviour {
 
     private void pickupHealth()
     {
-        health = health + 15;
-        if (health > 100) health = 100;
+        if (health >= 100)
+        {
+            //pickupHealth score instead!
+            pickupScore();
 
-        // Audio for Health pickups
-        AudioSource audio = GameObject.Find("Pickup2").GetComponent<AudioSource>();
-        audio.Play();
+            ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
+            ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
+            score.incrementScore(scoreC.scoreAmount);
+        }
+        else
+        {
+            health = health + 15;
+            if (health > 100) health = 100;
+
+            // Audio for Health pickups
+            AudioSource audio = GameObject.Find("Pickup2").GetComponent<AudioSource>();
+            audio.Play();
+        }
     }
 
     private void pickupShields()
     {
-        shields = shields + 15;
-        if (shields > 100) shields = 100;
+        if (shields >= 100)
+        {
+            //pickupHealth score instead!
+            pickupScore();
+            print("shields pickup as score!");
+            ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
+            ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
+            score.incrementScore(scoreC.scoreAmount);
+        }
+        else
+        {
+            shields = shields + 15;
+            if (shields > 100) shields = 100;
 
-        // Audio for shield pickups
-        AudioSource audio = GameObject.Find("Pickup3").GetComponent<AudioSource>();
-        audio.Play();
+            // Audio for shield pickups
+            AudioSource audio = GameObject.Find("Pickup3").GetComponent<AudioSource>();
+            audio.Play();
+        }
     }
 
     public void GameOver()
