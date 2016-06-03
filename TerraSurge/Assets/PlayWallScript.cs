@@ -19,8 +19,8 @@ public class PlayWallScript : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Obstacle")
         {
-            print(shipScript.ticks);
-            collision.gameObject.transform.position += Vector3.up * shipScript.objectSpawnYOffset;
+            //print(shipScript.ticks);
+            //collision.gameObject.transform.position += Vector3.up * shipScript.objectSpawnYOffset;
         }
     }
 }

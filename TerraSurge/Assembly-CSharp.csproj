@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Generator.cs" />
      <Compile Include="Assets\Main_alt.cs" />
      <Compile Include="Assets\PlayWallScript.cs" />
      <Compile Include="Assets\Scripts\Game Scripts\MenuSystem.cs" />
@@ -64,6 +65,11 @@
      <Compile Include="Assets\Scripts\Ship_IdleBehaviour.cs" />
      <Compile Include="Assets\Scripts\Ship_PausedBehaviour.cs" />
      <Compile Include="Assets\Scripts\UIOut.cs" />
+     <Compile Include="Assets\Scripts\beats\BeatCounter.cs" />
+     <Compile Include="Assets\Scripts\beats\BeatObserver.cs" />
+     <Compile Include="Assets\Scripts\beats\BeatSynchronizer.cs" />
+     <Compile Include="Assets\Scripts\beats\PatternCounter.cs" />
+     <Compile Include="Assets\Scripts\beats\SynchronizerData.cs" />
      <Compile Include="Assets\Scripts\endwallscript.cs" />
      <Compile Include="Assets\Scripts\rotator.cs" />
      <Compile Include="Assets\UI_HUD_alt.cs" />
