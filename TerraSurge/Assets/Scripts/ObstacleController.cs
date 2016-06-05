@@ -15,7 +15,7 @@ public class ObstacleController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collider){
 		if (collider.gameObject.name == "PlayWall") {
-			this.GetComponentsInChildren<Animator> () [0].SetBool ("trig", true);
+			this.GetComponents<Animator> () [0].SetBool ("trig", true);
 		}
 	}
 }
