@@ -1,41 +1,15 @@
 fileFormatVersion: 2
-guid: 0fe15789b868a0e4ea25bb4bb66f33b2
-timeCreated: 1464574735
+guid: b7cd7a31d96494dba9b8e62ad3fb0a0f
+timeCreated: 1465192830
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: MusicalSymbol3
-    100002: Object12
-    100004: Object2
-    100006: //RootNode
-    100008: polySurface1
-    100010: polySurface2
-    100012: polySurface3
-    100014: pPlane8
-    100016: transform10
-    100018: transform11
-    100020: transform12
-    100022: transform13
-    100024: transform18
-    100026: transform19
-    400000: MusicalSymbol3
-    400002: Object12
-    400004: Object2
-    400006: //RootNode
-    400008: polySurface1
-    400010: polySurface2
-    400012: polySurface3
-    400014: pPlane8
-    400016: transform10
-    400018: transform11
-    400020: transform12
-    400022: transform13
-    400024: transform18
-    400026: transform19
-    2300000: Object12
-    3300000: Object12
-    4300000: Object12
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: polySurface12
     9500000: //RootNode
   materials:
     importMaterials: 1

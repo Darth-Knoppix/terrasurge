@@ -1,25 +1,15 @@
 fileFormatVersion: 2
-guid: 152b652fa05625a45b800f33de108827
-timeCreated: 1464574735
+guid: 781b536f4239d483988f57d958cd599b
+timeCreated: 1465192829
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: MusiclaSymbol2
-    100002: Object11
-    100004: Object3
-    100006: //RootNode
-    100008: transform16
-    100010: transform17
-    400000: MusiclaSymbol2
-    400002: Object11
-    400004: Object3
-    400006: //RootNode
-    400008: transform16
-    400010: transform17
-    2300000: Object11
-    3300000: Object11
-    4300000: Object11
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Object34
     9500000: //RootNode
   materials:
     importMaterials: 1
