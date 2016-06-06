@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: ed43e248f8964d843ae0d58de816d479
-timeCreated: 1464574736
+guid: 394e12a3b40c44f619a8352a29671e48
+timeCreated: 1465192829
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Object8
+    4300000: polySurface13
     9500000: //RootNode
   materials:
     importMaterials: 1
