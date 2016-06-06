@@ -36,7 +36,11 @@ public class ObstacleSpawner : MonoBehaviour {
         int doISpawnPowerup = UnityEngine.Random.Range(0, 1000);
         //if (Time.frameCount % spawnTimer == 0 && Time.timeScale > 0) {
 
-        if (doISpawnObstacle < obstacleSpawnRate)
+		if (Time.timeScale == 0) {
+			return;
+		}
+
+		if (doISpawnObstacle < obstacleSpawnRate)
         {
             // Try and spawn an obstacle
             try
@@ -68,10 +72,8 @@ public class ObstacleSpawner : MonoBehaviour {
 
     private void spawnAndMove(GameObject obj)
     {
-        int yoffset = 0;
-        if (obj.name == "Shiv-shield-pickup") yoffset = 5;
 
-        Vector3 spawnPoint = new Vector3(ship.transform.position.x,this.transform.position.y+yoffset, animationTrigger.transform.position.z + 3 * gameSpeed) + Vector3.left * UnityEngine.Random.Range(-5, 5);
+        Vector3 spawnPoint = new Vector3(ship.transform.position.x,this.transform.position.y, animationTrigger.transform.position.z + 3 * gameSpeed) + Vector3.left * UnityEngine.Random.Range(-5, 5);
 
         GameObject newObj = Instantiate(obj, spawnPoint, Quaternion.identity) as GameObject;
 

@@ -13,8 +13,8 @@ public class endwallscript : MonoBehaviour {
 	
 	}
 
-    void OnCollisionEnter(Collision collision)
-    {
-		Destroy(collision.gameObject);
-    }
+	void OnTriggerEnter(Collider c){
+		Debug.Log (c);
+		GameObject.Destroy (c.gameObject);
+	}
 }

@@ -116,10 +116,11 @@ public class Main : MonoBehaviour {
         this.gameObject.transform.position = shiporigin.transform.position;
 
 		//initialising pools
-		initPool ();
+//		initPool ();
 
         // Get MenuSystem
         menuSystem = GameObject.Find("ShipCamera").GetComponent<MenuSystem>();
+		Debug.Log (menuSystem);
 
         //begin music
         audio1.Play();
