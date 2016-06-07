@@ -146,12 +146,18 @@ public class MenuSystem : MonoBehaviour {
         menuSystemActive = true;
         gameover = true;
         audio1.Pause();
-        Time.timeScale = 0;
+        
         gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
 
         gameOverScoreText.text = ""+scoreController.getScore();
         gameOverScoreText.color = Color.green;
+
+        // kill camera shake
+        GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 0f;
+
+        // freeze time
+        Time.timeScale = 0;
     }
 
     public void LevelComplete()
