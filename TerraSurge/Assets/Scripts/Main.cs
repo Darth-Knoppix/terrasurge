@@ -124,6 +124,8 @@ public class Main : MonoBehaviour {
 
         //begin music
         audio1.Play();
+
+        // initiate terrain
         initialterrain.transform.position = terrainOrigin.transform.position - Vector3.forward*256;
         initialterrain.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
     }
@@ -382,7 +384,7 @@ public class Main : MonoBehaviour {
             //pickupHealth score instead!
             pickupScore();
 
-            ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
+            ScoreController score = GameObject.Find("GameManager").GetComponent<ScoreController>();
             ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
             score.incrementScore(scoreC.scoreAmount);
         }
