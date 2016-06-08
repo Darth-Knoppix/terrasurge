@@ -155,7 +155,7 @@ public class MenuSystem : MonoBehaviour {
         gameoverCanvas.SetActive(true);
 
         gameOverScoreText.text = ""+scoreController.getScore();
-        gameOverScoreText.color = Color.green;
+        gameOverScoreText.color = Color.yellow;
 
         // kill camera shake
         GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 0f;
@@ -175,7 +175,7 @@ public class MenuSystem : MonoBehaviour {
         audio1.Pause();
 
         levelCompleteScoreText.text = "" + scoreController.getScore();
-        levelCompleteScoreText.color = Color.green;
+        levelCompleteScoreText.color = Color.yellow;
     }
 
     public void NextLevel()

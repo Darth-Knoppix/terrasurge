@@ -6,11 +6,13 @@ using System;
 public class UI_HUD : MonoBehaviour
 {
     public Text score;
+    public Text multiplier;
+
     public Text health;
     public Text healthLabel;
 
-    // not used for now
-    public Text multiplier;
+    public Text shields;
+    public Text shieldsLabel;
 
 	public int defaultTiemout = 40;
 
@@ -30,11 +32,15 @@ public class UI_HUD : MonoBehaviour
         //pscript = player.GetComponent<playerscript>();
 
         score = GameObject.Find("Score_Value").GetComponent<Text>();
-        health = GameObject.Find("Health_Value").GetComponent<Text>();
-        healthLabel = GameObject.Find("Health_Label").GetComponent<Text>();
         multiplier = GameObject.Find("ScoreMultiplier_Text").GetComponent<Text>();
 
-		scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
+        health = GameObject.Find("Health_Value").GetComponent<Text>();
+        healthLabel = GameObject.Find("Health_Label").GetComponent<Text>();
+
+        shields = GameObject.Find("Shields_Value").GetComponent<Text>();
+        shieldsLabel = GameObject.Find("Shields_Label").GetComponent<Text>();
+
+        scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
 		player = GameObject.Find ("Ship").GetComponent<Main> ();
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
@@ -61,45 +67,44 @@ public class UI_HUD : MonoBehaviour
 		String multi = player.scoreMultiplier.ToString ("n2"); // 2dp Number
 		multiplier.text = "Multiplier: \n" + multi;
 
-        updateHealthShields();
+        updateHealth();
+        updateShields();
 
 		if (scoreCooldownTimer > 0) {
 			scoreCooldownTimer--;
 		}
     }
 
-    private void updateHealthShields()
+    private void updateHealth()
     {
+        shieldsLabel.text = "Health";
         if (player.health <= 25)
         {
-            healthLabel.text = "Health";
             health.text = "" + player.health + "%";
             health.color = Color.red;
         }
         else if (player.health <= 50)
         {
-            healthLabel.text = "Health";
             health.text = "" + player.health + "%";
             health.color = new Color(255,128,0);
         }
         else if (player.health <= 75)
         {
-            healthLabel.text = "Health";
             health.text = "" + player.health + "%";
             health.color = Color.yellow;
         }
         else if (player.health <= 100)
         {
-            healthLabel.text = "Health";
             health.text = "" + player.health + "%";
             health.color = Color.green;
         }
-        if (player.shields > 0)
-        {
-            healthLabel.text = "Shields";
-            health.text = "" + player.shields + "%";
-            health.color = new Color(0, 128, 255);
-        }
+    }
+
+    private void updateShields()
+    {
+        shieldsLabel.text = "Shields";
+        shields.text = "" + player.shields + "%";
+        shields.color = new Color(0, 128, 255);
     }
 }
 
