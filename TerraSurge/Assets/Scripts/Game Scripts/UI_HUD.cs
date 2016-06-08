@@ -25,6 +25,8 @@ public class UI_HUD : MonoBehaviour
 
     private GameObject gameHUD_Canvas;
 
+    private GameObject playerShield;
+
     // Use this for initialization
     void Start()
     {
@@ -44,6 +46,8 @@ public class UI_HUD : MonoBehaviour
 		player = GameObject.Find ("Ship").GetComponent<Main> ();
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
+
+        playerShield = GameObject.Find("Shield");
     }
 
 	void highlightScore(){
@@ -105,6 +109,15 @@ public class UI_HUD : MonoBehaviour
         shieldsLabel.text = "Shields";
         shields.text = "" + player.shields + "%";
         shields.color = new Color(0, 128, 255);
+
+        if (player.shields <= 0)
+        {
+            playerShield.GetComponent<MeshRenderer>().enabled = false;
+        }
+        else
+        {
+            playerShield.GetComponent<MeshRenderer>().enabled = true;
+        }
     }
 }
 
