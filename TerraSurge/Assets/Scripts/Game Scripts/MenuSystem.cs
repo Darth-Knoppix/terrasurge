@@ -54,10 +54,13 @@ public class MenuSystem : MonoBehaviour {
     }
 
     void Update() {
-        // Pause Game on Esc Key Down, Resume Once pressed again
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // If it's not game over or level complete
+        if (!gameover && !levelcomplete)
         {
-            if (!gameover && !levelcomplete)
+            // Pause on Esc, Space, Return or P
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)
+                || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.P))
+            {
                 if (!menuSystemActive)
                 {
                     PauseGame();
@@ -66,6 +69,7 @@ public class MenuSystem : MonoBehaviour {
                 {
                     ResumeGame();
                 }
+            }
         }
 	}
 
