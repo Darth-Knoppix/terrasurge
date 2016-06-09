@@ -54,10 +54,13 @@ public class MenuSystem : MonoBehaviour {
     }
 
     void Update() {
-        // Pause Game on Esc Key Down, Resume Once pressed again
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // If it's not game over or level complete
+        if (!gameover && !levelcomplete)
         {
-            if (!gameover && !levelcomplete)
+            // Pause on Esc, Space, Return or P
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return)
+                || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.P))
+            {
                 if (!menuSystemActive)
                 {
                     PauseGame();
@@ -66,6 +69,7 @@ public class MenuSystem : MonoBehaviour {
                 {
                     ResumeGame();
                 }
+            }
         }
 	}
 
@@ -146,12 +150,18 @@ public class MenuSystem : MonoBehaviour {
         menuSystemActive = true;
         gameover = true;
         audio1.Pause();
-        Time.timeScale = 0;
+        
         gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
 
         gameOverScoreText.text = ""+scoreController.getScore();
-        gameOverScoreText.color = Color.green;
+        gameOverScoreText.color = Color.yellow;
+
+        // kill camera shake
+        GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 0f;
+
+        // freeze time
+        Time.timeScale = 0;
     }
 
     public void LevelComplete()
@@ -165,7 +175,7 @@ public class MenuSystem : MonoBehaviour {
         audio1.Pause();
 
         levelCompleteScoreText.text = "" + scoreController.getScore();
-        levelCompleteScoreText.color = Color.green;
+        levelCompleteScoreText.color = Color.yellow;
     }
 
     public void NextLevel()
