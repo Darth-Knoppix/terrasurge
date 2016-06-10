@@ -10,6 +10,7 @@ public class UI_HUD : MonoBehaviour
 
     public Text health;
     public Text healthLabel;
+	public Image healthBar;
 
     public Text shields;
     public Text shieldsLabel;
@@ -38,6 +39,7 @@ public class UI_HUD : MonoBehaviour
 
         health = GameObject.Find("Health_Value").GetComponent<Text>();
         healthLabel = GameObject.Find("Health_Label").GetComponent<Text>();
+		healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
 
         shields = GameObject.Find("Shields_Value").GetComponent<Text>();
         shieldsLabel = GameObject.Find("Shields_Label").GetComponent<Text>();
@@ -82,25 +84,30 @@ public class UI_HUD : MonoBehaviour
     private void updateHealth()
     {
         shieldsLabel.text = "Health";
+		healthBar.fillAmount = player.health / 100f;
         if (player.health <= 25)
         {
             health.text = "" + player.health + "%";
             health.color = Color.red;
+			healthBar.color = Color.red;
         }
         else if (player.health <= 50)
         {
             health.text = "" + player.health + "%";
             health.color = new Color(255,128,0);
+			healthBar.color = new Color(255,128,0);
         }
         else if (player.health <= 75)
         {
             health.text = "" + player.health + "%";
             health.color = Color.yellow;
+			healthBar.color = Color.yellow;
         }
         else if (player.health <= 100)
         {
             health.text = "" + player.health + "%";
             health.color = Color.green;
+			healthBar.color = Color.green;
         }
     }
 
