@@ -80,8 +80,7 @@ public class Main : MonoBehaviour {
 	public float accelerationRate 	= 1.0f;
 	private float direction 		= 0.0f;
 
-	private float turnLeft 	= 0f;
-	private float turnRight = 0f;
+	private float tilt 	= 0f;
 
     //for music calculations DONT CHANGE
     int ppqn = 480;
@@ -120,7 +119,7 @@ public class Main : MonoBehaviour {
 
         // Get MenuSystem
         menuSystem = GameObject.Find("ShipCamera").GetComponent<MenuSystem>();
-		Debug.Log (menuSystem);
+//		Debug.Log (menuSystem);
 
         //begin music
         audio1.Play();
@@ -206,27 +205,21 @@ public class Main : MonoBehaviour {
 		{
 			if ((Input.GetKey (KeyCode.D) || Input.GetKey (KeyCode.RightArrow) || Input.GetButtonDown ("B")) && this.gameObject.transform.position.x <= XLimit) {
 				CalcAcceleration (1f);
-
-				if (turnRight < 1f){
-					turnRight += 0.2f;
+				if (tilt <= 1f) {
+					tilt += 0.1f;
 				}
 				performMove ();
-			} else {
-				turnRight = 0;
-			}
-
-			if ((Input.GetKey (KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetButtonDown ("X")) && this.gameObject.transform.position.x >= -XLimit) {
+			} else if ((Input.GetKey (KeyCode.A) || Input.GetKey (KeyCode.LeftArrow) || Input.GetButtonDown ("X")) && this.gameObject.transform.position.x >= -XLimit) {
 				CalcAcceleration (-1f);
-				if (turnLeft < 1f){
-					turnLeft += 0.2f;
+				if (tilt >= -1f) {
+					tilt -= 0.1f;
 				}
 				performMove ();
 			} else {
-				turnLeft = 0;
+				tilt *= 0.8f;
 			}
 
-			shipAnimator.SetFloat ("LeftAmount", turnLeft);
-			shipAnimator.SetFloat ("RightAmount", turnRight);
+			shipAnimator.SetFloat ("Tilt", tilt);
 
 			//Friction
 			currentVelocity *= 0.9f;
@@ -384,9 +377,9 @@ public class Main : MonoBehaviour {
             //pickupHealth score instead!
             pickupScore();
 
-            ScoreController score = GameObject.Find("GameManager").GetComponent<ScoreController>();
+            ScoreController _score = GameObject.Find("GameManager").GetComponent<ScoreController>();
             ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
-            score.incrementScore(scoreC.scoreAmount);
+            _score.incrementScore(scoreC.scoreAmount);
         }
         else
         {
