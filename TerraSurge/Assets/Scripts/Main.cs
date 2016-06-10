@@ -35,6 +35,9 @@ public class Main : MonoBehaviour {
 	// next tracer
 	private int nextTracer = 0;
 
+	//Animator for player shield 
+	private Animator shieldAnim;
+
 	// actualy the ships health/hp
     public int health = 100;
     // ship shields
@@ -127,6 +130,8 @@ public class Main : MonoBehaviour {
         // initiate terrain
         initialterrain.transform.position = terrainOrigin.transform.position - Vector3.forward*256;
         initialterrain.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
+
+		shieldAnim = GameObject.Find("Shield").GetComponent<Animator> ();
     }
 
 	// Update is called once per frame
@@ -342,6 +347,7 @@ public class Main : MonoBehaviour {
     // Sounds for Shield Collisions
     private void collisionShields()
     {
+		shieldAnim.SetTrigger ("TakeHit");
         // Camera Shake!
         GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 1.0f;
         GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeAmount = 0.7f;
