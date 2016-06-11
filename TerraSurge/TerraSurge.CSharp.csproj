@@ -75,16 +75,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Beats\BeatCounter.cs" />
+    <Compile Include="Assets\Scripts\Beats\BeatObserver.cs" />
+    <Compile Include="Assets\Scripts\Beats\BeatSynchronizer.cs" />
+    <Compile Include="Assets\Scripts\Beats\PatternCounter.cs" />
+    <Compile Include="Assets\Scripts\Beats\SynchronizerData.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\MenuSystem.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\MenuSystemPredefined.cs" />
     <Compile Include="Assets\Scripts\Game Scripts\UI_HUD.cs" />
+    <Compile Include="Assets\Scripts\Game_AudioSync\Main_AudioSync.cs" />
+    <Compile Include="Assets\Scripts\Generator.cs" />
     <Compile Include="Assets\Scripts\GroundObstacleController.cs" />
+    <Compile Include="Assets\Scripts\Main Menu\Camera_wobble_Menu.cs" />
+    <Compile Include="Assets\Scripts\Main Menu\Exit_Button.cs" />
+    <Compile Include="Assets\Scripts\Main Menu\QuickPlay_Button.cs" />
+    <Compile Include="Assets\Scripts\Main Menu\ScoreBoard_Display.cs" />
     <Compile Include="Assets\Scripts\Main.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\Camera_wobble_Menu.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\Exit_Button.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\QuickPlay_Button.cs" />
-    <Compile Include="Assets\Scripts\Menu Scripts\ScoreBoard_Display.cs" />
     <Compile Include="Assets\Scripts\ObstacleController.cs" />
     <Compile Include="Assets\Scripts\ObstacleSpawner.cs" />
     <Compile Include="Assets\Scripts\PlayerControllerPredefined.cs" />

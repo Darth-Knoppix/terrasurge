@@ -16,16 +16,14 @@ public class UI_HUD : MonoBehaviour
     public Text shieldsLabel;
 
 	public int defaultTiemout = 40;
+    public GameObject ship;
 
 	private int lastScore;
 	private int scoreCooldownTimer;
-
     private string values;
-	private Main player;
+
 	private ScoreController scoreboard;
-
     private GameObject gameHUD_Canvas;
-
     private GameObject playerShield;
 
     // Use this for initialization
@@ -45,11 +43,30 @@ public class UI_HUD : MonoBehaviour
         shieldsLabel = GameObject.Find("Shields_Label").GetComponent<Text>();
 
         scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
-		player = GameObject.Find ("Ship").GetComponent<Main> ();
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
 
         playerShield = GameObject.Find("Shield");
+    }
+
+    private int getHealth()
+    {
+        if (ship.GetComponent<Main>() != null)
+        {
+            return ship.GetComponent<Main>().health;
+        }
+        return ship.GetComponent<Main_AudioSync>().health;
+    }
+
+    private int getShields()
+    {
+        {
+            if (ship.GetComponent<Main>() != null)
+            {
+                return ship.GetComponent<Main>().shields;
+            }
+            return ship.GetComponent<Main_AudioSync>().shields;
+        }
     }
 
 	void highlightScore(){
@@ -70,8 +87,8 @@ public class UI_HUD : MonoBehaviour
 		lastScore = scoreboard.getScore();
 		score.text = "" + scoreboard.getScore();
         
-		String multi = player.scoreMultiplier.ToString ("n2"); // 2dp Number
-		multiplier.text = "Multiplier: \n" + multi;
+		//String multi = player.scoreMultiplier.ToString ("n2"); // 2dp Number
+		//multiplier.text = "Multiplier: \n" + multi;
 
         updateHealth();
         updateShields();
@@ -84,28 +101,28 @@ public class UI_HUD : MonoBehaviour
     private void updateHealth()
     {
         shieldsLabel.text = "Health";
-		healthBar.fillAmount = player.health / 100f;
-        if (player.health <= 25)
+		healthBar.fillAmount = getHealth() / 100f;
+        if (getHealth() <= 25)
         {
-            health.text = "" + player.health + "%";
+            health.text = "" + getHealth() + "%";
             health.color = Color.red;
 			healthBar.color = Color.red;
         }
-        else if (player.health <= 50)
+        else if (getHealth() <= 50)
         {
-            health.text = "" + player.health + "%";
+            health.text = "" + getHealth() + "%";
             health.color = new Color(255,128,0);
 			healthBar.color = new Color(255,128,0);
         }
-        else if (player.health <= 75)
+        else if (getHealth() <= 75)
         {
-            health.text = "" + player.health + "%";
+            health.text = "" + getHealth() + "%";
             health.color = Color.yellow;
 			healthBar.color = Color.yellow;
         }
-        else if (player.health <= 100)
+        else if (getHealth() <= 100)
         {
-            health.text = "" + player.health + "%";
+            health.text = "" + getHealth() + "%";
             health.color = Color.green;
 			healthBar.color = Color.green;
         }
@@ -114,13 +131,13 @@ public class UI_HUD : MonoBehaviour
     private void updateShields()
     {
         shieldsLabel.text = "Shields";
-        shields.text = "" + player.shields + "%";
+        shields.text = "" + getShields() + "%";
         shields.color = new Color(0, 128, 255);
 
-        if (player.shields <= 0)
+        if (getShields() <= 0)
         {
             playerShield.GetComponent<MeshRenderer>().enabled = false;
-		}else if(player.shields <= 75)
+		}else if(getShields() <= 75)
 		{
 			//Do something	
 		}

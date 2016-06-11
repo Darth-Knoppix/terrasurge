@@ -24,8 +24,9 @@ public class MenuSystem : MonoBehaviour {
     private Text levelCompleteScoreText;
     private ScoreController scoreController;
 
-    private AudioSource audio1;
     private float timescale;
+
+    public AudioSource audio1;
 
     // Set up variables
     void Start()
@@ -36,7 +37,6 @@ public class MenuSystem : MonoBehaviour {
         gameover = false;
 
         timescale = Time.timeScale;
-        audio1 = GameObject.Find("Ship").GetComponent<Main>().getAudio();
         scoreController = GameObject.Find("GameManager").GetComponent<ScoreController>();
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
