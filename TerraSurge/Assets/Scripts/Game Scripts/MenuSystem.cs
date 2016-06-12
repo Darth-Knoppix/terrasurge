@@ -63,18 +63,34 @@ public class MenuSystem : MonoBehaviour {
             {
                 if (!menuSystemActive)
                 {
-                    PauseGame();
+                    pauseGame();
                 }
                 else
                 {
-                    ResumeGame();
+                    resumeGame();
                 }
+            }
+        }
+        else if (gameover)
+        {
+            // Play on Space and Return
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            {
+                gameOverRestartLevel();
+            }
+        }
+        else if (levelcomplete)
+        {
+            // Play on Space and Return
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            {
+                nextLevel();
             }
         }
 	}
 
     // Pause Game
-    public void PauseGame()
+    public void pauseGame()
     {
         Debug.Log("Paused the Game");
         menuSystemActive = true;
@@ -86,7 +102,7 @@ public class MenuSystem : MonoBehaviour {
     }
 
     // Resume Game
-    public void ResumeGame()
+    public void resumeGame()
     {
         Debug.Log("Resumed the Game");
         menuSystemActive = false;
@@ -97,10 +113,10 @@ public class MenuSystem : MonoBehaviour {
         audio1.Play();
     }
 
-    public void MainMenuResume()
+    public void mainMenuResume()
     {
         // Resume first
-        ResumeGame();
+        resumeGame();
 
         // Change Scene
         Debug.Log("Changing Game Scene: MainMenu");
@@ -109,17 +125,17 @@ public class MenuSystem : MonoBehaviour {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void QuitGame()
+    public void quitGame()
     {
         // Quit game
         Debug.Log("Closing Game");
         Application.Quit();
     }
 
-    public void GameOverRestartLevel()
+    public void gameOverRestartLevel()
     {
         // Resume first
-        ResumeGame();
+        resumeGame();
 
         gameover = false;
 
@@ -131,10 +147,10 @@ public class MenuSystem : MonoBehaviour {
         SceneManager.LoadScene(scenename);
     }
 
-    public void PausedRestartLevel()
+    public void pausedRestartLevel()
     {
         // Resume first
-        ResumeGame();
+        resumeGame();
 
         // Restart Level
         Debug.Log("Restarting Game");
@@ -144,7 +160,7 @@ public class MenuSystem : MonoBehaviour {
         SceneManager.LoadScene(scenename);
     }
 
-    public void GameOver()
+    public void gameOver()
     {
         Debug.Log("Game Over!");
         menuSystemActive = true;
@@ -164,7 +180,7 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-    public void LevelComplete()
+    public void levelComplete()
     {
         Debug.Log("Level Complete!");
         menuSystemActive = true;
@@ -178,10 +194,10 @@ public class MenuSystem : MonoBehaviour {
         levelCompleteScoreText.color = Color.yellow;
     }
 
-    public void NextLevel()
+    public void nextLevel()
     {
         // Resume first
-        ResumeGame();
+        resumeGame();
 
         levelcomplete = false;
         gameHUD_Canvas.SetActive(true);
@@ -195,20 +211,6 @@ public class MenuSystem : MonoBehaviour {
         // Load a scene
         string scenename = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("MainMenu");
-    }
-
-    public GameObject PausedCanvas()
-    {
-        {
-            return pausedCanvas;
-        }
-    }
-
-    public GameObject GameoverCanvas()
-    {
-        {
-            return gameoverCanvas;
-        }
     }
 
     public bool isActive()

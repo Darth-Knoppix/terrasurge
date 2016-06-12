@@ -191,7 +191,7 @@ public class Main : MonoBehaviour {
         // Level Complete
         if (!menuSystem.isActive() && audio1.time >= audio1.clip.length)
         {
-            menuSystem.LevelComplete();
+            menuSystem.levelComplete();
         }
     }
 
@@ -380,7 +380,7 @@ public class Main : MonoBehaviour {
     public void GameOver()
     {
         // Call menuSystem GameOver
-        menuSystem.GameOver();
+        menuSystem.gameOver();
     }
 
     public AudioSource getAudio()
