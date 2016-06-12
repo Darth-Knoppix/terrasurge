@@ -41,15 +41,15 @@ public class Generator : MonoBehaviour
         }
         if ((beatObserver.beatMask & BeatType.UpBeat) == BeatType.UpBeat)
         {
-            //spawnObject(1); THIS IS FUCKED UP
+            //spawnObject(1); //THIS IS FUCKED UP
         }
         if ((beatObserver.beatMask & BeatType.OffBeat) == BeatType.OffBeat)
         {
-            spawnObject(2);
+            //spawnObject(2);
         }
         if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
         {
-            spawnObject(3);
+            spawnObject(1);
         }
 
 

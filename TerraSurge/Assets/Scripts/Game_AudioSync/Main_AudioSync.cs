@@ -4,6 +4,7 @@ using System.Linq;
 
 public class Main_AudioSync : MonoBehaviour
 {
+    public bool debugMode;
     // original ship location
     public GameObject shiporigin;
     // the ship
@@ -250,7 +251,7 @@ public class Main_AudioSync : MonoBehaviour
         }
 
         // hit a bad object
-        else {
+        else if(!debugMode) {
             //reset score multiplier
             scoreMultiplier = 1;
             // hit something with ship shields remaining
@@ -274,8 +275,9 @@ public class Main_AudioSync : MonoBehaviour
             }
             collision.gameObject.SetActive(false);
         }
-    
-}
+        collision.gameObject.SetActive(false);
+
+    }
 
     // Sounds for Shield Collisions
     private void collisionShields()
