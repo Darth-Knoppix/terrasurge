@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class Generator : MonoBehaviour
 {
+    // the ship
+    public GameObject ship;
     private BeatObserver beatObserver;
     // pools of objects. These are initialised on startup
     // then future objects are not instantiated, but instead loaded
@@ -72,7 +74,7 @@ public class Generator : MonoBehaviour
 
     private void spawnAndMove(GameObject obj)
     {
-        Vector3 spawnPoint = new Vector3(this.transform.position.x, this.transform.position.y - objectSpawnYOffset,
+        Vector3 spawnPoint = new Vector3(this.ship.transform.position.x, this.ship.transform.position.y - objectSpawnYOffset,
             animationTrigger.transform.position.z + (int)(setTimeInFrontOfPlayer * shipSpeed)) + Vector3.left * UnityEngine.Random.Range(-10, 10);
         obj.transform.position = spawnPoint;
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);

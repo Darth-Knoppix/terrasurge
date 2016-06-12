@@ -14,7 +14,7 @@ public class endwallscript : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider c){
-		Debug.Log (c);
-		GameObject.Destroy (c.gameObject);
+		//Debug.Log (c);
+		c.gameObject.SetActive(false);
 	}
 }
