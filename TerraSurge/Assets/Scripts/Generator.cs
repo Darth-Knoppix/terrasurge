@@ -141,7 +141,18 @@ public class Generator : MonoBehaviour
         for (int i = 0; i < powerups.Length; i++)
         {
             powerups[i].SetActive(false);
-            pooltracker[i] = 0;
+
+            try
+            {
+                pooltracker[i] = 0;
+            }
+            // Error occurred
+            catch (System.Exception e)
+            {
+                Debug.Log("E: " + e);
+                Debug.Log("powerups.Length = " + powerups.Length);
+            }
+
             for (int j = 0; j < numberOfEachObject; j++)
             {
                 poweruppool[i, j] = Instantiate(powerups[i], powerups[i].transform.position, Quaternion.identity) as GameObject;
