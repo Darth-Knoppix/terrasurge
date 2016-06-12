@@ -8,17 +8,24 @@ public class Generator : MonoBehaviour
     // the ship
     public GameObject ship;
     private BeatObserver beatObserver;
+    // % chance per tick to spawn a powerup
+    public int powerupSpawnRate;
     // pools of objects. These are initialised on startup
     // then future objects are not instantiated, but instead loaded
     // from the pool to prevent lag
     // obstacles
     private GameObject[,] pool;
+    // powerups
+    private GameObject[,] poweruppool;
     // used to track index of latest used object from the pool
     private int[] pooltracker;
+    private int[] poweruppooltracker;
     // maximum number of each object in the pool
     public int numberOfEachObject;
     //array of objects used for loading/spawning obstacles
     public GameObject[] objMap;
+    // powerups
+    public GameObject[] powerups;
     // wall that triggers anims
     public GameObject animationTrigger;
 
@@ -35,6 +42,7 @@ public class Generator : MonoBehaviour
 
     void Update()
     {
+        // OBSTACLE SPAWNING
         if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
         {
             spawnObject(0);
@@ -51,34 +59,62 @@ public class Generator : MonoBehaviour
         {
             spawnObject(1);
         }
+        // powerups spawning
+        int spawnOrNot = UnityEngine.Random.Range(0, 100);
+        if (spawnOrNot < powerupSpawnRate)
+        {
+            spawnPowerup();
+        }
+    }
 
+    void spawnPowerup()
+    {
+        int wat2spawn =UnityEngine.Random.Range(0, powerups.Length);
+        GameObject spawned = poweruppool[wat2spawn, poweruppooltracker[wat2spawn]];
+        poweruppooltracker[wat2spawn]++;
+        if (poweruppooltracker[wat2spawn] >= numberOfEachObject)
+        {
+            poweruppooltracker[wat2spawn] = 0;
+        }
+        // if it isnt null, we can move it
+        if (spawned != null)
+        {
+            spawned.SetActive(true);
+            movePowerup(spawned);
+        }
+    }
 
+    private void movePowerup(GameObject obj)
+    {
+        obj.transform.position = new Vector3(this.transform.position.x+UnityEngine.Random.Range(-25,25), 
+            ship.transform.position.y + objectSpawnYOffset, 
+            animationTrigger.transform.position.z + 3);
+        obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
+        print(obj.transform.position);
     }
 
     void spawnObject(int type)
     {
         int wat2spawn = type;// = UnityEngine.Random.Range(0, objMap.Length);
-            GameObject spawned = pool[wat2spawn, pooltracker[wat2spawn]];
-            pooltracker[wat2spawn]++;
-            if (pooltracker[wat2spawn] >= numberOfEachObject)
-            {
-                pooltracker[wat2spawn] = 0;
-            }
-            //replace tracer with object
-            if (spawned != null)
-            {
-                spawned.SetActive(true);
-                spawnAndMove(spawned);
-            }
+        GameObject spawned = pool[wat2spawn, pooltracker[wat2spawn]];
+        pooltracker[wat2spawn]++;
+        if (pooltracker[wat2spawn] >= numberOfEachObject)
+        {
+            pooltracker[wat2spawn] = 0;
+        }
+        // if it isnt null, we can move it
+        if (spawned != null)
+        {
+            spawned.SetActive(true);
+            moveObstacle(spawned);
+        }
     }
 
-    private void spawnAndMove(GameObject obj)
+    private void moveObstacle(GameObject obj)
     {
-        //Vector3 spawnPoint = new Vector3(this.ship.transform.position.x, this.ship.transform.position.y - objectSpawnYOffset,
-        //    animationTrigger.transform.position.z + (int)(setTimeInFrontOfPlayer * shipSpeed)) + Vector3.left * UnityEngine.Random.Range(-10, 10);
-        //obj.transform.position = ship.transform.position+Vector3.forward*(int)(setTimeInFrontOfPlayer*shipSpeed)+Vector3.up*objectSpawnYOffset;
-        obj.transform.position = new Vector3(ship.transform.position.x, ship.transform.position.y + objectSpawnYOffset, animationTrigger.transform.position.z + 3);
-        //print(spawnPoint);
+        obj.transform.position = new Vector3(ship.transform.position.x+UnityEngine.Random.Range(-5,5), 
+            ship.transform.position.y + objectSpawnYOffset, 
+            animationTrigger.transform.position.z + 3);
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
         print(obj.transform.position);
     }
@@ -96,6 +132,19 @@ public class Generator : MonoBehaviour
             for (int j = 0; j < numberOfEachObject; j++)
             {
                 pool[i, j] = Instantiate(objMap[i], objMap[i].transform.position, Quaternion.identity) as GameObject;
+            }
+        }
+
+        //initialise powerups
+        poweruppool = new GameObject[powerups.Length, numberOfEachObject];
+        poweruppooltracker = new int[powerups.Length];
+        for (int i = 0; i < powerups.Length; i++)
+        {
+            powerups[i].SetActive(false);
+            pooltracker[i] = 0;
+            for (int j = 0; j < numberOfEachObject; j++)
+            {
+                poweruppool[i, j] = Instantiate(powerups[i], powerups[i].transform.position, Quaternion.identity) as GameObject;
             }
         }
 
