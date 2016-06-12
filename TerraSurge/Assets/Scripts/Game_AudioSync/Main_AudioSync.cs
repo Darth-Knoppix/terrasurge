@@ -114,15 +114,7 @@ public class Main_AudioSync : MonoBehaviour
         double playtime = songtime;// audio1.time;
         // convert time in seconds to time in ms
         int timeMS = (int)(playtime * 1000);
-        timeMS = timeMS + setTimeInFrontOfPlayer * 1000;
-        // pre calculated ratio to avoid integer overflow(ppqn*tempo/1minute = ticks/min)
-        float ratio = ppqn * tempo / 60000;
-        // calculate midi ticks based on ratio
-        ticks = (int)(timeMS * ratio * 1.035);
-        // offset for second offset(tracers)
-        // int ticks = realticks + (int)(secondoffset * 1000 * ratio);
-        // next object to be picked up
-
+       
         // generate terrain
         if (timeMS > terrainDuration * nextTerrain * 1000)
         {
