@@ -110,9 +110,6 @@ public class Main : MonoBehaviour {
 		prevTerrain = 0;
 		nextTerrain = 0;
 		nextEntry = 0;
-		audio1 = GetComponent<AudioSource> ();
-		//loads first sound track data
-		loadAudio1 ();
 
 		// sets the ship to the origin
         this.gameObject.transform.position = shiporigin.transform.position;
@@ -153,46 +150,6 @@ public class Main : MonoBehaviour {
         int realticks = (int)(timeMS *ratio);
 		// offset for second offset(tracers)
         int ticks = realticks + (int)(secondoffset *1000 * ratio);
-        // next object to be picked up
-        KeyValuePair<int, int> next = audio1Map.ElementAt(nextEntry);
-        // generate tracer
-        /*
-        if (nextTracer< audio1Map.Count &&  ticks > audio1Map.ElementAt(nextTracer).Key)
-        {
-            GameObject spawnedTracer = tracers[currentTracer];
-            spawnedTracer.SetActive(true);
-            spawnedTracer.transform.position = this.transform.position + Vector3.forward * shipSpeed* secondoffset+Vector3.forward*setDistanceInFrontOfPlayer + Vector3.left * minorNextObjXOff;
-            if(next.Value == 3|| next.Value == 7)
-            {
-                spawnedTracer.transform.position = spawnedTracer.transform.position + Vector3.left * nextObjXOff;
-            }
-			//randomising spawn of good objects
-			if (audio1Map.ElementAt (currentTracer).Value == 3 || audio1Map.ElementAt (currentTracer).Value == 7|| audio1Map.ElementAt(currentTracer).Value == 4) {
-				Vector3 origPos = spawnedTracer.transform.position;
-				spawnedTracer.transform.position = new Vector3 ( shiporigin.transform.position.x+nextObjXOff, origPos.y,origPos.z);
-			}
-            spawnedTracer.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
-            currentTracer++;
-            if (currentTracer >= 100) currentTracer = 0;
-            nextTracer++;
-		}
-		// generate object
-        if (realticks > next.Key && bCanSpawn) {
-            GameObject spawned = pool [next.Value,pooltracker[next.Value]];
-			pooltracker[next.Value]++;
-			if (pooltracker [next.Value] >= numberOfEachObject) {
-				pooltracker [next.Value] = 0;
-			}
-			//replace tracer with object
-			spawned.SetActive(true);
-            tracers[processedTracer].SetActive(false);
-            spawned.transform.position = tracers[processedTracer].transform.position;
-            spawned.GetComponent<Rigidbody>().velocity = new Vector3(0,0,-shipSpeed);
-			nextEntry++;
-            //incrementing processed tracer id
-            processedTracer++;
-            if (processedTracer >= 100) processedTracer = 0;
-        }*/
 		// generate terrain
 		if (timeMS > terrainDuration * nextTerrain*1000) {
 			int maxTerrain = terrainMap.Length;

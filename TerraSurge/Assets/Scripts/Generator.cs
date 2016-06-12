@@ -74,10 +74,13 @@ public class Generator : MonoBehaviour
 
     private void spawnAndMove(GameObject obj)
     {
-        Vector3 spawnPoint = new Vector3(this.ship.transform.position.x, this.ship.transform.position.y - objectSpawnYOffset,
-            animationTrigger.transform.position.z + (int)(setTimeInFrontOfPlayer * shipSpeed)) + Vector3.left * UnityEngine.Random.Range(-10, 10);
-        obj.transform.position = spawnPoint;
+        //Vector3 spawnPoint = new Vector3(this.ship.transform.position.x, this.ship.transform.position.y - objectSpawnYOffset,
+        //    animationTrigger.transform.position.z + (int)(setTimeInFrontOfPlayer * shipSpeed)) + Vector3.left * UnityEngine.Random.Range(-10, 10);
+        //obj.transform.position = ship.transform.position+Vector3.forward*(int)(setTimeInFrontOfPlayer*shipSpeed)+Vector3.up*objectSpawnYOffset;
+        obj.transform.position = new Vector3(ship.transform.position.x, ship.transform.position.y + objectSpawnYOffset, animationTrigger.transform.position.z + 3);
+        //print(spawnPoint);
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
+        print(obj.transform.position);
     }
 
     //initiliases the pool
