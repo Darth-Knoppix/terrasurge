@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Endless.cs" />
+     <Compile Include="Assets\LevelSelect.cs" />
+     <Compile Include="Assets\MenuButton_Endless.cs" />
+     <Compile Include="Assets\Menu_Button_Survival.cs" />
      <Compile Include="Assets\Scripts\Beats\BeatCounter.cs" />
      <Compile Include="Assets\Scripts\Beats\BeatObserver.cs" />
      <Compile Include="Assets\Scripts\Beats\BeatSynchronizer.cs" />

@@ -104,7 +104,7 @@ public class Main : MonoBehaviour {
         // initiate terrain
         for (int i = 0; i < initialterrain.Length; i++)
         {
-            initialterrain[i].transform.position = terrainOrigin.transform.position + Vector3.forward * (150 - i * 235);
+            initialterrain[i].transform.position = terrainOrigin.transform.position + Vector3.forward * (290 - i * 235);
             initialterrain[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
         }
 
@@ -334,6 +334,11 @@ public class Main : MonoBehaviour {
         return audio1;
     }
     
+    public void setEndless()
+    {
+        print("test");
+        audio1.loop = true;
+    }
 }
 
 
