@@ -16,6 +16,8 @@ public class UI_HUD : MonoBehaviour
     public Text shieldsLabel;
 	public Image shieldBar;
 
+	public Animator shipIcon;
+
 	public int defaultTiemout = 40;
     public GameObject ship;
 
@@ -26,6 +28,8 @@ public class UI_HUD : MonoBehaviour
 	private ScoreController scoreboard;
     private GameObject gameHUD_Canvas;
     private GameObject playerShield;
+
+	private int lastHealth;
 
     // Use this for initialization
     void Start()
@@ -44,11 +48,14 @@ public class UI_HUD : MonoBehaviour
         shieldsLabel = GameObject.Find("Shields_Label").GetComponent<Text>();
 		shieldBar = GameObject.Find("ShieldBar").GetComponent<Image>();
 
+		shipIcon = GameObject.Find ("ShipIcon").GetComponent<Animator> ();
+
         scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
 
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
 
         playerShield = GameObject.Find("Shield");
+		lastHealth = getHealth ();
     }
 
     private int getHealth()
@@ -102,6 +109,10 @@ public class UI_HUD : MonoBehaviour
 
     private void updateHealth()
     {
+		if (lastHealth != getHealth ()) {
+			shipIcon.SetTrigger ("TakeHit");
+		}
+		lastHealth = getHealth ();
         shieldsLabel.text = "Health";
 		healthBar.fillAmount = getHealth() / 100f;
         if (getHealth() <= 25)
