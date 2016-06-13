@@ -46,6 +46,7 @@ public class Generator : MonoBehaviour
     void Update()
     {
         obstacleSpawnRate += Time.deltaTime * 40;
+        if (obstacleSpawnRate > 7999) obstacleSpawnRate = 5999;
         // OBSTACLE SPAWNING
         if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
         {
@@ -62,7 +63,8 @@ public class Generator : MonoBehaviour
         }
         if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
         {
-            //spawnObject(1);
+            int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
+            chainSpawn(obstacleSpawnRate, objType); // chain spawn it
         }
         // powerups spawning
         int spawnOrNot = UnityEngine.Random.Range(0, 100);
@@ -102,19 +104,27 @@ public class Generator : MonoBehaviour
     {
         // terminal case
         double currentSeed = seed;
+        int objCount = 0;
+
+        float xOff = UnityEngine.Random.Range(-5f, 5f) + ship.transform.position.x;
         while (currentSeed > 0)
         {
             int shouldISPawn = UnityEngine.Random.Range(0, 1000);
             // recursive case
             if (currentSeed > shouldISPawn)    // spawn a new object if rng says yes
             {
-                spawnObject(objType);  // generates a new objects
+                int xOffRatio;
+                if (objCount == 0) xOffRatio = 0;
+                else if (objCount % 2 == 0) xOffRatio = objCount/2;
+                else xOffRatio = -1-objCount/2;
+                spawnObject(objType,xOff,xOffRatio);  // generates a new objects
             }
             currentSeed = currentSeed - 1000;
+            objCount++;
         }
     }
 
-    void spawnObject(int type)
+    void spawnObject(int type, float xOff, int xOffRatio)
     {
         int wat2spawn = type;// = UnityEngine.Random.Range(0, objMap.Length);
         GameObject spawned = pool[wat2spawn, pooltracker[wat2spawn]];
@@ -127,14 +137,14 @@ public class Generator : MonoBehaviour
         if (spawned != null)
         {
             spawned.SetActive(true);
-            moveObstacle(spawned);
+            moveObstacle(spawned,xOff,xOffRatio);
         }
     }
 
-    private void moveObstacle(GameObject obj)
+    private void moveObstacle(GameObject obj,float xOff,int xOffRatio)
     {
-        float xOff = UnityEngine.Random.Range(-5f, 5f);
-        obj.transform.position = new Vector3(ship.transform.position.x+xOff, 
+        float objWidth = obj.GetComponent<Collider>().bounds.size.x;
+        obj.transform.position = new Vector3(xOff + xOffRatio *(objWidth), 
             ship.transform.position.y + objectSpawnYOffset, 
             animationTrigger.transform.position.z + 3);
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
