@@ -48,9 +48,7 @@ public class Main : MonoBehaviour {
     private GameObject[,] pool;
 	// used to track index of latest used object from the pool
 	private int [] pooltracker;
-    public GameObject initialterrain;
-	// maximum number of each object in the pool
-	public int numberOfEachObject;
+    public GameObject[] initialterrain;
 	// pool of terrain objects
 	public GameObject[] terrainMap;
 	// time for each terrain object to fly past player(256/shipspeed)
@@ -104,10 +102,13 @@ public class Main : MonoBehaviour {
         audio1.Play();
 
         // initiate terrain
-        initialterrain.transform.position = terrainOrigin.transform.position - Vector3.forward*256;
-        initialterrain.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
+        for (int i = 0; i < initialterrain.Length; i++)
+        {
+            initialterrain[i].transform.position = terrainOrigin.transform.position + Vector3.forward * (150 - i * 235);
+            initialterrain[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, -shipSpeed);
+        }
 
-		shieldAnim = GameObject.Find("Shield").GetComponent<Animator> ();
+        shieldAnim = GameObject.Find("Shield").GetComponent<Animator> ();
     }
 
 	// Update is called once per frame
