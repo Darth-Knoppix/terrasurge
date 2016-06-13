@@ -86,7 +86,6 @@ public class BeatCounter : MonoBehaviour {
 	/// </remarks>
 	IEnumerator BeatCheck ()
 	{
-		Debug.Log ("Begin Checking");
 		while (audioSource.isPlaying) {
 			currentSample = (float)AudioSettings.dspTime * audioSource.clip.frequency;
 			
@@ -99,7 +98,6 @@ public class BeatCounter : MonoBehaviour {
 
 			yield return new WaitForSeconds(loopTime / 1000f);
 		}
-		Debug.Log ("Out of the loop, not checking");
 	}
 
 }
