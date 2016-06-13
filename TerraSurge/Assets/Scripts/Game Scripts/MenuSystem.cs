@@ -17,11 +17,10 @@ public class MenuSystem : MonoBehaviour {
     // Canvas's for the menus
     private GameObject pausedCanvas;
     private GameObject gameoverCanvas;
-    private GameObject levelComplete_Canvas;
     private GameObject gameHUD_Canvas;
 
     private Text gameOverScoreText;
-    private Text levelCompleteScoreText;
+    private Text gameOverTitleText;
     private ScoreController scoreController;
 
     private float timescale;
@@ -37,20 +36,18 @@ public class MenuSystem : MonoBehaviour {
         gameover = false;
 
         timescale = Time.timeScale;
-        scoreController = GameObject.Find("GameManager").GetComponent<ScoreController>();
 
         pausedCanvas = GameObject.Find("PausedGame_Canvas");
-        pausedCanvas.SetActive(false);
-
         gameoverCanvas = GameObject.Find("GameOver_Canvas");
-        gameOverScoreText = GameObject.Find("GameOverHighScore_Score").GetComponent<Text>();
-        gameoverCanvas.SetActive(false);
-
-        levelComplete_Canvas = GameObject.Find("LevelComplete_Canvas");
-        levelCompleteScoreText = GameObject.Find("LevelHighScore_Score").GetComponent<Text>();
-        levelComplete_Canvas.SetActive(false);
-
         gameHUD_Canvas = GameObject.Find("GameHUD_Canvas");
+
+        gameOverTitleText = GameObject.Find("GameOverTitle").GetComponent<Text>();
+        gameOverScoreText = GameObject.Find("GameOverHighScore_Score").GetComponent<Text>();
+
+        scoreController = GameObject.Find("GameManager").GetComponent<ScoreController>();
+
+        pausedCanvas.SetActive(false);
+        gameoverCanvas.SetActive(false);
     }
 
     void Update() {
@@ -170,6 +167,7 @@ public class MenuSystem : MonoBehaviour {
         gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
 
+
         gameOverScoreText.text = ""+scoreController.getScore();
         gameOverScoreText.color = Color.yellow;
 
@@ -187,11 +185,13 @@ public class MenuSystem : MonoBehaviour {
         levelcomplete = true;
         Time.timeScale = 0;
         gameHUD_Canvas.SetActive(false);
-        levelComplete_Canvas.SetActive(true);
+        gameoverCanvas.SetActive(true);
         audio1.Pause();
 
-        levelCompleteScoreText.text = "" + scoreController.getScore();
-        levelCompleteScoreText.color = Color.yellow;
+        gameOverTitleText.text = "Level Complete!";
+
+        gameOverScoreText.text = "" + scoreController.getScore();
+        gameOverScoreText.color = Color.yellow;
     }
 
     public void nextLevel()
@@ -201,7 +201,7 @@ public class MenuSystem : MonoBehaviour {
 
         levelcomplete = false;
         gameHUD_Canvas.SetActive(true);
-        levelComplete_Canvas.SetActive(false);
+        gameoverCanvas.SetActive(false);
 
         // required to fix timescale bug?
         audio1.Play();

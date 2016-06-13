@@ -137,10 +137,7 @@ public class UI_HUD : MonoBehaviour
         if (getShields() <= 0)
         {
             playerShield.GetComponent<MeshRenderer>().enabled = false;
-		}else if(getShields() <= 75)
-		{
-			//Do something	
-		}
+        }
         else
         {
             playerShield.GetComponent<MeshRenderer>().enabled = true;

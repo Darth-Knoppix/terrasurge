@@ -34,9 +34,12 @@ public class Generator : MonoBehaviour
 
     public int shipSpeed;
     public int objectSpawnYOffset;
+
+    private int obstacleSpawnRate;
     void Start()
     {
         beatObserver = GetComponent<BeatObserver>();
+        obstacleSpawnRate = 1000;
         initPool();
     }
 
@@ -49,11 +52,11 @@ public class Generator : MonoBehaviour
         }
         if ((beatObserver.beatMask & BeatType.UpBeat) == BeatType.UpBeat)
         {
-            //spawnObject(1); //THIS IS FUCKED UP
+            // do nothing
         }
         if ((beatObserver.beatMask & BeatType.OffBeat) == BeatType.OffBeat)
         {
-            //spawnObject(2);
+            // do nothing
         }
         if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
         {
@@ -144,7 +147,7 @@ public class Generator : MonoBehaviour
 
             try
             {
-                pooltracker[i] = 0;
+                poweruppooltracker[i] = 0;
             }
             // Error occurred
             catch (System.Exception e)
