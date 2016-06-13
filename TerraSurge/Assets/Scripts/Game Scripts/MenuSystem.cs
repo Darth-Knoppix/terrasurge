@@ -28,6 +28,8 @@ public class MenuSystem : MonoBehaviour {
 
     public AudioSource audio1;
 
+    public BeatCounter[] counters;
+
     // Set up variables
     void Start()
     {
@@ -118,6 +120,10 @@ public class MenuSystem : MonoBehaviour {
 			beatCounter.enabled = true;
 		}
         audio1.Play();
+        foreach (BeatCounter bc in counters)
+        {
+            bc.GetComponent<BeatCounter>().reLaunch();
+        }
     }
 
     public void mainMenuResume()

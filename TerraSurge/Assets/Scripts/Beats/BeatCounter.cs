@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SynchronizerData;
+using System;
 
 /// <summary>
 /// This class is responsible for counting and notifying its observers when a beat occurs, specified by beatValue.
@@ -100,4 +101,9 @@ public class BeatCounter : MonoBehaviour {
 		}
 	}
 
+    // Relaunches the BeatCheck coroutine after game is resumed
+    public void reLaunch()
+    {
+        StartCoroutine(BeatCheck());
+    }
 }
