@@ -102,8 +102,8 @@ public class MenuSystem : MonoBehaviour {
         pausedCanvas.SetActive(true);
 
 		foreach (BeatCounter beatCounter in beatCounters) {
-			beatCounter.enabled = false;
-		}
+            beatCounter.GetComponent<BeatCounter>().stop();
+        }
         audio1.Pause();
     }
 
@@ -116,9 +116,6 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = timescale;
         gameHUD_Canvas.SetActive(true);
         pausedCanvas.SetActive(false);
-		foreach (BeatCounter beatCounter in beatCounters) {
-			beatCounter.enabled = true;
-		}
         audio1.Play();
         foreach (BeatCounter bc in counters)
         {
@@ -192,6 +189,50 @@ public class MenuSystem : MonoBehaviour {
 
         // freeze time
         Time.timeScale = 0;
+
+        saveScore();
+    }
+
+    // Save player score!
+    public void saveScore()
+    {
+        int score1 = PlayerPrefs.GetInt("Score1");
+        int score2 = PlayerPrefs.GetInt("Score2");
+        int score3 = PlayerPrefs.GetInt("Score3");
+        int score4 = PlayerPrefs.GetInt("Score4");
+        int score5 = PlayerPrefs.GetInt("Score5");
+        int currentScore = scoreController.getScore();
+
+        if (currentScore > score1)
+        {
+            PlayerPrefs.SetInt("Score5", PlayerPrefs.GetInt("Score4"));
+            PlayerPrefs.SetInt("Score4", PlayerPrefs.GetInt("Score3"));
+            PlayerPrefs.SetInt("Score3", PlayerPrefs.GetInt("Score2"));
+            PlayerPrefs.SetInt("Score2", PlayerPrefs.GetInt("Score1"));
+            PlayerPrefs.SetInt("Score1", currentScore);
+        }
+        else if (currentScore > score2)
+        {
+            PlayerPrefs.SetInt("Score5", PlayerPrefs.GetInt("Score4"));
+            PlayerPrefs.SetInt("Score4", PlayerPrefs.GetInt("Score3"));
+            PlayerPrefs.SetInt("Score3", PlayerPrefs.GetInt("Score2"));
+            PlayerPrefs.SetInt("Score2", currentScore);
+        }
+        else if (currentScore > score3)
+        {
+            PlayerPrefs.SetInt("Score5", PlayerPrefs.GetInt("Score4"));
+            PlayerPrefs.SetInt("Score4", PlayerPrefs.GetInt("Score3"));
+            PlayerPrefs.SetInt("Score3", currentScore);
+        }
+        else if (currentScore > score4)
+        {
+            PlayerPrefs.SetInt("Score5", PlayerPrefs.GetInt("Score4"));
+            PlayerPrefs.SetInt("Score4", currentScore);
+        }
+        else if (currentScore > score5)
+        {
+            PlayerPrefs.SetInt("Score5", currentScore);
+        }
     }
 
     public void levelComplete()
@@ -208,6 +249,8 @@ public class MenuSystem : MonoBehaviour {
 
         gameOverScoreText.text = "" + scoreController.getScore();
         gameOverScoreText.color = Color.yellow;
+
+        saveScore();
     }
 
     public void nextLevel()

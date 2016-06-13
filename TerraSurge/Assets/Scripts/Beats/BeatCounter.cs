@@ -75,17 +75,22 @@ public class BeatCounter : MonoBehaviour {
 		BeatSynchronizer.OnAudioStart -= StartBeatCheck;
 	}
 
-	/// <summary>
-	/// This method checks if a beat has occurred in the audio by comparing the current sample position of the audio system's dsp time 
-	/// to the next expected sample value of the beat. The frequency of the checks is controlled by the loopTime field.
-	/// </summary>
-	/// <remarks>
-	/// The WaitForSeconds() yield statement places the execution of the coroutine right after the Update() call, so by 
-	/// setting the loopTime to 0, this method will update as frequently as Update(). If even greater accuracy is 
-	/// required, WaitForSeconds() can be replaced by WaitForFixedUpdate(), which will place this coroutine's execution
-	/// right after FixedUpdate().
-	/// </remarks>
-	IEnumerator BeatCheck ()
+    internal void stop()
+    {
+        StopCoroutine(BeatCheck());
+    }
+
+    /// <summary>
+    /// This method checks if a beat has occurred in the audio by comparing the current sample position of the audio system's dsp time 
+    /// to the next expected sample value of the beat. The frequency of the checks is controlled by the loopTime field.
+    /// </summary>
+    /// <remarks>
+    /// The WaitForSeconds() yield statement places the execution of the coroutine right after the Update() call, so by 
+    /// setting the loopTime to 0, this method will update as frequently as Update(). If even greater accuracy is 
+    /// required, WaitForSeconds() can be replaced by WaitForFixedUpdate(), which will place this coroutine's execution
+    /// right after FixedUpdate().
+    /// </remarks>
+    IEnumerator BeatCheck ()
 	{
 		while (audioSource.isPlaying) {
 			currentSample = (float)AudioSettings.dspTime * audioSource.clip.frequency;
