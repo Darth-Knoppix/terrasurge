@@ -2,15 +2,12 @@
 using System.Collections;
 
 public class ObstacleController : MonoBehaviour {
-
 	// Use this for initialization
 	void Start () {
-	
 	}
 
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	void OnTriggerEnter(Collider collider){
@@ -21,7 +18,9 @@ public class ObstacleController : MonoBehaviour {
         if (collider.gameObject.name == "Ship" || collider.gameObject.name == "Backdrop")
         {
             this.GetComponentsInChildren<Animator>()[0].SetBool("trig", false);
+            this.gameObject.SetActive(false);
         }
     }
+    
 
 }

@@ -249,11 +249,6 @@ public class Main : MonoBehaviour {
             //pickupScore();
             //Destroy(collision.gameObject);
         }
-        // disable tracer visual on hit(should not happeN)
-        else if ( collision.gameObject.tag == "Tracer")
-        {
-            collision.gameObject.SetActive(false);
-        }
 
         // hit a bad object
         else if(!invincible)
