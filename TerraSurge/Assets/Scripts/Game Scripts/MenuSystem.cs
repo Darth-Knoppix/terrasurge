@@ -24,6 +24,7 @@ public class MenuSystem : MonoBehaviour {
     private ScoreController scoreController;
 
     private float timescale;
+	private BeatCounter[] beatCounters;
 
     public AudioSource audio1;
 
@@ -48,6 +49,8 @@ public class MenuSystem : MonoBehaviour {
 
         pausedCanvas.SetActive(false);
         gameoverCanvas.SetActive(false);
+
+		beatCounters = GameObject.Find ("BeatCounters").GetComponentsInChildren<BeatCounter> ();
     }
 
     void Update() {
@@ -95,6 +98,10 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = 0;
         gameHUD_Canvas.SetActive(false);
         pausedCanvas.SetActive(true);
+
+		foreach (BeatCounter beatCounter in beatCounters) {
+			beatCounter.enabled = false;
+		}
         audio1.Pause();
     }
 
@@ -107,6 +114,9 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = timescale;
         gameHUD_Canvas.SetActive(true);
         pausedCanvas.SetActive(false);
+		foreach (BeatCounter beatCounter in beatCounters) {
+			beatCounter.enabled = true;
+		}
         audio1.Play();
     }
 
