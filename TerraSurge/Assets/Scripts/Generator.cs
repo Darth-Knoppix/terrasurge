@@ -29,9 +29,6 @@ public class Generator : MonoBehaviour
     // wall that triggers anims
     public GameObject animationTrigger;
 
-    // distance in front of player objects pop at
-    public double setTimeInFrontOfPlayer;
-
     public int shipSpeed;
     public int objectSpawnYOffset;
 
@@ -106,7 +103,7 @@ public class Generator : MonoBehaviour
         double currentSeed = seed;
         int objCount = 0;
 
-        float xOff = UnityEngine.Random.Range(-5f, 5f) + ship.transform.position.x;
+        float xOff = UnityEngine.Random.Range(-10f, 10f) + ship.transform.position.x;
         while (currentSeed > 0)
         {
             int shouldISPawn = UnityEngine.Random.Range(0, 1000);
