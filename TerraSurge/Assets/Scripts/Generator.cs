@@ -46,7 +46,7 @@ public class Generator : MonoBehaviour
     void Update()
     {
         obstacleSpawnRate += Time.deltaTime * 40;
-        if (obstacleSpawnRate > 5999) obstacleSpawnRate = 5999;
+        if (obstacleSpawnRate > 7999) obstacleSpawnRate = 5999;
         // OBSTACLE SPAWNING
         if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
         {
@@ -63,7 +63,8 @@ public class Generator : MonoBehaviour
         }
         if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
         {
-            //spawnObject(1);
+            int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
+            chainSpawn(obstacleSpawnRate, objType); // chain spawn it
         }
         // powerups spawning
         int spawnOrNot = UnityEngine.Random.Range(0, 100);
