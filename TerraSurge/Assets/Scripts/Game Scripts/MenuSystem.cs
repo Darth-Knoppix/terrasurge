@@ -102,8 +102,8 @@ public class MenuSystem : MonoBehaviour {
         pausedCanvas.SetActive(true);
 
 		foreach (BeatCounter beatCounter in beatCounters) {
-			beatCounter.enabled = false;
-		}
+            beatCounter.GetComponent<BeatCounter>().stop();
+        }
         audio1.Pause();
     }
 
@@ -116,9 +116,6 @@ public class MenuSystem : MonoBehaviour {
         Time.timeScale = timescale;
         gameHUD_Canvas.SetActive(true);
         pausedCanvas.SetActive(false);
-		foreach (BeatCounter beatCounter in beatCounters) {
-			beatCounter.enabled = true;
-		}
         audio1.Play();
         foreach (BeatCounter bc in counters)
         {
