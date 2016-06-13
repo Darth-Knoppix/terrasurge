@@ -42,33 +42,32 @@ public class Generator : MonoBehaviour
 
     void Update()
     {
+		if (Time.timeScale == 0)
+			return;
         obstacleSpawnRate += Time.deltaTime * 40;
         if (obstacleSpawnRate > 7999) obstacleSpawnRate = 5999;
         // OBSTACLE SPAWNING
-        if (Time.timeScale != 0)
+        if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
         {
-            if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
-            {
-                int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
-                chainSpawn(obstacleSpawnRate, objType); // chain spawn it
-            }
-            if ((beatObserver.beatMask & BeatType.UpBeat) == BeatType.UpBeat)
-            {
-                // do nothing
-            }
-            if ((beatObserver.beatMask & BeatType.OffBeat) == BeatType.OffBeat)
-            {
-                // do nothing
-            }
-            if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
-            {
-                int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
-                chainSpawn(obstacleSpawnRate, objType); // chain spawn it
-            }
+            int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
+            chainSpawn(obstacleSpawnRate, objType); // chain spawn it
+        }
+        if ((beatObserver.beatMask & BeatType.UpBeat) == BeatType.UpBeat)
+        {
+            // do nothing
+        }
+        if ((beatObserver.beatMask & BeatType.OffBeat) == BeatType.OffBeat)
+        {
+            // do nothing
+        }
+        if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
+        {
+            int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
+            chainSpawn(obstacleSpawnRate, objType); // chain spawn it
         }
         // powerups spawning
         int spawnOrNot = UnityEngine.Random.Range(0, 100);
-		if (spawnOrNot < powerupSpawnRate && Time.timeScale != 0)
+		if (spawnOrNot < powerupSpawnRate)
         {
             spawnPowerup();
         }

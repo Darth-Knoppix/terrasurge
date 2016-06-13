@@ -12,15 +12,19 @@ public class ObstacleController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collider){
 		if (collider.gameObject.name == "PlayWall") {
-			this.GetComponentsInChildren<Animator> () [0].SetBool ("trig", true);
+			this.GetComponentsInChildren<Animator> () [0].SetTrigger ("Animate");
 		}
 
         if (collider.gameObject.name == "Ship" || collider.gameObject.name == "Backdrop")
         {
-            this.GetComponentsInChildren<Animator>()[0].SetBool("trig", false);
+			this.GetComponentsInChildren<Animator> () [0].ResetTrigger ("Animate");
             this.gameObject.SetActive(false);
         }
     }
+
+	void OnDisable (){
+		this.GetComponentsInChildren<Animator> () [0].ResetTrigger ("Animate");
+	}
     
 
 }

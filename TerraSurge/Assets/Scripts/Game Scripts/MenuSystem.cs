@@ -176,6 +176,8 @@ public class MenuSystem : MonoBehaviour {
         menuSystemActive = true;
         gameover = true;
         audio1.Pause();
+		// freeze time
+		Time.timeScale = 0;
         
         gameHUD_Canvas.SetActive(false);
         gameoverCanvas.SetActive(true);
@@ -186,9 +188,6 @@ public class MenuSystem : MonoBehaviour {
 
         // kill camera shake
         GameObject.Find("ShipCamera").GetComponent<CameraShake>().shakeDuration = 0f;
-
-        // freeze time
-        Time.timeScale = 0;
 
         saveScore();
     }
