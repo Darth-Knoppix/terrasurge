@@ -227,7 +227,7 @@ public class Main : MonoBehaviour {
 		// do nothing if hit terrain
         if(collision.gameObject.tag == "Terrain")
         {
-//			print ("Hit terrain");
+		//	print ("Hit terrain");
             return;
         }
 		// add shields, do nothing if at max shields
@@ -337,44 +337,40 @@ public class Main : MonoBehaviour {
     {
         if (health >= 100)
         {
-            //pickupHealth score instead!
-            pickupScore();
-
+            // health is full, add to score instead
             ScoreController _score = GameObject.Find("GameManager").GetComponent<ScoreController>();
             ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
             _score.incrementScore(scoreC.scoreAmount);
         }
         else
         {
+            // add to health
             health = health + 25;
             if (health > 100) health = 100;
-
-            // Audio for Health pickups
-            AudioSource audio = GameObject.Find("Pickup2").GetComponent<AudioSource>();
-            audio.Play();
         }
+        // Audio for Health pickups
+        AudioSource audio = GameObject.Find("Pickup_Health").GetComponent<AudioSource>();
+        audio.Play();
     }
 
     private void pickupShields()
     {
         if (shields >= 100)
         {
-            //pickupHealth score instead!
-            pickupScore();
-            print("shields pickup as score!");
+            // shields are full, add to score instead
             ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
             ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
             score.incrementScore(scoreC.scoreAmount);
         }
         else
         {
+            // add to shields
             shields = shields + 25;
             if (shields > 100) shields = 100;
-
-            // Audio for shield pickups
-            AudioSource audio = GameObject.Find("Pickup3").GetComponent<AudioSource>();
-            audio.Play();
         }
+        // Audio for shield pickups
+        AudioSource audio = GameObject.Find("Pickup_Shields").GetComponent<AudioSource>();
+        audio.Play();
     }
 
     public void GameOver()

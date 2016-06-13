@@ -19,7 +19,7 @@ public class ScorePickupController : MonoBehaviour {
 			ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
 			score.incrementScore (scoreAmount);
 
-            AudioSource audio = GameObject.Find("Pickup1").GetComponent<AudioSource>();
+            AudioSource audio = GameObject.Find("Pickup_Score").GetComponent<AudioSource>();
             audio.Play();
             GameObject.Destroy(this.gameObject);
 
