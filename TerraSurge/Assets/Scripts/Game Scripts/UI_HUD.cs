@@ -8,12 +8,13 @@ public class UI_HUD : MonoBehaviour
     public Text score;
     public Text multiplier;
 
-    public Text health;
+//    public Text health;
     public Text healthLabel;
 	public Image healthBar;
 
-    public Text shields;
+//    public Text shields;
     public Text shieldsLabel;
+	public Image shieldBar;
 
 	public int defaultTiemout = 40;
     public GameObject ship;
@@ -35,12 +36,13 @@ public class UI_HUD : MonoBehaviour
         score = GameObject.Find("Score_Value").GetComponent<Text>();
         multiplier = GameObject.Find("ScoreMultiplier_Text").GetComponent<Text>();
 
-        health = GameObject.Find("Health_Value").GetComponent<Text>();
+//        health = GameObject.Find("Health_Value").GetComponent<Text>();
         healthLabel = GameObject.Find("Health_Label").GetComponent<Text>();
 		healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
 
-        shields = GameObject.Find("Shields_Value").GetComponent<Text>();
+//        shields = GameObject.Find("Shields_Value").GetComponent<Text>();
         shieldsLabel = GameObject.Find("Shields_Label").GetComponent<Text>();
+		shieldBar = GameObject.Find("ShieldBar").GetComponent<Image>();
 
         scoreboard = GameObject.Find("GameManager").GetComponent<ScoreController> ();
 
@@ -104,26 +106,26 @@ public class UI_HUD : MonoBehaviour
 		healthBar.fillAmount = getHealth() / 100f;
         if (getHealth() <= 25)
         {
-            health.text = "" + getHealth() + "%";
-            health.color = Color.red;
+//            health.text = "" + getHealth() + "%";
+//            health.color = Color.red;
 			healthBar.color = Color.red;
         }
         else if (getHealth() <= 50)
         {
-            health.text = "" + getHealth() + "%";
-            health.color = new Color(255,128,0);
+//            health.text = "" + getHealth() + "%";
+//            health.color = new Color(255,128,0);
 			healthBar.color = new Color(255,128,0);
         }
         else if (getHealth() <= 75)
         {
-            health.text = "" + getHealth() + "%";
-            health.color = Color.yellow;
+//            health.text = "" + getHealth() + "%";
+//            health.color = Color.yellow;
 			healthBar.color = Color.yellow;
         }
         else if (getHealth() <= 100)
         {
-            health.text = "" + getHealth() + "%";
-            health.color = Color.green;
+//            health.text = "" + getHealth() + "%";
+//            health.color = Color.green;
 			healthBar.color = Color.green;
         }
     }
@@ -131,8 +133,10 @@ public class UI_HUD : MonoBehaviour
     private void updateShields()
     {
         shieldsLabel.text = "Shields";
-        shields.text = "" + getShields() + "%";
-        shields.color = new Color(0, 128, 255);
+//        shields.text = "" + getShields() + "%";
+//        shields.color = new Color(0, 128, 255);
+
+		shieldBar.fillAmount = getShields() / 200f;
 
         if (getShields() <= 0)
         {
