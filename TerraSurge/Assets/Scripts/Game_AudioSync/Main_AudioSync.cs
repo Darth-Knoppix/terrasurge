@@ -315,44 +315,40 @@ public class Main_AudioSync : MonoBehaviour
     {
         if (health >= 100)
         {
-            //pickupHealth score instead!
-            pickupScore();
-
-            ScoreController score = GameObject.Find("GameManager").GetComponent<ScoreController>();
+            // health is full, add to score instead
+            ScoreController _score = GameObject.Find("GameManager").GetComponent<ScoreController>();
             ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
-            score.incrementScore(scoreC.scoreAmount);
+            _score.incrementScore(scoreC.scoreAmount);
         }
         else
         {
+            // add to health
             health = health + 25;
             if (health > 100) health = 100;
-
-            // Audio for Health pickups
-            AudioSource audio = GameObject.Find("Pickup2").GetComponent<AudioSource>();
-            audio.Play();
         }
+        // Audio for Health pickups
+        AudioSource audio = GameObject.Find("Pickup2").GetComponent<AudioSource>();
+        audio.Play();
     }
 
     private void pickupShields()
     {
         if (shields >= 100)
         {
-            //pickupHealth score instead!
-            pickupScore();
-            print("shields pickup as score!");
+            // shields are full, add to score instead
             ScoreController score = FindObjectOfType<ScoreController>() as ScoreController;
             ScorePickupController scoreC = FindObjectOfType<ScorePickupController>() as ScorePickupController;
             score.incrementScore(scoreC.scoreAmount);
         }
         else
         {
+            // add to shields
             shields = shields + 25;
             if (shields > 100) shields = 100;
-
-            // Audio for shield pickups
-            AudioSource audio = GameObject.Find("Pickup3").GetComponent<AudioSource>();
-            audio.Play();
         }
+        // Audio for shield pickups
+        AudioSource audio = GameObject.Find("Pickup3").GetComponent<AudioSource>();
+        audio.Play();
     }
 
     public void GameOver()
