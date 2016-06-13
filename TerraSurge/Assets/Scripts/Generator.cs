@@ -61,7 +61,7 @@ public class Generator : MonoBehaviour
         }
         // powerups spawning
         int spawnOrNot = UnityEngine.Random.Range(0, 100);
-        if (spawnOrNot < powerupSpawnRate)
+		if (spawnOrNot < powerupSpawnRate && Time.timeScale != 0)
         {
             spawnPowerup();
         }
