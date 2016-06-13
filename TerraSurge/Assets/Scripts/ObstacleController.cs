@@ -17,5 +17,11 @@ public class ObstacleController : MonoBehaviour {
 		if (collider.gameObject.name == "PlayWall") {
 			this.GetComponentsInChildren<Animator> () [0].SetBool ("trig", true);
 		}
-	}
+
+        if (collider.gameObject.name == "Ship" || collider.gameObject.name == "Backdrop")
+        {
+            this.GetComponentsInChildren<Animator>()[0].SetBool("trig", false);
+        }
+    }
+
 }

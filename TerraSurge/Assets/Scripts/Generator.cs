@@ -35,7 +35,7 @@ public class Generator : MonoBehaviour
     public int shipSpeed;
     public int objectSpawnYOffset;
 
-    private int obstacleSpawnRate;
+    private double obstacleSpawnRate;
     void Start()
     {
         beatObserver = GetComponent<BeatObserver>();
@@ -45,10 +45,12 @@ public class Generator : MonoBehaviour
 
     void Update()
     {
+        obstacleSpawnRate += Time.deltaTime * 40;
         // OBSTACLE SPAWNING
         if ((beatObserver.beatMask & BeatType.DownBeat) == BeatType.DownBeat)
         {
-            spawnObject(0);
+            int objType = UnityEngine.Random.Range(0, objMap.Length); // figure out what to spawn
+            chainSpawn(obstacleSpawnRate, objType); // chain spawn it
         }
         if ((beatObserver.beatMask & BeatType.UpBeat) == BeatType.UpBeat)
         {
@@ -60,7 +62,7 @@ public class Generator : MonoBehaviour
         }
         if ((beatObserver.beatMask & BeatType.OnBeat) == BeatType.OnBeat)
         {
-            spawnObject(1);
+            //spawnObject(1);
         }
         // powerups spawning
         int spawnOrNot = UnityEngine.Random.Range(0, 100);
@@ -93,7 +95,23 @@ public class Generator : MonoBehaviour
             ship.transform.position.y + objectSpawnYOffset, 
             animationTrigger.transform.position.z + 3);
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
-        print(obj.transform.position);
+    }
+
+    // recursive function to chain spawn objects
+    void chainSpawn(double seed, int objType)
+    {
+        // terminal case
+        double currentSeed = seed;
+        while (currentSeed > 0)
+        {
+            int shouldISPawn = UnityEngine.Random.Range(0, 1000);
+            // recursive case
+            if (currentSeed > shouldISPawn)    // spawn a new object if rng says yes
+            {
+                spawnObject(objType);  // generates a new objects
+            }
+            currentSeed = currentSeed - 1000;
+        }
     }
 
     void spawnObject(int type)
@@ -115,11 +133,23 @@ public class Generator : MonoBehaviour
 
     private void moveObstacle(GameObject obj)
     {
-        obj.transform.position = new Vector3(ship.transform.position.x+UnityEngine.Random.Range(-5,5), 
+        float xOff = UnityEngine.Random.Range(-5f, 5f);
+        obj.transform.position = new Vector3(ship.transform.position.x+xOff, 
             ship.transform.position.y + objectSpawnYOffset, 
             animationTrigger.transform.position.z + 3);
         obj.GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, -shipSpeed);
-        print(obj.transform.position);
+    }
+
+    bool checkFloat(float f, List<float> used)
+    {
+        for(int i = 1; i < used.Count; i++) // check every element of the list
+        {
+            if (Mathf.Abs(used[i] - f) < used[0])
+            {
+                return false; // if any of them are closer to f than the width, false
+            }
+        }
+        return true;
     }
 
     //initiliases the pool

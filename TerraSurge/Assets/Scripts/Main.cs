@@ -10,6 +10,8 @@ public class Main : MonoBehaviour {
 
 	//Switches to disable functionality
 	public bool bCanSpawn;
+    // cheating prick
+    public bool invincible;
 	// origin point for objects
     public GameObject origin;
 	// original ship location
@@ -234,13 +236,11 @@ public class Main : MonoBehaviour {
         else if (collision.gameObject.tag == "Shield")
         {
             pickupShields();
-            Destroy(collision.gameObject);
         }
         // add health, do nothing if at max health
         else if (collision.gameObject.tag == "Health")
         {
             pickupHealth();
-            Destroy(collision.gameObject);
         }
         // hit a score tag object
         else if (collision.gameObject.tag == "Score")
@@ -256,7 +256,8 @@ public class Main : MonoBehaviour {
         }
 
         // hit a bad object
-        else {
+        else if(!invincible)
+        {
 			//reset score multiplier
             scoreMultiplier = 1;
             // hit something with ship shields remaining
@@ -277,8 +278,9 @@ public class Main : MonoBehaviour {
 			if (health <= 0) {
                 GameOver();
             }
-            Destroy (collision.gameObject);
         }
+        
+        collision.gameObject.SetActive(false);
     }
 
 	//initiliases the pool
